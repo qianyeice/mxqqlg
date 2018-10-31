@@ -16,7 +16,7 @@ class Member extends adminController
     public function lists()
     {
         $mem = new \app\admin\model\Member();
-        $start = !is_null(input('page')) ? input('page')+1: 1;
+        $start = !is_null(input('page')) ? input('page'): 0;
         $limit = !is_null(input('limit')) ? input('limit') : 10;
         $tables = $mem->index($start, $limit);
         if (isset($_GET['view'])) {
@@ -44,7 +44,7 @@ class Member extends adminController
             $this->assign('view', true);
 
         }
-        return view();
+       return view();
     }
 
     //编辑

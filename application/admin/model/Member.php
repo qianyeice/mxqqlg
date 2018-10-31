@@ -20,7 +20,7 @@ class Member extends Model
      */
     public function index($start, $limit)
     {
-        $data["number"] = $this->count("id");
+        $data["number"] = $this->where('is_delete', '0')->count("id");
         $data["date"] = $this->page($start, $limit)->where('is_delete', '0')->select();
         for ($i = 0; $i < count($data["date"]); $i++) {
             $data["date"][$i]['sup'] = $this->where('id', $data["date"][$i]['parent_id'])->find();

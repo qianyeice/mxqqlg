@@ -276,6 +276,44 @@ class Wechat_material extends Model
 
 
 
+    /**
+     * 全局->微信管理->编辑和添加
+     * name:P84->廖怡
+     * abc->编辑
+     * def->添加
+     */
+    public function abc($intid,$name,$new_json,$add_time)
+    {
+
+
+        $s=Db::table('wechat_material')
+            ->where('id', $intid)
+            ->update([
+                'name'  => $name,
+                'type' => '2',
+                'news_json' =>$new_json,
+                'add_time'=>$add_time,
+                'status'=>1,
+            ]);
+        return $s;
+
+    }
+
+
+    public function def($name,$new_json,$add_time)
+    {
+        $data = ['name' => $name, 'type' => '2','news_json' => $new_json, 'add_time' => $add_time,'status' => '1'];
+        $z= Db::table('wechat_material')->insert($data);
+        return $z;
+
+    }
+    /**
+     *  end
+     */
+
+
+
+
 
 
 }

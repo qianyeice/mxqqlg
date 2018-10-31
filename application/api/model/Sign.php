@@ -123,13 +123,13 @@ class Sign extends Model
             /*获得不同等级不同签到天数应加的积分*/
             if($grade=="0"||$grade=="1"||$grade=="2"){
                 switch ($continuous_sign){
-                    case 5: $integral = 70;
+                    case 5: $integral = 60;
                         break;
-                    case 10:$integral = 80;
+                    case 10:$integral = 70;
                         break;
-                    case 20: $integral = 90;
+                    case 20: $integral = 80;
                         break;
-                    case 30: $integral = 100;
+                    case 30: $integral = 90;
                         break;
                     default: $integral = 10;
                         break;
@@ -137,13 +137,13 @@ class Sign extends Model
             }else{
                 if($grade=="3"){
                     switch ($continuous_sign){
-                        case 5: $integral = 260;
+                        case 5: $integral = 250;
                             break;
-                        case 10:$integral = 310;
+                        case 10:$integral = 300;
                             break;
-                        case 20: $integral = 360;
+                        case 20: $integral = 350;
                             break;
-                        case 30: $integral = 410;
+                        case 30: $integral = 900;
                             break;
                         default: $integral = 10;
                             break;
@@ -151,13 +151,13 @@ class Sign extends Model
                 }else{
                     if($grade=="4"){
                         switch ($continuous_sign){
-                            case 5: $integral = 310;
+                            case 5: $integral = 300;
                                 break;
-                            case 10:$integral = 410;
+                            case 10:$integral = 400;
                                 break;
-                            case 20: $integral = 510;
+                            case 20: $integral = 500;
                                 break;
-                            case 30: $integral = 610;
+                            case 30: $integral = 1600;
                                 break;
                             default: $integral = 100;
                                 break;
@@ -165,13 +165,13 @@ class Sign extends Model
                     }else{
                         if($grade=="5"){
                             switch ($continuous_sign){
-                                case 5: $integral = 4000;
+                                case 5: $integral = 3000;
                                     break;
-                                case 10:$integral = 5000;
+                                case 10:$integral = 4000;
                                     break;
-                                case 20: $integral = 6000;
+                                case 20: $integral = 5000;
                                     break;
-                                case 30: $integral = 7000;
+                                case 30: $integral = 16000;
                                     break;
                                 default: $integral = 1000;
                                     break;

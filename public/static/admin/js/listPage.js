@@ -1,5 +1,4 @@
 $(function () {
-
     var $jg = getQueryString('page') ? getQueryString('page') : 0;
     var $element = document.getElementById('current');
     //page参数
@@ -8,7 +7,15 @@ $(function () {
     //页数显示
     var $node = document.createTextNode(input + 1);
     $element.appendChild($node);
-
+    for(var i =4 ; i>=1;i--){
+        $($element).after('<li class="pageListbottom" style="margin-left:5px;cursor:pointer">'+(input+1+i)+'</li>');
+    }
+    var pa = document.getElementsByClassName('pageListbottom');
+    $(pa).click(function () {
+        var html = $(this).html();
+        var str = window.location.href.replace(/\&page=[0-9]*/, '&page='+html);
+        window.location.href= str;
+    })
 
 //上一页下一页
     function sxfy(sx) {
@@ -17,7 +24,6 @@ $(function () {
         //下一页
         if (sx) {
             //判断是否有足够的数据
-
             if (Math.ceil($count / limit) >= (str +2)) {
                 str = 1 + str;
                 if (!/\&page=[0-9]*/.test(window.location.href)) {
@@ -30,11 +36,9 @@ $(function () {
                 } else {
                     $str.replace(/\&limit=[0-9]*/, '&limit=' + limit);
                 }
-
             } else {
                 alert('已经是最后一页了')
             }
-
             //上一页
         } else {
             if (str && str != 0) {
@@ -47,8 +51,6 @@ $(function () {
         }
         window.location.href = $str;
     }
-
-
     //首页 末页
     function first_end($true) {
         var win = window.location.href;

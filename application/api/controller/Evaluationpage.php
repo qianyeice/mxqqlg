@@ -22,6 +22,7 @@ Class Evaluationpage extends apiController {
         $member_id=input('post.id');
         $content=input('post.val_title');
         $spu_id=input('post.spu_id');
+
         $spu_id = explode(',',$spu_id);
         $data=new Evaluation_interface_if();
         return $data->judge($member_id,$content,$spu_id);

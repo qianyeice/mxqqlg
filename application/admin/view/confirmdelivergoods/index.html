@@ -133,6 +133,8 @@
                 data:{'id':JSON.stringify(id),'delivery_sn':delivery_sn,'wul':wul,'text':text,'o_sn':'{$val["data"][0]["sn"]}','o_id':'{$val["data"][0]["order_id"]}'},
                 success: function(data){
                     layer.alert("成功");    //页面不会刷新
+                    var index=parent.layer.getFrameIndex(window.name)
+                    window.parent.location.reload()
                 }
             }
         )

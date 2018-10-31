@@ -20,6 +20,9 @@ class Confirmdelivergoods extends adminController
      */
     function index()
     {
+
+
+//        cache()
         //获取URL传值
         $id = input('get.id');
 //        实例化

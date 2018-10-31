@@ -45,7 +45,7 @@
             <div class="form-group ">
                 <span class="label">秒杀日期：</span>
                 <div class="box">
-                    <input class=" input laydate-icon hd-input start_time" type="text" name="date" value="{if(!empty($finds.date))}{$finds.date}{/if}"  id="test3" placeholder="yyyy-MM-dd">
+                    <input class=" input laydate-icon hd-input start_time" type="text" name="date" value="{if(!empty($date))}{$date}{/if}"  id="test3" placeholder="yyyy-MM-dd">
                 </div>
                 <p class="desc">请选择秒杀日期</p>
             </div>
@@ -55,14 +55,11 @@
                 <div class="box">
                     <div class="form-select-edit">
                         <select name="Screenings" class="input">
-
                             <option value="1" {if($finds.Screenings == '1')}selected{else}{/if} >早场(9-11点) </option>
                             <option value="2" {if($finds.Screenings == '2')}selected{else}{/if} >上午场(11-12点)</option>
                             <option value="3" {if($finds.Screenings == '3')}selected{else}{/if} >中午场(12-15点)</option>
                             <option value="4" {if($finds.Screenings == '4')}selected{else}{/if} >下午场(15-16点)</option>
                             <option value="5" {if($finds.Screenings == '5')}selected{else}{/if}>午夜场(16-23点)</option>
-
-
                         </select>
                     </div>
                 </div>
@@ -117,10 +114,10 @@
                         <span class="td-con">操作</span>
                     </div>
                 </div>
-
                 {volist name="data2" id="vo"}
                 {if(!empty($vo))}
-                <div class="tr sku_lists sku_id" style="visibility: visible" data-skuid="{$vo.sku_id}" >
+                <div>{//$vo}</div>
+                <div class="tr sku_lists sku_id" style="visibility: visible" data-skuid="{$vo.id}" >
                     <div class="td w30">
                         <div class="td-con td-pic text-left">
                             <div class="pic"><img src="{$vo.thumb}" /></div>
@@ -133,21 +130,21 @@
                         </div>
                     </div>
                     <div class="td w20 price">
-                        <div class="td-con" data-id="{$vo.sku_id}" data-price="{$vo.shop_price}" data-number="{$vo.number}">{$vo.shop_price}</div>
+                        <div class="td-con" data-id="{$vo.id}" data-price="{$vo.shop_price}" data-number="{$vo.number}">{$vo.shop_price}</div>
                     </div>
                     <div class="td w10">
-                        <div class="td-con">{$vo.number}<input name="goods_sku[{$vo.sku_id}]" type="hidden" value="{$vo.number}"/></div>
+                        <div class="td-con">{$vo.number}<input name="goods_sku[{$vo.id}]" type="hidden" value="{$vo.number}"/></div>
                     </div>
                     <div class="td w10">
                         <div class="td-con">
                             <div class="padding-top padding-small-bottom"></div>
-                            <input class="input double-click-edit text-ellipsis text-center spu_number" name="spu_number[{$vo.sku_id}]" type="text" value="{$vo.spu_number}" placeholder="请输入活动限量" data-reset="false" />
+                            <input class="input double-click-edit text-ellipsis text-center spu_number" name="spu_number[{$vo.id}]" type="text" value="{$vo.spu_number}" placeholder="请输入活动限量" data-reset="false" />
                         </div>
                     </div>
                     <div class="td w15" >
                         <div class="td-con">
                             <div class="padding-top padding-small-bottom"></div>
-                            <input class="input double-click-edit text-ellipsis text-center Active_inventory" name="spu_surplus_number[{$vo.sku_id}]" type="text" value="{$vo.spu_price}" placeholder="活动价格" data-reset="false" />
+                            <input class="input double-click-edit text-ellipsis text-center Active_inventory" name="spu_price" type="text" value="{$vo.spu_price}" placeholder="活动价格" data-reset="false" />
                         </div>
                     </div>
                     <div class="td w15" >
@@ -159,7 +156,7 @@
             </div>
         </div>
         <div class="padding">
-            <input type="submit" class="button bg-main submit"  value="保存" />
+            <input style="width: 70px"  class="button bg-main submit"  value="保存" />
             <a class="button margin-left bg-gray" href="?s=admin/Sekill/index">返回</a>
         </div>
     </form>
@@ -221,7 +218,42 @@
             }
         })
 
-        //秒杀活动剩余库存
+//        //秒杀活动剩余库存
+//        $('.Active_inventory').blur(function () {
+//
+//            var  stock=$(this).val();
+//
+//            if(isNaN(stock)){
+//                layer.msg('请输入数字',{icon: 5,time:1500}); return ;
+//            }
+//           /* if(stock*1>$adta*1){
+//                layer.msg('剩余库存不能超过活动限量',{icon: 5,time:1500}); return;
+//            }*/
+//
+//            if(stock.length>0){
+//                $spuID=$(this).parents(".sku_id").attr("data-skuid")
+//
+//                // 修改库存
+//                $.ajax({
+//                    url:"?s=admin/Sekilleditor/Inventory_modification",
+//                    type:"post",
+//                    data:{
+//                        id:$spuID,
+//                        spu_surplus_number:stock,
+//                        promotionID:promotionID
+//                    },
+//                    success:function (data) {
+//                        layer.msg(data["lang"])
+//                    },
+//                    error:function () {
+//                        layer.msg('网络错误,请稍后重试');
+//                    }
+//                })
+//            }
+//        })
+
+
+        //秒杀活动价格
         $('.Active_inventory').blur(function () {
 
             var  stock=$(this).val();
@@ -229,16 +261,13 @@
             if(isNaN(stock)){
                 layer.msg('请输入数字',{icon: 5,time:1500}); return ;
             }
-           /* if(stock*1>$adta*1){
-                layer.msg('剩余库存不能超过活动限量',{icon: 5,time:1500}); return;
-            }*/
 
             if(stock.length>0){
                 $spuID=$(this).parents(".sku_id").attr("data-skuid")
 
                 // 修改库存
                 $.ajax({
-                    url:"?s=admin/Sekilleditor/Inventory_modification",
+                    url:"?s=admin/Sekilleditor/Inventory_jiage",
                     type:"post",
                     data:{
                         id:$spuID,
@@ -297,7 +326,6 @@
             var sub_name   = $('input[name=sub_name]').val();
             var spu_price  = $('input[name=spu_price]').val();
             var is_display = $('input[name=is_display]:checked').val();
-
             if(!name){
                 layer.msg('请输入活动名称', {icon: 5,time:1500}); return false;
             }
@@ -317,6 +345,57 @@
             if(!is_display){
                 layer.msg('请选择显示状态',{icon: 5,time:1500}); return false;
             }
+
+
+
+            $Arra={};
+            $Arra['name']=$("input[name=name]").val();
+            $Arra['date']=$("input[name=date]").val();
+            $Arra['Screenings']=$("select[name=Screenings]").val();
+//        $Arra['spu_price']=$("input[name=spu_price]").val();
+            $Arra['number']=$("input[name=number]").val();
+            $Arra['is_display']=$(".select-btn:checked").val();
+//            var  as=[];
+//            $('.sku_id').each(function (e) {
+//                as[e]={};
+//                as[e].id=$(this).attr('data-skuid');
+//
+//            });
+//
+//            $('.Active_inventory').each(function (e) {
+//                as[e].spu_number=$(this).val();
+//
+//
+//            });
+//
+//            $('.Price_modification').each(function(e){
+//                as[e].spu_price=$(this).val();
+//
+//            });
+            var Array=$Arra;
+//            var shop=as;
+
+//         $.post('?s=admin/Sekilleditor/msedit',{array:Array,shop_data:shop},function (msg) {
+//             console.log(msg);
+//         })
+            $.ajax({
+                url:"?s=admin/Sekilleditor/edittttt",
+                type:"post",
+                data:{array:Array,'id':promotionID},
+                success:function (data) {
+                    layer.msg(data['lang'])
+                    setTimeout(function () {
+                        window.location.href="javascript:history.go(-1)";
+                    },2000)
+                },
+                error:function () {
+                    layer.msg('网络错误,请稍后重试');
+                }
+
+            });
+
+
+
         })
     })
 

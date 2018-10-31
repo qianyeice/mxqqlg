@@ -32,7 +32,6 @@ function modify() {
                     layer.alert(data.lang);
                     refresh(index)
                 }
-
             },
             error:function(){
                 alert("操作失败");

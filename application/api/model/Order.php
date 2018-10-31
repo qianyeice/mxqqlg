@@ -28,6 +28,7 @@ class   Order extends Model
             ->join('order_sku w', 'w.order_id=a.id')
             ->join('promotion_groupbuy p', 'p.id=a.groupbuy_id', 'LEFT')
             ->where(array('buyer_id' => $uid, "hd_type" => 3))
+            ->order('order_time desc')
 //                ->field('a.sn,a.id')
             ->limit($startLimit, $endLimit)
             ->select();
@@ -381,6 +382,12 @@ class   Order extends Model
                 ->where("number", ">", intval($orderInfo["goodsInfo"][$j]["num"]))
                 ->setDec("number", intval($orderInfo["goodsInfo"][$j]["num"]));
             Db::table("order_sku")->insert($skuData);
+//  添加销量
+//            $spuId= Db::table("goods_sku")->where("id", $orderInfo["goodsInfo"][$j]["goodsId"])->field('spu_id');
+            $spuId = Db::table("goods_sku")->join('goods_spu', 'goods_sku.spu_id=goods_spu.id')->where("goods_sku.id", $orderInfo["goodsInfo"][$j]["goodsId"])->setInc('goods_spu.Sales_volume', intval($orderInfo["goodsInfo"][$j]["num"]));
+
+//            Db::table('goods_spu')->where('id',$spuId)->setInc('Sales_volume',intval($orderInfo["goodsInfo"][$j]["num"]));
+
         }
 
 
@@ -396,7 +403,22 @@ class   Order extends Model
         Db::table("member_coupon coupon")
             ->where("coupon.member_id =" . $orderInfo["buyer_id"] . " and coupon.id =" . $orderInfo["coupon"])
             ->update(["isuse" => 1]);//将优惠券改为已使用
+        //$fencheng  分成
+        //$orderInfo["buyer_id"] 买家id
+        //$orderNum   sn
+        //date("Y-m-d H:i:s", time())   时间、
+        //状态
+        //生成分成信息表
+        $divideInto = [
+            "sn" => $orderNum,
+            "buyer_id" => $orderInfo["buyer_id"],
+            "time" => date("Y-m-d H:i:s", time()),
+            'fenhong' => $fencheng,
+            'state' => 0,
+            'is_pay' => 0
 
+        ];
+        Db::table('divide_into')->insert($divideInto);
         $array = array();
         if ($res) {
             $array["type"] = 1;
@@ -421,6 +443,8 @@ class   Order extends Model
      */
     function paySuccess($sn, $dream, $money, $uid, $paymethod)
     {
+        //修改分成状态
+        Db::table('divide_into')->where('sn', $sn)->setField('is_pay', '1');
         Db::startTrans();
         try {
             $time = time();
@@ -506,7 +530,13 @@ class   Order extends Model
             $max = $money * 0.01;//最大金额为商品金额的1%
             $this->Redenvelopes = $this->randFloat(0, $max);//随机生成红包金额
 
-            $red = ["name" => "商品购买红包", "value" => $this->Redenvelopes, "data" => $time];
+            $red = [
+                "name" => "商品购买红包",
+                "value" => $this->Redenvelopes,
+                "data" => $time,
+                'sn' => $sn,
+                'member_id' => $uid
+            ];
             $member_log_time = date("Y-m-d H:i:s", $time);
             $member_log = ["member_id" => $uid, "value" => $this->Redenvelopes, "action_type" => "随机红包", "time" => $member_log_time,];
             Db::table("red_envelopes")->insert($red);//增加红包
@@ -724,12 +754,12 @@ class   Order extends Model
             "time" => date("Y-m-d H:i:s", time()),
             "member_id" => $uid
         ];
-        $c = Db::table("member")->where('id',$uid)->value('money');//查询原有金额
-        $b = Db::table("member")->where('id',$uid)->setField('money',($money+$c));//原有金额+充值金额并且更新
+        $c = Db::table("member")->where('id', $uid)->value('money');//查询原有金额
+        $b = Db::table("member")->where('id', $uid)->setField('money', ($money + $c));//原有金额+充值金额并且更新
         $a = Db::table("Krypton_gold_log")->insert($orderData);
-        if(count($a)>0 && count($b) > 0){
+        if (count($a) > 0 && count($b) > 0) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
     }

@@ -154,8 +154,8 @@ class Member_bank extends Model
                 "ordernum" => $Order_number, "poundage" => ($money * 0.001)];
             $q = Db::name("withdraw")->insert($d);
             if($q){
-                $money=Db::table('member')->field('money')->where("id",$id)->select();
-                $yuan=$money[0]['money']-$money;
+                $allmoney=Db::table('member')->field('money')->where("id",$id)->select();
+                $yuan=floatval($allmoney[0]['money'])-floatval($money);
                 Db::table('member')->where("id",$id)->update(['money'=>$yuan]);
             }
             if ($q) {
@@ -173,8 +173,8 @@ class Member_bank extends Model
                 "ordernum" => $Order_number, "poundage" => ($money * 0.001), "banknum" => $Account_number];
             $q = Db::name("withdraw")->insert($d);
             if($q){
-                $money=Db::table('member')->field('money')->where("id",$id)->select();
-                $yuan=$money[0]['money']-$money;
+                $allmoney=Db::table('member')->field('money')->where("id",$id)->select();
+                $yuan=floatval($allmoney[0]['money'])-$money;
                 Db::table('member')->where("id",$id)->update(['money'=>$yuan]);
             }
             if ($q) {

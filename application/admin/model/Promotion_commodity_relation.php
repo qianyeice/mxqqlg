@@ -28,10 +28,8 @@ class Promotion_commodity_relation extends Model
             ->field("k.sku_name,p.thumb,p.name,k.number,k.shop_price,a.spu_number,a.spu_price,k.id")
             ->join("goods_sku k", "a.spu_id=k.id")
             ->join("goods_spu p", "p.id=k.spu_id")
-            ->where("Promotion_commodity_id", $id)->select();
-
+            ->where("Promotion_commodity_id", $id)->select();// 类的属性不存在-》sku_id
         return $data;
-
     }
 
     /**
@@ -106,6 +104,30 @@ class Promotion_commodity_relation extends Model
         } else {
             $array["type"] = 0;
             $array["lang"] = "库存修改失败，请稍后重试";
+        }
+        return $array;
+    }
+    /**
+     * 库存修改
+     * @param $id 商品ID
+     * @param $number 库存修改量
+     * @param $promotionID 限时抢购ID
+     * @return array 返回操作状态
+     */
+    public function Inventory_jiage($id, $number, $promotionID)
+    {
+        $data = [
+            "spu_price" => $number
+        ];
+        $data = $this->where("spu_id", $id)
+            ->where("Promotion_commodity_id", $promotionID)->data($data)->update();
+        $array = array();
+        if ($data) {
+            $array["type"] = 1;
+            $array["lang"] = "价格已修改";
+        } else {
+            $array["type"] = 0;
+            $array["lang"] = "价格修改失败，请稍后重试";
         }
         return $array;
     }

@@ -75,7 +75,11 @@
 			</span>
 			</span>
             <span class="td" style="width: 16%;">
-						<span class="td-con">{$vo["endtime"]}</span>
+						<span class="td-con">
+                            {if isset($vo["time"])}
+                            {$vo["time"]}
+                            {/if}
+                        </span>
 					</span>
             <span class="td" style="width: 10%;">
 						<span class="td-con">{$vo["is_display"]}</span>

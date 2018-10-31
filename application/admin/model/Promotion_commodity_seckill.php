@@ -91,6 +91,7 @@ class Promotion_commodity_seckill extends Model
 
     public function edit_finds($id)
     {
+
         $finds = $this->where('Promotion_commodity_id', $id) ->find();
         //$this->query('CALL proc_root();');
         $array = [];

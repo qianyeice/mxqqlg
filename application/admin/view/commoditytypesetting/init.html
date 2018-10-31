@@ -124,10 +124,8 @@
                             <div class="td-con">
                                 <input class="input fl" style="width: 80px" type="text" name="typeson[name]" value="" />
                                 <input class="input f1" style="display: none;" type="text" name="typeson[id]" value=""/>
-
                                 <a class="fl margin-left dinra newzhi" id="dis1" href="javascript:setAttr(1);">编辑属性值</a>
                                 <span id="popinput1" class="fl margin-left putin hidden">输入框无需编辑</span>
-
                             </div>
                         </div>
                         <div class="td w15">
@@ -150,7 +148,7 @@
                             </span>
                         </div>
                         <div class="td w10">
-                            <a href="javascript:;" class="shan" id="delete" >删除</a>
+                            <a href="javascript:" class="shan" onclick="delet(this)"  id="delete" >删除</a>
                         </div>
                     </div>
                 </div>
@@ -168,112 +166,16 @@
 
 
 <script>
-    $(document).ready(function () {
-        $('#addbut').click(function () {
-            var list=[];//声明一个集合
-            function addTag(){
-                var userName=document.getElementById("userName").value;
-                var money=document.getElementById("money").value;
-                var obj=new Object();
-                obj.name=userName;
-                obj.money=money;
-                list.push(obj);   //对象放入集合
-                var info = document.getElementById("id1");
-                var inner="";
-                //动态添加元素
-                for(i=0;i<list.length;i++){
-                    inner+="<tr>";
-                    inner+='<td align=\"center\">'+list[i].name+'</td><td align=\"center\">'+list[i].money+
-                        '</td><td align=\"center\"><a name=\"'+i+'\" onclick=\"functiondel(this)\">'+"删除"+'</a></td>';
-                    inner+="</tr>";
-                }
-                info.innerHTML=inner;
-            }
-        });
-    })
-
-</script>
-<script>
-
 
     function delet(date) {
-        remove($(date).parent.parent("div"));
+        $(date).parent().parent("div").remove();
     }
-    $(document).ready(function () {
-        var options=$(".kuang option:selected").val();
-
-
-        $(".dan").click(function () {
-            $(".putin").addClass("hidden");
-            $(".dinra").removeClass("hidden");
-        });
-        $(".shuru").click(function () {
-            $(".dinra").addClass("hidden");
-            $(".putin").removeClass("hidden");
-            $(".strings").html('');
-        });
-
-        // $(document).on("click",".shan ",function(){
-        //     $(this).parents('.td-con').remove();
-        // });
-
-    })
+   
 </script>
-<script>
-    $(document).ready(function () {
-        $('.shan').click(function () {
-            function delRow(o){
-                //获取父元素
-                var info = document.getElementById("delete");
-                //根据节点获取当前行
-                var rowIndex = o.parentNode.parentNode.rowIndex;
-                //删除一行
-                info.deleteRow(rowIndex-1);
-            }
-        })
-    })
-
-</script>
-<script>
 
 
 
-</script>
-<script>
 
-</script>
-<script>
-
-
-</script>
-<!--<script>-->
-
-
-<!--function ifset(id) {-->
-<!--console.log($(id).index());-->
-<!--layer.open({-->
-<!--type:2,-->
-<!--title: '回复',-->
-<!--//shadeClose: true,-->
-<!--skin: 'layui-layer-lan',-->
-<!--shade: 0.7,-->
-<!--area: ['681px', '430px'],-->
-<!--fixed: false, //不固定-->
-<!--maxmin: true,-->
-<!--content: 'http://api.mxqqlg.com/index.php?s=admin/Commoditytypetck/index',-->
-<!--success: function(layero, index){-->
-<!--var body = layer.getChildFrame('body', index);-->
-<!--var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();-->
-
-<!--body.find('.playdis').val();-->
-<!--//console.log(ids);-->
-<!--//console.log(iframeWin);-->
-
-<!--}-->
-<!--});-->
-<!--}-->
-
-<!--</script>-->
 
 
 {/block}

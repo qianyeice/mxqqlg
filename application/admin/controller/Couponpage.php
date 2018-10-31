@@ -37,6 +37,10 @@ class Couponpage extends adminController
         $this->assign("limit",$limit);
         $this->assign("data", $data);
         $this->assign("count", $zhi);
+//        foreach ($data as $v){
+//            echo '<br>';
+//            var_dump($v);
+//        }
 //        $pagenumber = ceil($zhi / $limit);
 //        $this->assign("pagenumber", $pagenumber);
         return view();
@@ -67,23 +71,28 @@ class Couponpage extends adminController
                 $icon = 'http://p5od7vvyw.bkt.clouddn.com/' . $data["key"];
                 $data=input();
                 $coup = new Coupon_base();
+                var_dump($icon, $pink, $white, $black);
                 return $coup->coupicon($icon, $pink, $white, $black);
             } else {
                 $coup = new Coupon_base();
+                var_dump($pink, $white, $black);
                 return $coup->coupadd($pink, $white, $black);
             }
         } else {
             //编辑
+            var_dump($hiddenid[0]);
             if ($_FILES) {
                 $filename = md5('coupicon' . $_FILES['file']['name'][0]) . time();
                 $filetmp = $_FILES['file']['tmp_name'][0];
                 $qin = new qiniuSdk();
                 $data = $qin->q_upload($filename, $filetmp);
                 $coup = new Coupon_base();
-                $array = 'http://127.0.0.1/api/public/?s=admin/couponpage/edit' . $data["key"];
+                $array = '/?s=admin/couponpage/edit' . $data["key"];
+                var_dump($array, $pink, $white, $black, $hiddenid);
                 return $coup->coupedity($array, $pink, $white, $black, $hiddenid);
             } else {
                 $coup = new Coupon_base();
+                var_dump($pink, $white, $black, $hiddenid);
                 return $coup->coupeditn($pink, $white, $black, $hiddenid);
             }
         }
@@ -132,5 +141,24 @@ class Couponpage extends adminController
 //        $coup = new Coupon_base();
 //        return $coup->coupalldel($id);
         $this->redirect(url('/'.'?s='.'admin/Succeed/index&c=couponpage&a=index'));
+    }
+    public function upsave(){
+        $city=input('post.city');
+        $zhekou=input('post.zhekou');
+        $starttime=input('post.starttime');
+        $endtime=input('post.endtime');
+        $content=input('post.content');
+
+        var_dump( $city);
+        var_dump( $zhekou);
+        var_dump( $starttime);
+        var_dump( $endtime);
+        var_dump($content);
+
+
+
+
+
+
     }
 }

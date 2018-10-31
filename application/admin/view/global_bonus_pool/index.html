@@ -38,9 +38,12 @@
                 <table cellpadding="0" cellspacing="0" class="layout">
                     <tbody>
                     <tr class="line-height-40">
-                        <td class="text-left allmo">订单总金额：￥{$all}</td>
-                        <td class="text-left">昨日分红池：￥{$red.redpoll}</td>
-                        <td class="text-left">分红剩余金额：￥{$red.redthe}</td>
+                        <td class="text-left allmo">订单总金额：￥{$ding}</td>
+                        <!--<td class="text-left">昨日分红池：￥{$red.redpoll}</td>-->
+                        <td class="text-left">分红剩余金额：￥{$jackpot}</td>
+                        <td class="text-left">
+                            <button class=" layui-btn-normal layui-btn layui-btn-sm" id="pool">全球分红</button>
+                        </td>
                     </tr>
                     </tbody>
                 </table>
@@ -83,7 +86,7 @@
                     <span class="td-con">{$v.name}</span>
                 </span>
                 <span class="td" style="width: 33.3%">
-                    <span class="td-con changee">{$v.red}({$v.share_ratio}%)</span>
+                    <span class="td-con changee">{$jackpot*$v.share_ratio/100}({$v.share_ratio}%)</span>
                 </span>
                 <span class="td" style="width: 33.3%">
                     <span class="td-con">
@@ -112,6 +115,31 @@
             })
         })
     })
+    $('#pool').click(function () {
+        layer.confirm('确认分红？', {
+            btn: ['确定', '取消']//按钮
+        }, function (index) {
+            layer.close(index);
+            //此处请求后台程序，下方是成功后的前台处理……
+                $.post('?s=admin/global_bonus_pool/fenhong',{},function (data) {
+                    if(data==0){
+                        layer.confirm('分红失败', {
+                            btn: ['确定']//按钮
+                        },function () {
+                            window.location.replace("?s=admin/global_bonus_pool/index")
+                        })
+                        }else{
+                        layer.confirm('分红成功', {
+                            btn: ['确定']//按钮
+                        },function () {
+                            window.location.replace("?s=admin/global_bonus_pool/index")
+                        })
+                    }
+                })
+        });
+    })
+
+
 </script>
 
 {/block}

@@ -56,6 +56,7 @@ class Appwxpay extends apiController
         include_once './static/appWxPay/index.php';
         header("Access-Control-Allow-Origin: ityangs.net");
         $money=input('money');
+        $money = $money * 100;
         $data = appWxPay($money);
 //        file_put_contents('../kk',"\r\n".json_encode($data),FILE_APPEND);
         return $data;

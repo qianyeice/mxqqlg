@@ -336,7 +336,7 @@ class Coupon_base extends Model
     {
         switch ($v["effectivetype"]) {
             case 1:
-                $v["time"] = $v["starttime"] . "-" . $v["endtime"];
+                $v["time"]=date("Y/m/d ",$v["starttime"])."-".date("Y/m/d ",$v["endtime"]);
                 return $v['time'];
                 break;
             case 2:

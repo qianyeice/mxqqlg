@@ -9,10 +9,10 @@
 namespace app\api\controller;
 
 use apiController\apiController;
-use think\Controller;
+use app\api\model\Member;
 use think\Db;
 
-class Menber extends Controller
+class Menber extends apiController
 {
     public function index()
     {
@@ -50,4 +50,18 @@ class Menber extends Controller
         }
         return $uids;
     }
+    function menber_write(){
+
+        $id=input('post.id');
+        $vipa=input('post.vipa');
+        if(!is_null($id) || !is_null($vipa)){
+            $table = new Member();
+            $data = $table->memberwrite($id,$vipa);
+            $this->apiJournal($data["type"],$data["lang"],$data["data"]);//日志
+            return $this->apiReturn($data["type"],$data["lang"],$data["data"]);//返回格式
+        }else{
+            return $this->apiReturn(0,lang('faileds'));//返回格式
+        }
+    }
+
 }

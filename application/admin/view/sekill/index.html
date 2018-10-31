@@ -57,7 +57,6 @@
                 <span class="td-con">操作</span>
             </span>
         </div>
-
         {volist name="lists" id="vo"}
         <div class="tr">
             <span class="td check-option"><input type="checkbox" name="id" value="{$vo.id}" /></span>
@@ -117,6 +116,7 @@
                     {/if}
                 </span>
             </span>
+            <div></div>
             <span class="td" style="width: 10%">
                 <span class="td-con">
                     <a href="?s=admin/Sekilleditor/edit&Promotion_commodity_id={$vo.Promotion_commodity_id}">编辑</a>
@@ -151,18 +151,6 @@
         }
 
     })
-
-    $("#check-all").click(function(){
-
-        if($(this).attr("checked")){
-
-            $("input:checkbox").attr("checked","checked");
-
-        }else{
-
-            $("input:checkbox").removeAttr("checked");
-        }
-    });
 
     //选中的用户进行删除操作
     $(".mnumber").click(function(){

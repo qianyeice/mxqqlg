@@ -11,6 +11,7 @@ namespace app\admin\model;
 use api\WxLogin;
 use app\api\controller\Wxapi;
 use https\curl;
+use phpDocumentor\Reflection\Types\Null_;
 use think\Model;
 use think\Db;
 
@@ -142,11 +143,13 @@ class ViewInvoice extends Model
         return $array;
     }
 
-    public function or_log($id){
-        $or=Db::name('order')->field('sn')->where('id',$id)->find();
-        $or_log=Db::name('order_log')->where('order_sn',$or['sn'])->order('system_time desc')->select();
+    public function or_log($id)
+    {
+        $or = Db::name('order')->field('sn')->where('id', $id)->find();
+        $or_log = Db::name('order_log')->where('order_sn', $or['sn'])->order('system_time desc')->select();
         return $or_log;
     }
+
     /**
      * 配送状态修改
      * @param $id订单ID
@@ -266,9 +269,10 @@ class ViewInvoice extends Model
     function confirm_order($id, $msg, $sn)
     {
         $data = ['confirm_status' => '2'];
-        $s=modify($id, $data, $this);
-        return  $s;
+        $s = modify($id, $data, $this);
+        return $s;
     }
+
     /**
      * 已付款，取消订单页面
      * @param $id
@@ -376,8 +380,6 @@ class ViewInvoice extends Model
     }
 
 
-
-
     function deliver_goods_confirm($id)
     {
         $user_id = $_SESSION['module']['id'];
@@ -417,7 +419,7 @@ class ViewInvoice extends Model
             $add['delivery_id'] = $wul;
             $add['delivery_name'] = isset($wulmob['name']) ? $wulmob['name'] : "";
             $add['delivery_sn'] = $d_sn;
-            $add['delivery_time'] = date('Y-m-d H:i:s',time());
+            $add['delivery_time'] = date('Y-m-d H:i:s', time());
             $add['operating_notes'] = $text;
             $add['order_sku_id'] = $i;
             Db::name('order_delivery')->insert($add);
@@ -426,7 +428,7 @@ class ViewInvoice extends Model
         Db::name('order')->where('id', $o_id)->update(array('dist' => '1'));
         $fah = Db::name('order_sku')->where('fahuo', '0')->where('order_id', $o_id)->count();
         if ($fah == 0) {
-            Db::name('order')->where('id', $o_id)->update(array('dist' => '2'));
+            Db::name('order')->where('id', $o_id)->update(array('dist' => '2', 'status' => '2'));
         }
 
         $array = array();
@@ -462,25 +464,27 @@ class ViewInvoice extends Model
      */
     function confirm_order_complete($id, $mgs)
     {
-//              有问题
+//        dump($id);exit();
         $d = new WxLogin();
         $f = $d->get_access_token();
         $access_token = $f['data'];
-        $data = Db::name("order")->field("groupbuy_id,paid_amount,buyer_id,sn")->where("id", $id)->select();
-        $shifu = $data[0]['paid_amount'];//订单实付总额
-        $member_id = $data[0]['buyer_id'];//用户id
-        $sn = $data[0]['sn'];//订单号
+        $data = Db::name("order")->cache()->field("groupbuy_id,paid_amount,buyer_id,sn")->where("id", $id)->select();
 
-        $openid = Db::name("member")->field("openid")->where("id", $member_id)->select();
+        $shifu = $data[0]['paid_amount']; // 订单实付总额
+//        dump($shifu);exit;
+        $member_id = $data[0]['buyer_id']; // 用户id
+        $sn = $data[0]['sn']; // 订单号
+        $parent1 = $openid = Db::name("member")->field("openid")->field("parent_id")->cache()->where("id", $member_id)->select();
+
         $openid = $openid[0]['openid'];//用户openid
 
 //        $coin = $this->coin($member_id, $data[0]['groupbuy_id'], $shifu, $id);//加梦想币
         $integralset = $this->integralset($shifu, $member_id, $data[0]['groupbuy_id'], $sn, $access_token, $id);//加积分
-
-        $parent1 = Db::name("member")->field("parent_id")->where("id", $member_id)->select();
+//        $parent1 = Db::name("member")->field("parent_id")->where("id", $member_id)->select();
         $parent1 = $parent1[0]['parent_id'];//上级
-        $openid1 = Db::name("member")->field("openid")->where("id", $parent1)->select();//上级openid
-        $parent1_distribution = Db::name("member")->field("distribution")->where("id", $parent1)->select();//上级原有佣金
+        $parent1_distribution = $openid1 = $parent2 = Db::name("member")->field("openid,distribution,parent_id")->where("id", $parent1)->select();//上级openid
+//        $parent1_distribution = Db::name("member")->field("distribution")->where("id", $parent1)->select();  //上级原有佣金
+
         $parent1_direct_sale = Db::name("distribution")->field("direct_sale")->where(["is_delete" => '1', 'name' => '员工'])->select();//员工分销比例
         $fencheng = Db::name("order")->field("fencheng")->where("id", $id)->select();//该商品的分成
         $distribution = $fencheng[0]['fencheng'] * ($parent1_direct_sale[0]['direct_sale'] / 100);//上级获得的钱
@@ -491,13 +495,15 @@ class ViewInvoice extends Model
             ];
             $cg = Db::name("get_distribution")->where('p_id', $parent1)->updata($zhi);//添加佣金日志
         }
-        $parent2 = Db::name("member")->field("parent_id")->where("id", $parent1)->select();
+
+
+//        $parent2 = Db::name("member")->field("parent_id")->where("id", $parent1)->select();
         if ($parent2) {
             $parent2 = $parent2[0]['parent_id'];//上上级id
-            $openid2 = Db::name("member")->field("openid")->where("id", $parent2)->select();//上上级openid
+            $parent1_distribution2 = $openid2 = Db::name("member")->field("openid")->field("distribution")->where("id", $parent2)->select();//上上级openid
             $parent1_indirect_sale = Db::name("distribution")->field("indirect_sale")->where(["is_delete" => '1', 'name' => '合伙人'])->select();//合伙人分销比例
             $distribution2 = $fencheng[0]['fencheng'] * ($parent1_indirect_sale[0]['indirect_sale'] / 100);//上上级获得的钱
-            $parent1_distribution2 = Db::name("member")->field("distribution")->where("id", $parent2)->select();//上级原有佣金
+//            $parent1_distribution2 = Db::name("member")->field("distribution")->where("id", $parent2)->select();//上级原有佣金
             $parent1_distribution2 = $parent1_distribution2[0]['distribution'] + $distribution2;
             $qw = Db::name("member")->where("id", $parent2)->update(["distribution" => $parent1_distribution2]);//上上级加佣金
             $zhi = [
@@ -508,20 +514,25 @@ class ViewInvoice extends Model
             $qwr = $this->memcg_distribution($distribution2 . '我是上上级', $openid2[0]['openid'], $access_token);//发送佣金模板消息上上级     需要上上级openid
         }
 
+
         if ($data[0]['groupbuy_id'] == 0 || $data[0]['groupbuy_id'] == null) {
-            $parents = $this->parents($member_id, $fencheng);
+            $parents = $this->parents($member_id, $fencheng, $sn);
+
         } else {
             $Group_ratio = $this->Group_ratio($data[0]['groupbuy_id']);
             $fencheng[0]['fencheng'] = $fencheng[0]['fencheng'] * $Group_ratio;
-            $this->parents($member_id, $fencheng);
+            $this->parents($member_id, $fencheng, $sn);
+
         }
-//        $or = Db::name('order')->where('id', $id)->update(array('finish_status' => '2'));
-//        $user_id = $_SESSION['module']['id'];
-//        $log = $this->order_log($data[0]['sn'], $user_id, $mgs, $type = '订单完成');
-//        return $or;
 
+
+        $or = Db::name('order')->where('id', $id)->update(array('finish_status' => '2'));
+        $user_id = $_SESSION['module']['id'];
+//        dump($or);
+//        exit;
+        $log = $this->order_log($data[0]['sn'], $user_id, $mgs, $type = '订单完成');
+        return $log;
     }
-
 
     /*
      * 判断当前团购打几折
@@ -564,12 +575,12 @@ class ViewInvoice extends Model
      * $money钱
      * 冯云祥
      */
-    function addmoney($member_id, $money)
+    function addmoney($member_id, $money, $sn)
     {
         $y_money = Db::name("member")->field('money,openid')->where('id', $member_id)->select();
         $yes = Db::name('member')->where('id', $member_id)->update(['money' => $y_money[0]['money'] + $money]);
         if ($yes) {
-            $a = $this->distribution($money, $member_id);
+            $a = $this->distribution($money, $member_id, $sn);
             if ($a) {
                 $d = new WxLogin();
                 $f = $d->get_access_token();
@@ -586,17 +597,13 @@ class ViewInvoice extends Model
      * $member_id 子级id
      * $p_member_id父级id
      */
-    function distribution($money, $member_id)
+    function distribution($money, $member_id, $sn)
     {
         $id = Db::name("member")->field('id')->where('parent_id', $member_id)->select();
         $zhi = [
             'type' => '1',
-            'time' => time(),
-            'money' => $money,
-            'p_id' => $id[0]['id'],
-            'member_id' => $member_id,
         ];
-        $cg1 = Db::name("get_distribution")->insert($zhi);
+        $cg1 = Db::name("get_distribution")->where('order_sn', $sn)->update($zhi);
         return $cg1;
     }
 
@@ -610,29 +617,34 @@ class ViewInvoice extends Model
      * $f判断发起人
      * $c判断创始人
      */
-    function parents($member_id, $fencheng, $y = 0, $h = 0, $f = 0, $c = 0)
+    function parents($member_id, $fencheng, $sn, $y = 0, $h = 0, $f = 0, $c = 0)
     {
         $parent = Db::name("member")->field("id,is_special,parent_id")->where("id", $member_id)->select();
         if ($parent) {
+            if ($parent[0]['is_special'] < 1 || $parent[0]['is_special'] == null) {
+                $money = $this->Proportion($fencheng, 1);
+                $this->addmoney($parent[0]['id'], $money, $sn);
+
+            }
             if ($parent[0]['is_special'] == 1 && $y <= 0) {
                 $y++;
                 $money = $this->Proportion($fencheng, 1);
-                $this->addmoney($parent[0]['id'], $money);
+                $this->addmoney($parent[0]['id'], $money, $sn);
             }
             if ($parent[0]['is_special'] == 2 && $h <= 0) {
                 $h++;
                 $money = $this->Proportion($fencheng, 2);
-                $this->addmoney($parent[0]['id'], $money);
+                $this->addmoney($parent[0]['id'], $money, $sn);
             }
             if ($parent[0]['is_special'] == 3 && $f <= 0) {
                 $f++;
                 $money = $this->Proportion($fencheng, 3);
-                $this->addmoney($parent[0]['id'], $money);
+                $this->addmoney($parent[0]['id'], $money, $sn);
             }
             if ($parent[0]['is_special'] == 4 && $c <= 0) {
                 $c++;
                 $money = $this->Proportion($fencheng, 4);
-                $this->addmoney($parent[0]['id'], $money);
+                $this->addmoney($parent[0]['id'], $money, $sn);
             }
             $this->parents($parent[0]['parent_id'], $fencheng, $y, $h, $f, $c);
         }

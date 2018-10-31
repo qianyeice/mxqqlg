@@ -24,7 +24,7 @@ Class Evaluation_page extends Model
         $datetime = date('Y-m-d H:m:s');
         $is_shield = '0';
     for($i=0;$i<count($spu_id);$i++){
-       $data=$this->query('call evaluationpage("'.$member_id.'","'.$content.'","'.$spu_id[$i].'","'.$datetime.'","'.$is_shield.'")');
+       $data=$this->query('call evaluationpage("'.$member_id.'","'.$content.'","'.$spu_id[$i]['spu_id'].'","'.$datetime.'","'.$is_shield.'")');
     }
   return $data[0][0];
     }

@@ -16,9 +16,9 @@ class Confirmation_receipt extends Model{
      * @return mixed
      */
     function receipt($sn){
-        $teael["sn"] = $sn;
+//        $teael["sn"] = $sn;
         //修改确认收货（order_sku）
-        $data=Db::table('order')->where($teael)->update(['status' => 3]);
+        $data=Db::table('order')->where("sn",$sn)->update(['status' => 3]);
         if($data>0){
             $array["type"]=1;
             $array["lang"]=lang('success');
@@ -36,9 +36,9 @@ class Confirmation_receipt extends Model{
 
 
     function changes($sn){
-        $teael["sn"] = $sn;
+//        $teael["sn"] = $sn;
         //修改确认收货（order_sku）
-        $data=Db::table('order')->where($teael)->update(['status' => 1]);
+        $data=Db::table('order')->where("sn",$sn)->update(['status' => 0]);
         if($data>0){
             $array["type"]=1;
             $array["lang"]=lang('success');

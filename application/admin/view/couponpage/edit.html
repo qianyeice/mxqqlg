@@ -19,13 +19,13 @@
 <!--编辑-->
 <div class="content padding-big have-fixed-nav">
     <div action="" name="promotion_order_add" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="id" value="19">
+        <input type="hidden" name="hiddenid" value="19">
         <div class="form-box clearfix">
             <div class="form-group ">
                 <span class="label">优惠券名称：</span>
                 <div class="box">
-                    <input class="input hd-input discount cash red" id="coupon_name" type="text" name="name"
-                           value="{$data.couponname}"
+                    <input class="input hd-input discount cash red" id="coupon_name"
+                           type="text" name="name" value="{$data.couponname}"
                            tabindex="0" datatype="*" nullmsg="请输入优惠券名称"/>
                 </div>
                 <p class="desc">请输入优惠券名称</p>
@@ -99,7 +99,8 @@
                 <div class="form-group ">
                     <span class="label">折扣券使用最低金额：</span>
                     <div class="box">
-                        <input class="input hd-input discount" type="text" name="price0" value="{$data.minprice}"
+                        <input class="input hd-input discount" type="text" name="price0"
+                               value="{$data.minprice}"
                                tabindex="0"
                                datatype="price"/>
                     </div>
@@ -365,7 +366,6 @@
                     </div>
                     <p class="desc">优惠券开始时间</p>
                 </div>
-
                 <div class="form-group ">
                     <span class="label">结束时间：</span>
                     <div class="box">
@@ -405,24 +405,20 @@
 {block name='script'}
 <script type="text/javascript">
     var url=new Array();
-    $(".filee").change(function () {
-        var objUrl=getObjectURL(this.files['0']);
+    $(".file").change(function () {
+        var objUrl=getObjectURL(this.files[0]);
         if(objUrl){
             var tud=$(this);
             tud.show();
-            tud.append('<img src"'+objUrl+'">')
+            tud.append('<img src="'+objUrl+'">')
         }
-
-console.log(url);
     })
-
-
     $(function () {
         //编辑 渲染页面调用
         var hiddenid = $('#hiddenid').val();
         if (hiddenid) {
             //判断优惠劵类型
-            for (var i = 0; i < $('select').length; i++) {
+            for (var i = 1; i <= $('select').length; i++) {
                 switch (i) {
                     case 1:
                         // $('select').eq(i).change(function () {
@@ -451,13 +447,13 @@ console.log(url);
                         break;
                     case 2:
                         // $('select').eq(i).change(function () {
-                        var typess = $(':checked').eq(2).val();
-                        switch (typess) {
+                        var types = $(':checked').eq(2).val();
+                        switch (types) {
                             case '1':
-                                effective(typess);
+                                effective(types);
                                 break;
                             case '2':
-                                effective(typess);
+                                effective(types);
                                 break;
                             default:
                                 break;
@@ -469,7 +465,6 @@ console.log(url);
                 }
             }
         }
-
         //日期
         layui.use('laydate', function () {
             var laydate = layui.laydate;
@@ -487,8 +482,10 @@ console.log(url);
                 }
             }
         });
-
         //判断优惠劵类型
+        // while ($('select').val()) {
+        //     alert($('select').val())
+        // }
         for (var i = 0; i < $('select').length; i++) {
             switch (i) {
                 case 1:
@@ -544,7 +541,7 @@ console.log(url);
             var pink = [];
             var white = [];
             var black = [];
-            for (var i = 0; i < $(':checked').length; i++) {
+            for(var i = 0; i < $(':checked').length; i++) {
                 switch (i) {
                     case 0:
                         pink[i] = $(':checked').eq(i).val();
@@ -598,7 +595,6 @@ console.log(url);
             //     }
             //     return array;
             // }
-
             // 判断是否是红包劵
             if (pink.length == 3) {
                 for (var x = 0; x < pink.length; x++) {
@@ -618,24 +614,23 @@ console.log(url);
                     }
                 }
             }
-
-            // 分別拿值
+            //分別拿值
             function cycle(array, obj) {
-                for (var z = 0; z < obj.length; z++) {
+                for (var z = 0; z < obj.length;z++) {
                     array[z] = obj.eq(z).val();
                 }
             }
-
             //文件上传
             var xhr = new XMLHttpRequest();
             var file = document.getElementById("file").files[0];
+            alert(file[0])
             var formData = new FormData;
             formData.append("file", file[0]);
             formData.append("pink", pink);
             formData.append("white", white);
             formData.append("black", black);
             formData.append("hiddenid", hiddenid);
-            xhr.open('POST', 'http://127.0.0.1/api/public/?s=admin/couponpage/coupadd');
+            xhr.open('POST', './?s=admin/couponpage/coupadd');
             xhr.send(formData);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
@@ -648,17 +643,16 @@ console.log(url);
                     time.push(typestr, explainstr);
                     if (time[0] == '1' && time[1] == '添加成功') {
                         console.log(imgicon);
-                        location.href = 'http://127.0.0.1/api/public/?s=admin/succeed/index&c=couponpage&a=index'
+                        location.href = '/?s=admin/succeed/index&c=couponpage&a=index'
                     } else if (time[0] == '0' && time[1] == '添加失败') {
-                        location.href = 'http://127.0.0.1/api/public/?s=admin/succeed/index&c=couponpage&a=index&type=1'
+                        location.href = '/?s=admin/succeed/index&c=couponpage&a=index&type=1'
                     }
                 } else {
                     // 未上传或失败icon
                     //location.href = 'http://127.0.0.1/api/public/?s=admin/succeed/index&c=couponpage&a=index&type=0'
                 }
-            };
-        });
-
+            }
+        })
         // function editpost(pink,white,black) {
         //     $.post('/?s=admin/couponpage/coupadd',{pink:pink,white:white,black:black},function (data) {
         //         if (data['type']=='1' && data['explain'] == '添加成功') {
@@ -688,7 +682,6 @@ console.log(url);
                 }
             }
         }
-
         function selected() {
             switch ($('#attr').val()) {
                 case '2':
@@ -700,37 +693,7 @@ console.log(url);
                     //跳出循环
             }
         }
-
-        // $("#ico_buttonedit").click(function () {
-        //     $("#Select_the_coupon_type").css("display","block")
-        // // })
-        // $(".listbox-item").click(function () {
-        //     $(".listbox-item").attr("class","listbox-item")
-        //     $(this).attr("class","listbox-item listbox-item-selected")
-        //     var data=$(this).text();
-        //     $("#coupon_type").val(data);
-        //     $("#Select_the_coupon_type").css("display","none")
-        //     $("#coupon_type_select").val($(this).attr("data-val"))
-        //     var dataType=$(this).attr("data-val");
-        //     $(".prom-list").attr("class","prom-list hidden")
-        //     for (i=0;i<$(".prom-list").length;i++){
-        //         if($(".prom-list").eq(i).attr("data-type")==dataType){
-        // $(".prom-list").eq(i).attr("class","prom-list")
-        // }
-        // }
-        // })
-        // $("#save").click(function () {
-        //     var array=new Array();
-        //     array["name"]=$("#coupon_name").val()
-        //     array["access"]=$("select option:selected").val()
-        //     array["type"]=$("#coupon_type_select").val()
-        //     array[""]
-        // })
     })
-
-
-
-
 
 </script>
 

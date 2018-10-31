@@ -34,8 +34,10 @@ class Confirmcomplete extends adminController
      */
     function ajax_complete()
     {
-        $id=input("post.order_id");
-        $mgs=input("post.msg");
+        $id=input("order_id");
+        $mgs=input("msg");
+//        dump($mgs);
+//        exit;
         $data = new ViewInvoice();
         $val = $data->confirm_order_complete($id,$mgs);
         return $val;

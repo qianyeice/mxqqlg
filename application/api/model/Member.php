@@ -560,6 +560,7 @@ class Member extends Model
     /**
      *  vip等级表相关数据
      *  7月23日 13：56
+     *
      */
     public function member_dengjiku(){
         $data = Db::name('member_group')->select();
@@ -580,5 +581,29 @@ class Member extends Model
         return $array;
 
     }
+    /**
+     *  vip等级写入group_id
+     *  7月30日 17:17
+     */
+    public function memberwrite($id,$vipa){
+        $data=Db::table('member')->where('id',$id)->update(['group_id' => $vipa]);
+//        $data=Db::table('member')->where('id',$id)->select();
+        $array = array();
+        if ($data) {
+            $array["type"] = 1;
+            $array["lang"] = 'success';
+            $array["data"] = "";
+        } else {
+            $array["type"] = 0;
+            $array["lang"] = 'noData';
+            $array["data"] = "";
+        }
+
+
+
+        return $array;
+
+    }
+
 
 }

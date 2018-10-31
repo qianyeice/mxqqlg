@@ -7,6 +7,7 @@ use app\admin\model\Member_group;
 use app\admin\model\Order;
 use app\admin\model\View_divlog;
 use app\admin\model\Vip_red;
+use think\Db;
 
 class GlobalBonusPool extends adminController
 {
@@ -18,6 +19,8 @@ class GlobalBonusPool extends adminController
      */
     public function index()
     {
+        $data = $this->divideSum();
+
         $todaytime = strtotime('today');
         $today = date("Y-m-d H:i:s", $todaytime);
         //用户 - 全球分红 - 订单总金额
@@ -34,6 +37,8 @@ class GlobalBonusPool extends adminController
             'all' => $all,
             'red' => $vip->vipyd(),
             'etc' => $mem->level($all, $type)[0],
+            'jackpot' => isset($data['jackpot']) ?$data['jackpot']:'0',
+            'ding' =>isset($data['ding']) ?$data['ding']:'0'
         ]);
     }
 
@@ -51,11 +56,11 @@ class GlobalBonusPool extends adminController
         $start = !is_null(input('page')) ? input('page') + 1 : 1;
         $limit = !is_null(input('limit')) ? input('limit') : 2;
         $div = new View_divlog();
-        $con=$div->queryall($mgid,$start,$limit,$name,$begin, $end);
-        $this->assign('limit',$limit );
-        $this->assign('mgid',$mgid );
-        $this->assign('count',count($con['count']) );
-        return view()->assign('data',$con['data'] );
+        $con = $div->queryall($mgid, $start, $limit, $name, $begin, $end);
+        $this->assign('limit', $limit);
+        $this->assign('mgid', $mgid);
+        $this->assign('count', count($con['count']));
+        return view()->assign('data', $con['data']);
     }
 
     /**
@@ -78,11 +83,11 @@ class GlobalBonusPool extends adminController
         //日期选择
         $date = input('date');
         $time = strtotime($date);
-        $off=$time+86400;
+        $off = $time + 86400;
         $dateof = date("Y-m-d H:i:s", $time);
         $dateoff = date("Y-m-d H:i:s", $off);
         $order = new Order();
-        $redall = $order->datechoose($dateof,$dateoff);
+        $redall = $order->datechoose($dateof, $dateoff);
         $mem = new Member_group();
         $type = '0';
         $data = $mem->level($redall, $type);
@@ -90,5 +95,49 @@ class GlobalBonusPool extends adminController
             'allmo' => $redall,
             'amount' => $data,
         ];
+    }
+
+    public function divideSum()
+    {
+        $sumdata = [
+            'is_pay' => '1',
+            'state' => '0'
+        ];
+        $sum = Db::table('divide_into')->where($sumdata)->sum('fenhong'); //未接算全球分红总和
+        $sumSn = Db::table('divide_into')->where($sumdata)->field('sn as sumSn')->select(); //未接算全球分红订单号
+        $sumSn = array_column($sumSn, 'sumSn');
+        $red = Db::table('red_envelopes')->where('sn', 'in', $sumSn)->sum('value');// 红包总和
+        $yong = Db::table('get_distribution')->where('order_sn', 'in', $sumSn)->sum('money');// 红包总和
+        $ding = Db::table('order')->where('sn', 'in', $sumSn)->sum('paid_amount');// 订单总和
+
+        $jackpot = $sum - $red - $yong;
+        return  $data=[
+           'jackpot'=> $jackpot,
+           'ding'=> $ding,
+        ];
+
+
+    }
+
+    public function fenhong()
+    {
+
+        $data = $this->divideSum();
+        $sumdata = [
+            'state' => '0',
+            'is_pay' => '1'
+        ];
+        //改分红状态
+        $type = Db::table('divide_into')->where($sumdata)->setField('state', '1'); //未接算全球分红订单号
+        //
+        if ($type != 0) {
+            //写入金额
+            $data = Db::table('member')->execute('call dddd(' . $data['jackpot'] . ')');
+            return 1;
+        } else {
+            return 0;
+        }
+
+
     }
 }

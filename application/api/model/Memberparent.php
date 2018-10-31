@@ -25,11 +25,11 @@ class Memberparent extends Model
 //        $data = Db::table('member')->where('id', $data['parent_id'])->find();
         if($type==1){
             if($page==1){
-                $data=Db::table('member')->field('avatar,username,from_unixtime(login_time) as time')->where('parent_id',$uid)->limit(0,15)->select();
+                $data=Db::table('member')->field('avatar,username,from_unixtime(login_time) as time')->where('parent_id',$uid)->select();
                 $array["type"]=1;
                 $array["lang"]=lang('success');
             }else{
-                $data=Db::table('member')->field('avatar,username,from_unixtime(login_time) as time')->where('parent_id',$uid)->limit(5*($page-1),15)->select();
+                $data=Db::table('member')->field('avatar,username,from_unixtime(login_time) as time')->where('parent_id',$uid)->select();
                 if(count($data)>0){
                     $array["type"]=1;
                     $array["lang"]=lang('success');
@@ -48,7 +48,7 @@ class Memberparent extends Model
                 $xiaji=$v['id'];    //当前用户下级id
                 $data=Db::table('member')->where('id',$xiaji)->select();    //下级信息
                 $id=$data[0]['id']; //下级id
-                $xxj=Db::table('member')->field('avatar,username,from_unixtime(login_time) as time')->where('parent_id',$id)->limit(5*($page-1),15)->select(); //下下级信息
+                $xxj=Db::table('member')->field('avatar,username,from_unixtime(login_time) as time')->where('parent_id',$id)->select(); //下下级信息
                 foreach ($xxj as $uu=>$vv){
                     $zuihou[$uu]=$vv;
                 }

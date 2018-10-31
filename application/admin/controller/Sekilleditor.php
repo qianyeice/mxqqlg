@@ -66,22 +66,23 @@ class Sekilleditor extends adminController
 
         $id = input('get.Promotion_commodity_id');
 
-        $moder     = new Promotion_commodity_seckill();
         $commodity =  new Promotion_commodity();
+        $moder     = new Promotion_commodity_seckill();
         $relation  =  new Promotion_commodity_relation();
         //查询
         $finds = $moder->edit_finds($id);
         $this->assign('finds',$finds);
+        $date=date('Y-m-d', $finds['date']);
+        $this->assign('date',$date);
+//        dump($date);
+//        exit;
 
         $this->assign('Promotion_commodity_id',$id);
-
-        $data2     =  $relation->edit_spu_select($id);
-//        dump($data2);
+        $data2  =  $relation->edit_spu_select($id);
         $this->assign("data2",$data2);
-
-
+//        dump($data2);
+//        exit();
         return view();
-
     }
    /* public function a(){
         $edit1['name'] = input('post.name');
@@ -400,6 +401,115 @@ class Sekilleditor extends adminController
     }
 
     /**
+     * 秒杀活动真的是编辑
+     * @return \think\response\View
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * name:null
+     * time 2018/4/20
+     */
+    public function edittttt(){
+        $commodity =  new Promotion_commodity();
+//        $relation  =  new Promotion_commodity_relation();
+
+        $validate = new \app\admin\validate\Sekill;
+
+        $a=Request::post("array/a");
+//        $b=Request::post("shop_data/a");
+        $posiID=input('id');
+        $data['date']=$a['date'];
+        $data['Screenings'] = $a['Screenings'];
+
+        $edit1['name'] = $a['name'];
+        $edit1['is_display'] = $a['is_display'];
+        $edit1['Screenings'] = $a['Screenings'];
+        $edit1['number'] = $a['number'];
+
+
+        $id = input('Promotion_commodity_id');
+        $start = strtotime($data['date']);
+
+        //  获取开始/结束时间
+        if ($data['Screenings'] == 1 ){
+            $data['Screenings_start_time'] = $start+3600*9;
+            $data['Screenings_end_time']   = $data['Screenings_start_time']+3600*2;
+        }
+        if ($data['Screenings'] == 2 ){
+            $data['Screenings_start_time'] = $start+3600*11;
+            $data['Screenings_end_time']   = $data['Screenings_start_time']+3600;
+        }
+        if ($data['Screenings'] == 3 ){
+            $data['Screenings_start_time'] = $start+3600*12;
+            $data['Screenings_end_time']   = $data['Screenings_start_time']+3600*3;
+        }
+        if ($data['Screenings'] == 4 ){
+            $data['Screenings_start_time'] = $start+3600*15;
+            $data['Screenings_end_time']   = $data['Screenings_start_time']+3600;
+        }
+        if ($data['Screenings'] == 5 ){
+            $data['Screenings_start_time'] = $start+3600*16;
+            $data['Screenings_end_time']   = $data['Screenings_start_time']+3600*7;
+        }
+
+
+        unset($data['date']);
+        if (!$validate->check($data,$edit1)) {
+            $array['lang'] = $validate->getError();
+            //验证传参
+            $this->assign('data',$array);
+        } else {
+            if($id != null){
+//                $edit2     =  $relation->relation_edit($id,$data);
+                $edit1     =  $commodity->commodity_edit($id,$edit1);
+                if ($edit1 ) {
+                    //跳转页面
+                    $this->redirect('/?s=admin/Sekill/index');
+                } else {
+                    $this->error('失败');
+                }
+            } else {
+
+                $edit1['panduan']=1;
+                $edit1['Screenings_start_time']=$data['Screenings_start_time'];
+                $edit1['Screenings_end_time']=$data['Screenings_end_time'];
+                $ids = Db::name('Promotion_commodity')->where('id',$posiID)->update($edit1);
+
+
+//                $data['Promotion_commodity_id'] = $ids;
+//                $spu_id  =input('post.spu_id/a');
+
+//                foreach ($b as $vo) {
+//                    $array = array(
+//                        'Promotion_commodity_id' => $ids,
+//                        'spu_id' => $vo['id'],
+//                        'spu_number' => $vo['spu_number'],
+//                        'spu_price' => $vo['spu_price']
+//                    );
+//                    $data=Db::name('Promotion_commodity_relation')->insert($array);
+//                }
+
+                if ($ids) {
+                    return array(
+                        'type'=>'1',
+                        'lang'=>'成功'
+                    );
+                } else {
+                    return array(
+                        'type'=>'0',
+                        'lang'=>'失败'
+                    );
+//                    $this->error('失败');
+                }
+
+            }
+
+        }
+
+
+    }
+
+    /**
      * 秒杀活动移除商品
      * @return array 返回操作状态包
      * name:岳军章
@@ -526,6 +636,23 @@ class Sekilleditor extends adminController
         $data=$promotion->Inventory_modification($id,$number,$promotionID);
         return $data;
     }
+
+
+    /**
+     * 秒杀活动剩余价格
+     * @return array 操作状态返回
+     * name:岳军章
+     * time 2018/4/20
+     */
+    public function Inventory_jiage(){
+        $id=Request::post('id');
+        $number=Request::post('spu_surplus_number');
+        $promotionID=Request::post('promotionID');
+        $promotion=new Promotion_commodity_relation();
+        $data=$promotion->Inventory_jiage($id,$number,$promotionID);
+        return $data;
+    }
+
 
     /**
      * 秒杀活动单人限购

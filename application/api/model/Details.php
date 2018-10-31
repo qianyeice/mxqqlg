@@ -21,9 +21,7 @@ class Details extends Model{
      */
     function logistics_details($order_id){
 
-        $order_a["order_id"] = $order_id;
-
-        $data=Db::table('order_delivery')->where($order_a)->select();
+        $data=Db::table('order_delivery')->where('order_id',$order_id)->select();
 
         if(empty($data)){
             $array["type"]=0;

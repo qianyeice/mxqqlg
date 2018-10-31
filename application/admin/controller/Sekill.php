@@ -25,6 +25,7 @@ class Sekill extends adminController
      */
    public function index()
     {
+
        $moder = new Promotion_commodity_seckill();
         //数据数量
 
@@ -40,8 +41,9 @@ class Sekill extends adminController
 
         $this->assign('lists', $select);
         $this->assign('limit', $limit);
-
         return view();
+
+
     }
 
 
