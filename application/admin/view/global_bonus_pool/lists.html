@@ -1,0 +1,113 @@
+{extend name="Template/template"}
+{block name="css"}
+<style type="text/css">
+    .data_time {
+        padding: 0 10px;
+        width: 100%;
+        height: 26px;
+        font-size: 12px;
+        color: #4d4d4d;
+        font-family: "微软雅黑";
+        line-height: 24px;
+        border: 1px solid #ccc;
+    }
+
+    .data_time:hover {
+        border-color: #2a95de;
+    }
+</style>
+{/block}
+{block name="js"}
+{/block}
+{block name="body"}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">用户分红数据<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+
+<div class="content padding-big have-fixed-nav">
+    <form action="?s=admin/global_bonus_pool/lists" method="get" >
+        <input type="hidden" name="s" value="admin/global_bonus_pool/lists">
+        <input type="hidden" name="mgid" value="{$mgid}">
+    <div class="member-comment-search clearfix">
+        <div class="form-box clearfix border-bottom-none" style="width: 590px;">
+            <div style="z-index: 4;" id="form-group-id1" class="form-group form-layout-rank group1">
+                <span class="label">操作时间</span>
+                <div class="box margin-none">
+                    <input type="date" id="begin_time" name="begin_time" value="" min="1900-01-01" max="3000-12-30" class="data_time"/>
+                </div>
+            </div>
+            <div style="z-index: 3;" id="form-group-id2" class="form-group form-layout-rank group2">
+                <span class="label">~</span>
+                <div class="box margin-none">
+                    <input type="date" id="end_time" name="end_time" value="" min="1900-01-01" max="3000-12-30" class="data_time"/>
+                </div>
+            </div>
+            <div style="z-index: 1;" id="form-group-id4" class="form-group form-layout-rank group4">
+                <span class="label">搜索</span>
+                <div class="box margin-none">
+                    <input class="input" id="hui" name="keywords" placeholder="请输入会员名搜索余额信息" tabindex="0" value=""
+                           type="text">
+                </div>
+            </div>
+        </div>
+        <input id="cha" class="button bg-sub fl" value="查询" type="submit">
+    </div>
+    </form>
+    <input name="formhash" value="iem6Rt" type="hidden">
+    <div class="table-wrap member-info-table">
+        <div class="table resize-table check-table border paging-table clearfix" style="width: 100%;">
+            <div class="member  tr resize-th" style="visibility: visible;">
+                <span class="th" data-width="20" style="width: 25%">
+                    <span class="td-con">会员账号</span>
+				<span class="spacer"></span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span>
+                    <span class="spacer"></span>
+                </span>
+                <span class="th" data-width="20" style="width: 25%">
+					<span class="td-con">操作日期</span>
+				<span class="spacer">
+
+                </span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span>
+                    <span class="spacer"></span></span>
+                <span class="th" data-width="20" style="width: 25%">
+					<span class="td-con">操作金额</span>
+				<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span><span
+                        class="spacer"></span></span>
+                <span class="th" data-width="40" style="width: 25%">
+					<span class="td-con">日志描述</span>
+				</span>
+            </div>
+            {volist name="data" id="vo"}
+            <div id="html">
+                <div class="member tr" style="visibility: visible;">
+                    <span class="td r0" style="width: 25%">
+                    <span class="td-con">{$vo.username}</span>
+                    </span>
+                    <span class="td r1" style="width: 25%">
+                    <span class="td-con">{$vo.time}</span>
+                    </span>
+                    <span class="td r2" style="width: 25%">
+                    <span class="td-con">{$vo.money}</span>
+                    </span>
+                    <span class="td r3" style="width: 25%">
+                    <span class="td-con">{$vo.channel}</span>
+                    </span>
+                    </div>
+            </div>
+            {/volist}
+            <input type="hidden" value="" id="hidden">
+            {include file="/Template/listPage"}
+        </div>
+        <div class="layout" id="table-get-width"></div>
+    </div>
+</div>
+<script type="text/javascript">
+</script>
+{/block}

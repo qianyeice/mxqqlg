@@ -1,0 +1,117 @@
+{extend name="Template/template"/}
+{block name="title"}
+团购促销
+{/block}
+{block name="css"}
+<style>
+    .bianji{
+        cursor: pointer;
+    }
+    .shanchu{
+        cursor: pointer;
+    }
+</style>
+{/block}
+{//block name="js"}
+{//load href="__STATIC__/admin/js/jump.js" /}
+{///block}
+{block name="body"}
+{//block name='script'}
+<script>
+    //数据库一共有多少数据
+    count = {$count}
+</script>
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">团购促销<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <!--<li><a class="current" href="javascript:;"></a></li>-->
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a href="?s=admin/group_purchase_editor/index"><i class="ico_add"></i>添加</a>
+            <div class="spacer-gray"></div>
+        </div>
+    </div>
+    <div class="table resize-table paging-table border clearfix">
+        <div class="tr">
+			<span class="th" data-width="15" style="width: 20%">
+				<span class="td-con">规则名称</span>
+			</span>
+            <span class="th" data-width="9" style="width: 20%">
+				<span class="td-con">满团人数</span>
+			</span>
+            <span class="th" data-width="15" style="width: 20%">
+				<span class="td-con">成团期限(小时)</span>
+			</span>
+            <span class="th" data-width="46" style="width: 20%">
+				<span class="td-con">参团人数对应的折扣</span>
+			</span>
+            <span class="th" data-width="15" style="width: 20%">
+						<span class="td-con">操作</span>
+					</span>
+        </div>
+        {foreach $sql as $key=>$vo }
+        <div class="tr">
+					<span class="td" style="width: 20%">
+						<span class="td-con">{$vo.title}</span>
+					</span>
+            <span class="td" style="width: 20%">
+						<span class="td-con">{$vo.max_num}</span>
+            </span>
+            <span class="td" style="width: 20%">
+						<span class="td-con">{$vo.expires}</span>
+            </span>
+
+            <span class="td text-left" style="width: 20%">
+						<span class="td-con" style="overflow: hidden;display: block">{$vo.miaoshu}</span>
+            </span>
+            <span class="td" style="width: 20%">
+						<span class="td-con">
+						<a zdy="{$vo.id}" class="bianji">编辑</a>&nbsp;&nbsp;&nbsp;
+                            <a zdy="{$vo.id}" data-confirm="是否确认删除？"  class="shanchu">删除</a></span>
+					</span>
+        </div>
+        {/foreach}
+
+        {include file="/Template/listPage"}
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        //删除
+        for (i = 0; i < $('.shanchu').length; i++) {
+            $('.shanchu').eq(i).click(function () {
+                $.post('?s=admin/group_purchase_promotion/shanchu', {id: $(this).attr('zdy')}, function (e) {
+                    if (e['type'] == 1) {
+                        layer.msg(e['data'], {
+                            icon: 1,
+                            time: 1000
+                        }, function () {
+                            window.location.reload()
+                        });
+                    }
+                    else {
+                        layer.msg(e['data'], {
+                            icon: 2,
+                            time: 1000
+                        }, function () {
+                            window.location.reload()
+                        });
+                    }
+
+                });
+            })
+        }
+        //编辑
+        for (i = 0; i < $('.bianji').length; i++) {
+            $('.bianji').eq(i).click(function () {
+                window.location.href = '?s=admin/group_purchase_editor/index' + '&kid=' + $(this).attr('zdy')
+            })
+        }
+    })
+</script>
+{/block}

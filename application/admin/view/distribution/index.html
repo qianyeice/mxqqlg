@@ -1,0 +1,74 @@
+{extend name="Template/template"}
+{block name="css"}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+    <div class="form-box border-bottom-none order-eidt-popup clearfix">
+        <input name="id" value="887" type="hidden">
+        <div class="form-group "><span class="label">是否确认配送：</span>
+            <div class="box"><label class="select-wrap">
+                <input class="select-btn" name="status" value="2" checked=""type="radio">配送中
+            </label><br><label class="select-wrap">
+                <input class="select-btn" name="status" value="1"type="radio">配送完成
+            </label><br><label class="select-wrap">
+                <input class="select-btn" name="status" value="0" type="radio">配送失败</label><br>
+            </div>
+        </div>
+        <div class="form-group "><span class="label">备注：</span>
+            <div class="box">
+                <textarea class="textarea hd-input input-error" name="log" placeholder="" datatype="*" nullmsg="请填写更改原因"></textarea>
+                <span class="validform_checktip validation-tips"><i></i>请填写更改原因</span>
+            </div>
+        </div>
+    </div>
+    <div class="padding text-right ui-dialog-footer">
+        <input class="button bg-main" id="okbtn" value="确定" data-name="dosubmit" data-reset="false" type="submit">
+        <input class="button margin-left bg-gray" id="closebtn" value="取消" data-reset="false" type="button">
+    </div>
+    <input type="hidden" value="{$val}" id="refund_id">
+{/block}
+{block name='script'}
+<script src="__STATIC__/admin/js/handle.js"></script>
+<script type="text/javascript">
+//    var index=parent.layer.getFrameIndex(window.name)
+    $('#okbtn').click(function () {
+        var status=$("input[type='radio']:checked").val();
+
+        var text =$(".textarea").val();
+
+        var id=$('#refund_id').val();
+//        console.log(id);
+
+        $.ajax({
+            type:"post",
+            url:"?s=admin/Distribution/ajax_distribution",
+            data:{'type':status,'text':text,'id':id},
+            success:function(data){
+                alert('操作成功');
+                parent.location.reload();
+                console.log(data);
+            },
+            error:function(data){
+                console.log('操作失败')
+            }
+        });
+
+//        $.post('?s=admin/Distribution/ajax_distribution',{'type':status,'text':text,'id':id},function (data) {
+//            console.log(data);
+//            if(data.type==1){
+//                layer.alert(data.lang, {icon: 5, title: "提示"});
+//                alert('1111')
+//                refresh(index)
+//            }elseif(data.type==0) {
+//                layer.alert(data.lang);
+//                alert('222');
+//                refresh(index)
+//            }else{
+//                alert('中');
+//            }
+//        })
+    })
+</script>
+
+{/block}

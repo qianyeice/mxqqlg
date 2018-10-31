@@ -1,0 +1,66 @@
+table{
+    width: 100%;
+    height: 100%;
+}
+.padding{
+    margin-top:40px;
+    width: 100%;
+    height: 100%;
+}
+.padding input{
+    float:left;
+    margin-left:50px;
+}
+
+
+.biao {
+    clear:both;
+    font-size: 11px;
+    width: 100%;
+    height: 30px;
+    background: #fff;
+    line-height: 30px;
+}
+.biao span{
+    float:left;
+    margin-left:10px;
+}
+.imgg{
+    float: left;
+    margin-left: 15px;
+width:50px;
+    height:50px;
+
+}
+.mxx{
+    width:100%;
+    height: 50px;
+    background-color:white;
+    display: none;
+}
+.dengji {
+    width: 50%;
+}
+.chaxun {
+    background: #00aaee;
+    height: 30px;
+    width: 40px;
+    border: solid #00aaee 1px;
+    color: #fff;
+    text-align: center;
+    line-height: 28px;
+    cursor: pointer;
+    float:left;
+    margin-left:5px;
+}
+.cxtj{
+    float:left;
+
+    height: 20px;
+    margin-top:5px;
+}
+.cname{
+    margin-left: 10px;
+    line-height:50px;
+    float: left;
+}

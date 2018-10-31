@@ -1,0 +1,126 @@
+{extend name="Template/template"}
+{block name="css"}
+<link rel="stylesheet" href="__STATIC__/admin/css/ui-dialog.css">
+
+{/block}
+{block name='body'}
+<table class="ui-dialog-grid">
+    <tbody>
+    <tr>
+        <td i="header" class="ui-dialog-header">
+            <button i="close" class="ui-dialog-close">×</button>
+            <div i="title" class="ui-dialog-title">选择上级分类</div>
+        </td>
+    </tr>
+    <tr>
+        <td i="body" class="ui-dialog-body">
+            <div i="content" class="ui-dialog-content" style="width: 930px; height: 367px;">
+                <div class="goods-add-class-wrap layout bg-white">
+                    <div class="goods-add-class clearfix">
+                        <div class="root border focus">
+                            <a href="javascript:" data-id="0" class="focus  cateId"> 顶级分类 </a>
+                        </div>
+                        <div class="child border focus">
+
+                        </div>
+                        <div class="child border focus">
+
+                        </div>
+                        <div class="child border focus"></div>
+                        <p class="layout fl margin-top goods-class-choose">
+                            您当前所选择的分类：
+                            <span id="data-id" data-id="0"></span>
+                        </p>
+                    </div>
+                    <div class="padding text-right ui-dialog-footer">
+                        <input class="button bg-main" id="okbtn" value="确定" type="button">
+                        <input class="button margin-left bg-gray" id="closebtn" value="返回" type="button">
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+{/block}
+
+{block name='script'}
+<script type="text/javascript">
+    $(function () {
+        $('button[i="close"]').click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        })
+        var id = getQueryString('id') ? getQueryString('id') : 0;
+        initPost(id, 1);
+
+        $('.cateId').live('click', function () {
+            if (!$(this).siblings().hasClass('cate_choose')) {
+                if ($(this).hasClass('cate_choose')) {
+                    layer.msg('该类已经在此类别!');
+                } else {
+                    $(this).addClass('focus');
+                    initPost($(this).attr('data-id'), 2)
+                }
+            } else if ($(this).siblings().hasClass('cate_choose')) {
+                $(this).addClass('focus');
+                initPost($(this).attr('data-id'), 2)
+            }
+        });
+
+        //向后台请求分类数据
+        function initPost(id, type) {
+            $.post("{:url('/?s=admin/commodity/post_choose_data')}", {'id': id, 'type': type}, function (data) {
+
+                var chooseName = '';
+                var choose = '';
+                var html = '';
+
+                if (typeof data[1] == 'string') {
+                    chooseName = data[0];
+                    choose = data[1];
+                    for (var i = 0; i < 2; i++) {
+                        var array = [];
+                        for (var l in chooseName[i]) {
+                            array.push(chooseName[i][l]);
+                        }
+                        for (var k = 0; k < array[0].length; k++) {
+                            if (id == array[0][k]['id'] || array[0][k]['id'] == array[1]) {
+                                html += '<a href="javascript:" class="cateId  cate_choose " data-id="' + array[0][k]['id'] + '" style="color: grey;" >' + array[0][k]['name'] + '</a>';
+                            } else {
+                                html += '<a href="javascript:" class="cateId  " data-id="' + array[0][k]['id'] + '" >' + array[0][k]['name'] + '</a>';
+                            }
+                        }
+                        $('.child').eq(i).html(html);
+                        html = '';
+                    }
+                } else {
+                    for (var i = 0; i < data.length; i++) {
+                        html += '<a href="javascript:" class="cateId  " data-id="' + data[i]['id'] + '" >' + data[i]['name'] + '</a>';
+                        $('.child').eq(0).html(html);
+                        html = '';
+                    }
+                }
+                var chooseString = '顶级分类 ';
+                var chooseArray = choose.split('=>>');
+                for (var i = 0; i < chooseArray.length; i++) {
+                    chooseString += '>>' + chooseArray[i];
+                }
+                $('#data-id').eq(0).html(chooseString);
+
+            });
+        }
+
+        //获取url值
+        function getQueryString(name) {
+            var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+            if (result == null || result.length < 1) {
+                return '';
+            }
+            return result[1];
+        }
+    })
+</script>
+
+{/block}

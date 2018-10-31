@@ -1,0 +1,945 @@
+{extend name="Template/template"/}
+{block name="css"}
+{load href="__STATIC__/admin/css/weixin.css" /}
+{load href="__STATIC__/admin/css/payment.css" /}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<script>
+    $(function(){
+//        if(window.localStorage.weixin && window.localStorage.weixin!= '[]'){
+//            //初始化本地缓存数据
+//            var news_json = window.localStorage.weixin;
+//            alert(1)
+//            var obj  = eval(news_json);
+//            init(obj,1,0,1);
+//        }else{
+//            //初始化新图文信息
+//            var news_json = "[{title:'', pic:'',url:'',desc:''}]";
+//            alert(2)
+//            var obj  = eval(news_json);
+//            init(obj,1,0,1);
+//        }
+    })
+    $id='{$data.id}'
+    $type='{$data.type}'
+    //    $type=$type-1
+    //    type = $(this).attr("ty");
+    //    $(this).addClass("active");
+    //    // alert(type)
+    //    // console.log($(this))
+    //    var index = type-1;
+    //    $(".msg-wrapper div.msg").hide();
+    //    $(".msg-wrapper div.msg").eq(index).show();
+
+</script>
+<!--标题-->
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">微信素材设置</li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<!--主体-->
+<div class="content padding-big have-fixed-nav">
+    <form action="?s=admin/Materialadd/add" method="post" data-reset="" data-valcontent_idate="true" name="form" enctype="multipart/form-data">
+        <div class="form-box clearfix">
+            <div class="form-group"><span class="label">素材名称：</span>
+                <div class="box">
+                    <input id="mat_title" type="text" placeholder="请输入素材名称" tabindex="0" value="{$data.name}" name="name" class="input hd-input" data-valcontent_idate="required;">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="box" style="width: auto;">
+                    <div id="rightCon bus-form">
+                        <ul class="tab">
+                            <li id="act1" class="" ty="1" style = "background-color: #fff">图文信息</li>
+                            <li id="act2" class="" ty="2">文本信息</li>
+                            <li id="act3" class="" ty="3">图片信息</li>
+                            <li id="act4" class="" ty="4">视频信息</li>
+                        </ul>
+                        <div class="msg-wrapper">
+                            <!--图文信息-->
+                            <div class="area_content msg" >
+                                <div class="preview_area">
+                                    <ul id="msg-content">
+                                        <li id="msgitem1" class="msg-item first-item">
+                                            <div class="msg-img" id="image_preview">
+                                                <i class="msg-img-bg">封面图片</i>
+                                            </div>
+                                            <div class="msg-title">
+                                                <span>标题</span>
+                                            </div>
+                                            <div class="msg-handle">
+                                                <a href="javascript:void(0);" class="edit icon-pencil" item="1"> 编辑</a>
+                                            </div>
+                                        </li>
+                                        <li id="msgadd">
+                                            <a href="javascript:void(0);">+</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="edit_area">
+                                    <div class="edit_wrap" style="margin-top: 0px;">
+    										<span class="left-pit">
+    											<i></i>
+    										</span>
+                                        <div id="msg-editor">
+                                            <div class="editor-content">
+                                                <div class="editor-item">
+                                                    <label>标题</label>
+                                                    <span class="input-box count-box">
+    														<input class="input" type="text" max-len="64" id="title" name = "title"  size="60" value="">
+    														<em class="counter" style="display: none">0/64</em>
+    													</span>
+                                                </div>
+                                                <div class="editor-item">
+                                                    <label>
+                                                        链接
+                                                        <span class="tips">(必须加上http://或者https://,否则微信打开可能会出错)</span>
+                                                    </label>
+                                                    <span class="input-box count-box">
+                                                        <input class="input" type="text" id="url" size="60" value="" name = "url">
+                                                    </span>
+                                                </div>
+                                                <div class="editor-item" id="upload">
+                                                    <label>
+                                                        封面图片
+                                                        <span class="tips">(大图建议900px*500px)</span>
+                                                    </label>
+                                                    <input type="hidden" class="input" id="upload_0_img" value="" name = "pic">
+                                                    <a class="button bg-blue button-small js-img-upload webuploader-container" data="title_img" data-id="0" id="upload_0" preview="image_preview" href="javascript:;">
+                                                        <div class="webuploader-pick"><span class="icon-upload"> 上传</span></div>
+                                                        <div id="rt_rt_1c9obcf8i5dm996o2cuae13g11" style="position: absolute; top: 190px; left: 20px; width: 64px; height: 35px;overflow: hidden; bottom: auto; right: auto;opacity: 0">
+                                                            <input value="" id="file" type="file" name="file" class="webuploader-element-invisible xiu" multiple="multiple" accept="img/*">
+                                                            <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                                <div class="editor-item" id="editor-desc">
+                                                    <label>
+                                                        摘要
+                                                        <span class="tips">(选填,该摘要只在发送图文消息为单条时显示)</span>
+                                                    </label>
+                                                    <span class="">
+    														<textarea class="input textarea" id="desc" cols="62" name = "desc"></textarea>
+    												</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div >
+                            <!--文本信息-->
+                            <div class="text_content msg" style="display:none;">
+                                <textarea class="input" id="msg-text" name = "content" cols="62">{$data.content} </textarea>
+                                <p><span class="emotion"></span></p>
+                                <div class="emotionBox" style="display: none;">
+                                    <ul class="emotions" onselectstart="return false;">
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_0"
+                                                  data-title="[微笑]" style="background-position:0 -0px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_1"
+                                                  data-title="[撇嘴]" style="background-position:0 -20px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_2"
+                                                  data-title="[色]" style="background-position:0 -40px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_3"
+                                                  data-title="[发呆]" style="background-position:0 -60px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_4"
+                                                  data-title="[得意]" style="background-position:0 -80px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_5"
+                                                  data-title="[流泪]" style="background-position:0 -100px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_6"
+                                                  data-title="[害羞]" style="background-position:0 -120px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_7"
+                                                  data-title="[闭嘴]" style="background-position:0 -140px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_8"
+                                                  data-title="[睡]" style="background-position:0 -160px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_9"
+                                                  data-title="[大哭]" style="background-position:0 -180px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_10"
+                                                  data-title="[尴尬]" style="background-position:0 -200px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_11"
+                                                  data-title="[发怒]" style="background-position:0 -220px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_12"
+                                                  data-title="[调皮]" style="background-position:0 -240px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_13"
+                                                  data-title="[呲牙]" style="background-position:0 -260px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_14"
+                                                  data-title="[惊讶]" style="background-position:0 -280px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_15"
+                                                  data-title="[难过]" style="background-position:0 -300px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_17"
+                                                  data-title="[冷汗]" style="background-position:0 -320px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_18"
+                                                  data-title="[抓狂]" style="background-position:0 -340px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_19"
+                                                  data-title="[吐]" style="background-position:0 -360px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_20"
+                                                  data-title="[偷笑]" style="background-position:0 -380px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_21"
+                                                  data-title="[愉快]" style="background-position:0 -400px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_22"
+                                                  data-title="[白眼]" style="background-position:0 -420px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_23"
+                                                  data-title="[傲慢]" style="background-position:0 -440px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_25"
+                                                  data-title="[困]" style="background-position:0 -460px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_26"
+                                                  data-title="[惊恐]" style="background-position:0 -480px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_27"
+                                                  data-title="[流汗]" style="background-position:0 -500px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_28"
+                                                  data-title="[憨笑]" style="background-position:0 -520px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_29"
+                                                  data-title="[悠闲]" style="background-position:0 -540px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_30"
+                                                  data-title="[奋斗]" style="background-position:0 -560px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_31"
+                                                  data-title="[咒骂]" style="background-position:0 -580px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_32"
+                                                  data-title="[疑问]" style="background-position:0 -600px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_33"
+                                                  data-title="[嘘]" style="background-position:0 -620px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_34"
+                                                  data-title="[晕]" style="background-position:0 -640px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_36"
+                                                  data-title="[衰]" style="background-position:0 -660px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_37"
+                                                  data-title="[骷髅]" style="background-position:0 -680px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_38"
+                                                  data-title="[敲打]" style="background-position:0 -700px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_39"
+                                                  data-title="[再见]" style="background-position:0 -720px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_40"
+                                                  data-title="[擦汗]" style="background-position:0 -740px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_41"
+                                                  data-title="[抠鼻]" style="background-position:0 -760px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_42"
+                                                  data-title="[鼓掌]" style="background-position:0 -780px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_44"
+                                                  data-title="[坏笑]" style="background-position:0 -800px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_45"
+                                                  data-title="[左哼哼]" style="background-position:0 -820px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_46"
+                                                  data-title="[右哼哼]" style="background-position:0 -840px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_47"
+                                                  data-title="[哈欠]" style="background-position:0 -860px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_48"
+                                                  data-title="[鄙视]" style="background-position:0 -880px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_49"
+                                                  data-title="[委屈]" style="background-position:0 -900px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_50"
+                                                  data-title="[快哭了]" style="background-position:0 -920px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_51"
+                                                  data-title="[阴险]" style="background-position:0 -940px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_52"
+                                                  data-title="[亲亲]" style="background-position:0 -960px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_54"
+                                                  data-title="[可怜]" style="background-position:0 -980px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_55"
+                                                  data-title="[菜刀]" style="background-position:0 -1000px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_56"
+                                                  data-title="[西瓜]" style="background-position:0 -1020px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_57"
+                                                  data-title="[啤酒]" style="background-position:0 -1040px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_60"
+                                                  data-title="[咖啡]" style="background-position:0 -1060px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_62"
+                                                  data-title="[猪头]" style="background-position:0 -1080px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_63"
+                                                  data-title="[玫瑰]" style="background-position:0 -1100px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_64"
+                                                  data-title="[凋谢]" style="background-position:0 -1120px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_65"
+                                                  data-title="[嘴唇]" style="background-position:0 -1140px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_66"
+                                                  data-title="[爱心]" style="background-position:0 -1160px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_67"
+                                                  data-title="[心碎]" style="background-position:0 -1180px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_68"
+                                                  data-title="[蛋糕]" style="background-position:0 -1200px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_70"
+                                                  data-title="[炸弹]" style="background-position:0 -1220px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_74"
+                                                  data-title="[便便]" style="background-position:0 -1240px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_75"
+                                                  data-title="[月亮]" style="background-position:0 -1260px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_76"
+                                                  data-title="[太阳]" style="background-position:0 -1280px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_78"
+                                                  data-title="[拥抱]" style="background-position:0 -1300px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_79"
+                                                  data-title="[强]" style="background-position:0 -1320px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_80"
+                                                  data-title="[弱]" style="background-position:0 -1340px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_81"
+                                                  data-title="[握手]" style="background-position:0 -1360px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_82"
+                                                  data-title="[胜利]" style="background-position:0 -1380px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_83"
+                                                  data-title="[抱拳]" style="background-position:0 -1400px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_84"
+                                                  data-title="[勾引]" style="background-position:0 -1420px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_85"
+                                                  data-title="[拳头]" style="background-position:0 -1440px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_89"
+                                                  data-title="[OK]" style="background-position:0 -1460px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_92"
+                                                  data-title="[跳跳]" style="background-position:0 -1480px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_93"
+                                                  data-title="[发抖]" style="background-position:0 -1500px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_94"
+                                                  data-title="[怄火]" style="background-position:0 -1520px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_smiley_95"
+                                                  data-title="[转圈]" style="background-position:0 -1540px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_emoji_wx_4"
+                                                  data-title="[嘿哈]" style="background-position:0 -1720px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_emoji_wx_5"
+                                                  data-title="[捂脸]" style="background-position:0 -1740px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_emoji_wx_2"
+                                                  data-title="[奸笑]" style="background-position:0 -1760px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_emoji_wx_6"
+                                                  data-title="[机智]" style="background-position:0 -1780px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_emoji_wx_12"
+                                                  data-title="[皱眉]" style="background-position:0 -1800px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_emoji_wx_11"
+                                                  data-title="[耶]" style="background-position:0 -1820px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_emoji_ios_12"
+                                                  data-title="[礼物]" style="background-position:0 -1920px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_emoji_wx_9"
+                                                  data-title="[红包]" style="background-position:0 -1940px;"></span>
+                                        </li>
+
+                                        <li class="emotions_item">
+                                            <span class="icon_emotion_sprite js_emotion_i" data-name="icon_emoji_wx_14"
+                                                  data-title="[鸡]" style="background-position:0 -1960px;"></span>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--图片信息-->
+                            <div class="image_content msg" style="display:none;">
+                                <input id="upload_11_img" value="" type="hidden" name = "img">
+                                <div class="uploadBox">
+                                    <div class="imgBox" style="width: 100px;height: 100px;">
+                                        <img src="{$data.image_url}" id="msgImage" width="100">
+                                    </div>
+                                    <label style="display:block; font-size:14px; margin:5px 0;">
+                                        上传图片
+                                        <span class="tips">(大图建议900px*500px)</span>
+                                    </label>
+                                    <a class="button bg-blue button-small js-img-upload webuploader-container"
+                                       data="msg_img" data-id="11" id="upload_11" preview="msgImage"
+                                       href="javascript:;">
+                                        <div class="webuploader-pick"><span class="icon-upload"> 上传</span></div>
+                                        <div id="rt_rt_1c9obcf8n1te3kns1kv41g9p79n4" style="position: absolute; top: 200px; left: 0px; width: 64px; height: 35px;  bottom: auto; right: auto;opacity: 0">
+                                            <input value="上传" id="picpic" type="file" name="file" class="webuploader-element-invisible xiu" multiple="multiple" accept="img/*">
+                                            <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                            <!--视频信息-->
+                            <div class="video_content msg" style="display:none;">
+                                <div class="edit_area">
+                                    <div class="editor-content">
+                                        <div class="editor-item">
+                                            <label>视频标题</label>
+                                            <span class="input-box count-box">
+                                                <input class="input" type="text" max-len="64" id="video_title" size="60" value="{$data.video_name}" name = "video_title">
+                                                <em class="counter" style="display: none">0/64</em>
+                                            </span>
+                                        </div>
+                                        <div class="editor-item" id="upload">
+                                            <label>
+                                                上传视频
+                                                <span class="tips">视频不能超过10M</span>
+                                            </label>
+                                            <input type="hidden" class="input" id="video" name="video" size="38" value="">
+                                            <a class="button bg-main js-video-upload webuploader-container"
+                                               data="video">
+                                                <div class="webuploader-pick">上传视频</div>
+                                                <div id="rt_rt_1c9obcfavr2o1gkltuj1al0cdn8"
+                                                     style="position: absolute; top: 180px; left: 10px; width: 90px; height:35px; overflow: hidden; bottom: auto; right: auto;opacity: 0">
+                                                    <input value="{$data.video_url}" id="vidvid" type="file" name="file" class="webuploader-element-invisible xiu" accept="video/mp4">
+                                                    <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="editor-item" id="editor-desc">
+                                            <label>
+                                                视频描述
+                                                <span class="tips"></span>
+                                            </label>
+                                            <span class="">
+                                                <textarea class="input textarea" id="video_desc" cols="62">{$data.video_test}</textarea>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="padding-top fl">
+                <!--<input id="tijiao" type="submit" class="button bg-main" value="保存" />-->
+                <input class="button bg-main formbtn" type="submit" value="保存" />
+                <a class="button margin-left bg-gray"
+                   href="#" onclick="javascript :history.back(-1)">返回</a>
+            </div>
+        </div>
+        <input type="hidden" name="formhash" value="fKRHLh">
+    </form>
+</div>
+{/block}
+{block name='script'}
+<script>
+    var act1 = document.getElementById('act1');
+    var act2 = document.getElementById('act2');
+    var act3 = document.getElementById('act3');
+    var act4 = document.getElementById('act4');
+    var area_content = document.getElementsByClassName('area_content');
+    var text_content = document.getElementsByClassName('text_content');
+    var image_content = document.getElementsByClassName('image_content');
+    var video_content = document.getElementsByClassName('video_content');
+    act1.onclick = function () {
+        act1.style.backgroundColor = "#fff";
+        act2.style.backgroundColor = "";
+        act3.style.backgroundColor = "";
+        act4.style.backgroundColor = "";
+        area_content[0].style.display = "block";
+        text_content[0].style.display = "none";
+        image_content[0].style.display = "none";
+        video_content[0].style.display = "none";
+    }
+    act2.onclick = function () {
+        act1.style.backgroundColor = "";
+        act2.style.backgroundColor = "#fff";
+        act3.style.backgroundColor = "";
+        act4.style.backgroundColor = "";
+        area_content[0].style.display = "none";
+        text_content[0].style.display = "block";
+        image_content[0].style.display = "none";
+        video_content[0].style.display = "none";
+    }
+    act3.onclick = function () {
+        act1.style.backgroundColor = "";
+        act2.style.backgroundColor = "";
+        act3.style.backgroundColor = "#fff";
+        act4.style.backgroundColor = "";
+        area_content[0].style.display = "none";
+        text_content[0].style.display = "none";
+        image_content[0].style.display = "block";
+        video_content[0].style.display = "none";
+    }
+    act4.onclick = function () {
+        act1.style.backgroundColor = "";
+        act2.style.backgroundColor = "";
+        act3.style.backgroundColor = "";
+        act4.style.backgroundColor = "#fff";
+        area_content[0].style.display = "none";
+        text_content[0].style.display = "none";
+        image_content[0].style.display = "none";
+        video_content[0].style.display = "block";
+    }
+
+
+</script>
+<script>
+    var imgurl = "";
+    function getPhoto(node) {
+        console.log(node)
+        var imgURL = "";
+        try{
+            var file = null;
+            if(node.files && node.files[0] ){
+                file = node.files[0];
+            }else if(node.files && node.files.item(0)) {
+                file = node.files.item(0);
+            }
+            //Firefox 因安全性问题已无法直接通过input[file].value 获取完整的文件路径
+            try{
+                imgURL =  file.getAsDataURL();
+            }catch(e){
+                imgRUL = window.URL.createObjectURL(file);
+            }
+        }catch(e){
+            if (node.files && node.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    imgURL = e.target.result;
+                };
+                reader.readAsDataURL(node.files[0]);
+            }
+        }
+        console.log(imgURL)
+        creatImg(imgRUL);
+        return imgURL;
+    }
+
+    function creatImg(imgRUL){
+        alert(imgRUL)
+        var textHtml = "<img src='"+imgRUL+"'width='414px' height='600px'/>";
+        $("#a").html(textHtml);
+    }
+</script>
+<script>
+    /*上传图片*/
+    //var imgs = $('.edit_area').find('.js-img-upload');
+    //var $progress = $('.upload-pic-content').find('.loading').hide();
+    init_upload();
+    function init_upload(){
+        $.each($('.js-img-upload'),function(index,val){
+            var i = $(val).attr('data-id');
+//            console.log(i)
+            var preview = $(val).attr('preview');
+            preview = $('#' + preview);
+            // 初始化Web Uploader
+            var uploader = WebUploader.create({
+
+                // 选完文件后，是否自动上传。
+                auto:true,
+                //设置文件上传域的name。
+//                fileVal:'upfile',
+                // swf文件路径
+                swf:'__STATIC__/admin/webuploader/Uploader.swf',
+                // 文件接收服务端。
+                server: "?s=admin/Materialadd/init",
+                // 选择文件的按钮。可选
+//                formData:{//向后台传参
+//                    img_id : i,
+//                    code : 'b091co0FacdiwCA5gDcVzdzcyDOW08MFnV3U/ZgacwJgvgmik/oYsYVfTAQLIUir8DsMJdJIQBS3PMpTj/3p+/9dWbX9t3AXtECLXbEmCFw+aiObMsaicWfuDmgKZYWQNgpO4T0sCAuoFnhakeslBMSNeX6MQtoT4ehH3rLQ5YjgrCr8wL/7Nkc6X2oqbIHblRWiucpNYQ2fUTSPIMU'
+//                },
+                // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+                pick: {
+                    id: '#upload_' + i,
+                },
+                // 只允许选择图片文件。
+                accept:{
+                    title: '图片文件',
+                    extensions: 'jpg,jpeg,bmp,png',
+                    mimeTypes: 'img/*'
+                },
+                // 分片上传大文件
+                chunked: false,
+                chunkSize:1000000,
+                // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+                resize: false
+            });
+            uploader.onUploadSuccess = function( file, response ) {
+                var imgurl = response._raw; //上传图片的路径
+                //$('#'+file.id).find('.loading').hide();
+                var pickid = this.options.pick.id;
+                console.log(pickid)
+                console.log(this)
+                var obj = eval("(" + response._raw + ")")
+                console.log(obj)
+                var result = obj.result;
+                if(result.url.length > 0) {
+                    $(pickid+'_img').val(result.url);
+                    alert($(pickid+'_img').val(result.url))
+                    if(preview.hasClass("msg-img")){
+                        var img = result.url;
+                        var num = active - 1;
+                        localJson[num].pic = img;
+                        if($("#msgitem"+active+" .msg-img img").length > 0){
+                            $("#msgitem"+active+" .msg-img img").attr('src',localJson[num].pic);
+                        }else{
+                            $("#msgitem"+active).find(".msg-img").append('<img src="'+localJson[num].pic+'"/>');
+                        }
+                    }else{
+                        preview.attr("src",result.url);
+                    }
+                    /*var html =  '<img src="'+ result.url +'" />'
+                     +		'<div class="operate">'
+                     +		'<i>×</i>'
+                     +		'<a href="javascript:;">默认主图</a>'
+                     +		'</div>'
+                     +		'<input type="hidden" data-name="' + result.img_id + '" name="album['+ result.img_id +'][]" value="'+ result.url +'"/>';
+                     $('#'+file.id).append(html);*/
+                }else {
+                    alert()
+                }
+            }
+            uploader.onUploadError = function(file, reason) {
+                alert(reason);
+            }
+            uploader.onError = function( code ) {
+                if(code == 'Q_TYPE_DENIED'){
+                    alert('图片类型被禁止！');
+                }else if(code == 'Q_EXCEED_SIZE_LIMIT'){
+                    alert('图片大小超过限制！');
+                }else{
+                    alert( '图片已在列表，请勿重复上传！');
+                }
+            };
+            uploader.onUploadProgress = function(file, percentage) {
+
+            };
+            uploader.onFileQueued = function(file) {
+                /*var pickid = this.options.pick.id;
+                 var html = 		'<div class="box" id="' + file.id + '">'
+                 +		'<div class="loading">'
+                 +		'<em>上传中...</em>'
+                 +		'<span></span>'
+                 +		'</div>';
+                 +		'</div>';
+                 $(pickid).parent().before(html);*/
+            };
+        })
+    }
+</script>
+<script>
+    $(function(){
+        //视频上传调用
+        $.fn.videoUpload = function (options) {
+            var defaults = {
+                uploadUrl: '',
+                type: '',
+            }
+            var options = $.extend(defaults, options);
+            this.each(function () {
+                var upButton = $(this);
+                var urlVal = upButton.attr('data');
+                urlVal = $('#' + urlVal);
+                var buttonText = upButton.text();
+                //创建上传
+                var GUID = WebUploader.Base.guid();
+                var uploader = WebUploader.create({
+                    swf: './statics/js/webuploader/Uploader.swf',
+                    server: "/index.php?m=admin&c=wechat&a=uploadvideo",
+                    pick: {
+                        id: upButton,
+                        multiple: false
+                    },
+                    resize: false,
+                    auto: true,
+                    accept: {
+                        title: '指定格式文件',
+                        extensions: options.type,
+                        //mimeTypes:'video/mp4,video/x-ms-wmv',
+                        mimeTypes:'video/mp4',
+                    },
+                    chunked: true,
+                    formData:{guid:GUID},
+                    duplicate :true
+                });
+                //上传开始
+                uploader.on('uploadStart', function (file) {
+                    upButton.attr('disabled', true);
+                    upButton.find('.webuploader-pick span').text(' 正在上传..');
+                });
+                // 文件上传过程中创建进度条实时显示
+                uploader.on( 'uploadProgress', function( file, percentage ) {
+                    var percent = upButton.parent().find('.progress .progress-bar');
+                    upButton.parent().find(".video_view").hide();
+
+                    // 避免重复创建
+                    if ( !percent.length ) {
+                        percent = $('<div class="progress progress-striped active">' +
+                            '<div class="progress-bar" role="progressbar" style="width: 0%">' +
+                            '</div>' +
+                            '</div>').appendTo( upButton.parent() ).find('.progress-bar');
+                    }else{
+                        upButton.next().next(".progress").addClass('active');
+                    }
+
+                    upButton.find('p.state').text('上传中');
+
+                    percent.css( 'width', percentage * 100 + '%' );
+                });
+                //上传完毕
+                uploader.on('uploadSuccess', function (file, data) {
+                    upButton.attr('disabled', false);
+                    upButton.find('.webuploader-pick span').text(' 上传成功');
+                    if(data.error){
+                        alert(data.message);
+                    }else{
+                        upButton.parent().find(".progress").removeClass('active');
+                        urlVal.val(data.url);
+                        var viewLen = upButton.parent().find(".video_view").length;
+                        if(!viewLen){
+                            upButton.parent().append('<a class="js-open-url video_view" title="视频预览" target="_blank" href="'+data.url+'">视频预览</a>');
+                        }else{
+                            upButton.parent().find(".video_view").attr('href',data.url);
+                        }
+                        upButton.parent().find(".video_view").show();
+                    }
+                });
+                uploader.on('uploadError', function (file) {
+                    alert('文件上传失败');
+                });
+            });
+        };
+    })
+</script>
+<script>
+    $(function(){
+        $('.js-video-upload').videoUpload({
+            type: 'mp4',
+            complete: {},
+            uploadParams: {}
+        });
+    })
+</script>
+{/block}

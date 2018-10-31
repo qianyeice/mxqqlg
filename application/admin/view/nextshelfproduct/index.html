@@ -1,0 +1,262 @@
+{extend name="Template/template"/}
+{block name='title'}下架商品{/block}
+{block name="css"}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">商品列表<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li><a class="labelbox" data-id="1" href="/index.php?m=goods&c=admin&a=index&label=1">全部商品</a></li>
+        <li><a class="labelbox" data-id="2" href="/index.php?m=goods&c=admin&a=index&label=2" style="background: #2D689F;color: white">下架商品</a></li>
+        <li><a class="labelbox" data-id="3" href="/index.php?m=goods&c=admin&a=index&label=3">库存警告</a></li>
+        <li><a class="labelbox" data-id="4" href="/index.php?m=goods&c=admin&a=index&label=4">回收站</a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="tips margin-tb">
+        <div class="tips-info border">
+            <h6>温馨提示</h6>
+            <a id="show-tip" data-open="true" href="javascript:;">关闭操作提示</a>
+        </div>
+        <div class="tips-txt padding-small-top layout">
+            <p>- 双击商品列表页标题可以快速编辑商品标题</p>
+            <p>- 新增商品后会生成所有规格商品，每一个规格商品均有独立属性，可自行修改</p>
+            <p>- 主商品的信息会继承给规格商品，主商品不在前台作为展示</p>
+        </div>
+    </div>
+    <div class="hr-gray"></div>
+    <div class="goods-list-search margin-top clearfix" >
+        <form action="/index.php" method="get">
+            <input type="hidden" name="m" value="goods">
+            <input type="hidden" name="c" value="admin">
+            <input type="hidden" name="a" value="index">
+            <input type="hidden" name="label" value="2">
+            <div class="top layout margin-bottom fl">
+                <div class="form-group form-layout-rank border-none" style="z-index: 13;">
+                    <span class="label">按分类查看</span>
+                    <div class="box ">
+                        <div class="field">
+                            <div class="goods-search-class-wrap">
+                                <div class="form-buttonedit-popup">
+                                    <input class="input" name="" type="text" value="请选择分类" readonly="readonly" data-reset="false">
+                                    <span class="ico_buttonedit"></span>
+                                    <input type="hidden" name="catid" value="">
+                                </div>
+                                <div class="goods-search-class-content hidden">
+                                    <div class="goods-add-class-wrap layout bg-white">
+                                        <div class="border-light-gray clearfix">
+                                            <div class="form-box padding-none clearfix">
+                                                <div label="常用分类：" id="select" class="hd-select" name="select1" value="cn,us,en,ge" text="中国,美国,英国,德国" desc="商品所选分类仅能为最后一级分类"></div>
+                                            </div>
+                                        </div>
+                                        <div class="goods-add-class clearfix">
+                                            <div class="root border focus">
+                                            </div>
+                                            <div class="child border focus">
+                                            </div>
+                                            <div class="child border focus">
+                                            </div>
+                                            <div class="child border focus">
+                                            </div>
+                                            <p class="layout fl margin-top goods-class-choose">您当前已选择的分类：<span></span>&emsp;<a class="button bg-main fr margin-right" id="confirm-class" href="javascript:;">确认选择</a></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-layout-rank border-none" style="z-index: 2;">
+                    <span class="label">按品牌查看</span>
+                    <div class="box" style="width: 150px;">
+                        <div class="form-select-edit select-search-text-box">
+                            <div class="form-buttonedit-popup">
+                                <input class="input" type="text" value="商品选择" readonly="readonly" data-reset="false">
+                                <span class="ico_buttonedit"></span>
+                                <input type="hidden" name="brand_id" value="" data-reset="false">
+                            </div>
+                            <div class="select-search-field border border-main">
+                                <input class="input border-none" autocomplete="off" type="text" id="brandname" value="" placeholder="请输入品牌名称" data-reset="false" />
+                                <i class="ico_search"></i>
+                            </div>
+                            <div class="listbox-items brand-list">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group form-layout-rank border-none">
+                    <span class="label">搜索</span>
+                    <div class="box ">
+                        <div class="field">
+                            <input class="input" type="text" name="keyword" value="" data-reset="false" placeholder="输入商品名称/货号/条码" tabindex="0">
+                        </div>
+                    </div>
+                </div>
+                <input class="button bg-sub fl" type="submit" value="查询">
+            </div>
+        </form>
+    </div>
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a href="/index.php?m=goods&c=admin&a=goods_add"><i class="ico_add"></i>添加</a>
+            <div class="spacer-gray"></div>
+            <a data-message="是否确定删除所选？" href="/index.php?m=goods&c=admin&a=ajax_del_sku&label=4" data-ajax='sku_id'><i class="ico_delete"></i>删除</a>
+            <div class="spacer-gray"></div>
+            <!--<a href=""><i class="ico_in"></i>导入</a>
+            <div class="spacer-gray"></div>
+            <a href=""><i class="ico_out"></i>导出</a>
+            <div class="spacer-gray"></div>-->
+        </div>
+    </div>
+    <div class="table resize-table check-table paging-table high-table border clearfix">
+        <div class="tr">
+            <div class="th check-option" data-resize="false">
+                <input id="check-all" type="checkbox" />
+            </div>
+            <span class="th" style="width: 15%">
+						<span class="td-con">商品货号</span>
+					</span>
+            <span class="th" style="width: 25%">
+						<span class="td-con">商品名称</span>
+					</span>
+            <span class="th" style="width: 25%">
+						<span class="td-con">品牌&分类</span>
+					</span>
+            <span class="th" style="width: 10%">
+						<span class="td-con">价格</span>
+					</span>
+            <span class="th" style="width: 10%">
+						<span class="td-con">库存</span>
+					</span>
+            <span class="th"style="width: 5%">
+						<span class="td-con">上架</span>
+					</span>
+            <div class="th" style="width: 10%">
+                <div class="td-con">操作</div>
+            </div>
+        </div>
+        <div class="goods-list">
+            <div class="tr" style="width: 140%">
+                <span style="width:15% " class="td check-option"><input type="checkbox" name="id" value="15" /></span>
+                <span style="width:25% " class="td">
+						<div class="td-con">
+							<div class="double-click">
+								<a class="double-click-button margin-none padding-none" title="双击可编辑" href="javascript:;"></a>
+								<input class="input double-click-edit text-ellipsis text-center" type="text" name="sn" data-id="15" value="0003" />
+							</div>
+						</div>
+					</span>
+                <span style="width:25% " class="td">
+							<div class="td-con td-pic">
+								<div class="pic"><img src="./uploadfile/goods/63/91/ac/e4/59f53ad831a1a_thumb_150_150.jpg" /></div>
+								<div class="title">
+									<div class="double-click">
+										<a class="double-click-button margin-none padding-none" title="双击可编辑" href="javascript:;"></a>
+										<input class="input double-click-edit text-ellipsis" name="sku_name" data-id="15" type="text" value="竹沐四季纸 24包一箱 " />
+									</div>
+								</div>
+								<div class="icon">
+																	商品规格:24包一箱&nbsp;&nbsp;
+								</div>
+							</div>
+						</span>
+                <span style="width:15% " class="td" >
+						<span class="td-con double-row text-left">品牌：<br/>分类：生活日用品</span>
+					</span>
+                <span style="width:10% " class="td">
+						<span class="td-con">99.00</span>
+					</span>
+                <span style="width:10% " class="td">
+						<span class="td-con">488</span>
+					</span>
+                <span style="width:10% " class="td">
+						<a class="ico_up_rack sku_status cancel" href="javascript:;" data-id="15" title="点击上架"></a>
+					</span>
+                <span class="td">
+						<div class="td-con double-row">
+															<a target="_blank" href="/index.php?m=goods&c=index&a=detail&sku_id=15">查看</a><br>
+								&nbsp;&nbsp;&nbsp;<a href="/index.php?m=goods&c=admin&a=sku_edit&sku_id=15">编辑</a>
+																															&nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="/index.php?m=goods&c=admin&a=ajax_del_sku&sku_id%5B%5D=15&label=2">删除</a>
+																							</div>
+					</span>
+            </div>
+            <div class="goods-list-box" data-id="15">
+            </div>
+            <script id="sku_info" type="text/html">
+                <%for(var item in lists){%>
+                <%item = lists[item]%>
+                <div class="tr" data-id="<%=item['spu_id']%>">
+                    <div class="td check-option"><input type="checkbox" name="id" value="<%=item['sku_id']%>" /></div>
+                    <div class="td">
+                        <div class="td-con">
+                            <div class="double-click">
+                                <a class="double-click-button margin-none padding-none" title="双击可编辑" href="javascript:;"></a>
+                                <input class="input double-click-edit text-ellipsis text-center" name="sku_sn" data-id="<%=item['sku_id']%>" type="text" value="<%=item['sn']%>" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="td">
+                        <div class="td-con td-pic">
+                            <div class="pic"><img src="<%=item['thumb'] ? item['thumb'] :'./statics/images/default_no_upload.png'%>" /></div>
+                            <div class="title">
+                                <div class="double-click">
+                                    <a class="double-click-button margin-none padding-none" title="双击可编辑" href="javascript:;"></a>
+                                    <input class="input double-click-edit text-ellipsis" name="sku_name" data-id="<%=item['sku_id']%>" type="text" value="<%=item['sku_name']%>" />
+                                </div>
+                            </div>
+                            <div class="icon">
+                                <span class="fl">扩展标签：</span>
+                                <!--										<a class="ico ico_promotion <%if(item['status_ext'] != 1){ %>cancel<% }%>" data-id="<%=item['sku_id']%>" data-value="1" href="javascript:;" title="点击取消促销"></a>-->
+                                <a class="ico ico_special <%if(item['status_ext'] != 1){ %>cancel<% }%>" data-id="<%=item['sku_id']%>" data-value="1" href="javascript:;" title="点击取消热卖"></a>
+                                <a class="ico ico_new <%if(item['status_ext'] != 2){ %>cancel<% }%>" data-id="<%=item['sku_id']%>" data-value="2" href="javascript:;" title="点击取消新品"></a>
+                                <a class="ico ico_reco <%if(item['status_ext'] != 3){ %>cancel<% }%>" data-id="<%=item['sku_id']%>" data-value="3" href="javascript:;" title="点击取消推荐"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="td">
+                        <span class="td-con double-row text-left">&nbsp;<br>非详情页显示：<em data-id="<%=item['sku_id']%>" class="ico_list_show <%if(item['show_in_lists'] == 0){%>cancel<%}%>"></em></span>
+                    </div>
+                    <div class="td">
+                        <div class="td-con">
+                            <div class="double-click">
+                                <a class="double-click-button margin-none padding-none" title="双击可编辑" href="javascript:;"></a>
+                                <input class="input double-click-edit text-ellipsis text-center" name="shop_price" data-spuid="<%=item['spu_id']%>" data-id="<%=item['sku_id']%>" type="text" value="<%=item['shop_price']%>" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="td">
+                        <div class="td-con">
+                            <div class="double-click">
+                                <a class="double-click-button margin-none padding-none" title="双击可编辑" href="javascript:;"></a>
+                                <input class="input double-click-edit text-ellipsis text-center" name="number" data-spuid="<%=item['spu_id']%>" data-id="<%=item['sku_id']%>" type="text" value="<%=item['number']%>" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="td"></div>
+                    <div class="td">
+								<span class="td-con">
+								<a class="ico_up_rack sku_status <%if(item['status'] == 0){%>cancel<% }%>" href="javascript:;" data-id="<%=item['sku_id']%>" title="点击下架商品"></a>
+								</span>
+                    </div>
+                    <div class="td">
+                        <div  class="tdrow td-con double-row">
+                            <a target="_blank" href="?m=goods&c=index&a=detail&sku_id=<%=item['sku_id']%>">查看</a><br>
+                            <a href="?m=goods&c=admin&a=sku_edit&sku_id=<%=item['sku_id']%>">编辑</a>
+                            &nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="?m=goods&c=admin&a=ajax_del_sku&sku_id[]=<%=item['sku_id']%>">删除</a>
+                        </div>
+                    </div>
+                </div>
+                <%}%>
+            </script>
+        </div>
+        <div class="paging padding-tb body-bg clearfix">
+            <ul class="fr"><li>共4条数据</li><li class="spacer-gray margin-lr"></li><li>每页显示<input class="input radius-none" type="text" name="limit" value="20"/>条</li><li class="spacer-gray margin-left"></li><li class="default-start"></li><li class="default-prev"></li><li class="current"><a href="/index.php?m=goods&c=admin&a=index&label=2&formhash=YNEI3x&page=1">1</a></li><li class="default-next"></li><li class="default-end"></li></ul>					<div class="clear"></div>
+        </div>
+    </div>
+</div>
+{/block}
+

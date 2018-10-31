@@ -1,0 +1,269 @@
+{extend name="Template/template"/}
+{block name="title"}
+后台首页面板
+{/block}
+
+{block name="body"}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">
+            <a id="addHome" title="添加到首页快捷菜单">[+]</a>
+        </li>
+        <li class="spacer-gray"></li>
+        <li><a class="current" href="javascript:;"></a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <form action="/index.php?m=promotion&amp;c=admin_groupbuy&amp;a=rule_add" method="post" onsubmit="return false">
+        <div class="form-box clearfix">
+            <div class="form-group ">
+                <span class="label">团购名称：</span>
+                <div class="box">
+                    <input class="input hd-input " id="title" name="title" value="{if $pd==1} {$sql.title}{/if}"
+                           tabindex="0" datatype="*"
+                           nullmsg="请输入团购名称" type="text">
+                </div>
+                <p class="desc">请输入团购名称，如：3人团</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">满团人数：</span>
+                <div class="box">
+                    <input class="input hd-input " id="max_num" name="max_num"  onkeyup="people()" value="{if $pd==1} {$sql.max_num}{/if}"
+                           tabindex="0" datatype="*"
+                           nullmsg="请输入满团人数" type="text">
+                </div>
+                <p class="desc">请输入团购满团人数</p>
+            </div>
+            <div class="form-group">
+                <span class="label">成团期限：</span>
+                <div class="box">
+                    <input class="input hd-input" id="expires" name="expires"
+                           value="{if $pd==1} {$sql.expires/(60*60)}{else}24{/if}" tabindex="0" datatype="*"
+                           nullmsg="请输入成团期限" type="text">
+                </div>
+                <p class="desc">请输入成团期限，单位为H(小时)</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">规则说明：</span>
+                <div class="box">
+                    <textarea class="textarea hd-input" id="explain" name="explain" placeholder="">{if $pd==1} {$sql.explain}{/if}</textarea>
+                </div>
+                <p class="desc">团购规则说明文字</p>
+            </div>
+        </div>
+        <div class="layout padding clearfix">
+            <div class="fl" style="width: 100%;">
+                <div class="table border clearfix" id="rules" data-model="rules">
+                    <div class="table-add-top">
+                        <div class="th layout">
+                            <span class="text-sub">参团人数对应的折扣</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="padding">
+            <button class="button bg-main" id="submit" type="button">保存</button>
+            <button type="button"  id="fanhui" class="button margin-left bg-gray">返回</button>
+        </div>
+        <input name="formhash" value="mOo2uH" type="hidden">
+    </form>
+</div>
+
+{/block}
+{block name="script"}
+<script>
+    var szpd = {$pd};
+    var zksj = {if $pd == 1}{$sql.max_num}{else}0{/if};
+        var rules = {if $pd == 1}{$sql.rules}{else}0{/if}
+</script>
+<script>
+    /**
+     * 异步div数据创建
+     * @param max 传入满团人数
+     * @returns {string} 返回 需要的div样式
+     * 丁龙
+     */
+    function ybzfczz(max, rules) {
+        bfb = 100 / (max + 1);
+        var zfc = '<div class="tr border-none yc" data-discount>';
+        for (i = 1; i <= max; i++) {
+            zfc += '<div class="th" style="width: ' + bfb + '%">' +
+                '<span class="td-con text-center">' + i + '人</span>' +
+                '</div>'
+        }
+
+        zfc += '<div class="th" style="width: ' + bfb + '%">' +
+            '<span class="td-con">团长(满团)</span>' +
+            '</div>' +
+            '</div>' +
+            '<div class="tr yc" style="visibility: visible;" data-discount>'
+
+        for (i = 1; i <= max; i++) {
+            zfc += '<div class="td" style="width: ' + bfb + '%">' +
+                '<div class="td-con operate-info text-center" data-model="rule">' +
+                '<input class="input rule-discount" type="text" name="rules[' + i + ']" value="' + rules[i] + '" /><span>%</span>' +
+                '</div>' +
+                '</div>'
+        }
+
+        zfc += '<div class="td" style="width: ' + bfb + '%">' +
+            '<div class="td-con operate-info text-center" data-model="rule">' +
+            '<input class="input rule-discount" type="text" name="rules[leader]" value="' + rules['leader'] + '" /><span>%</span>' +
+            '</div>' +
+            '</div>' +
+            '</div>';
+        return zfc
+    }
+</script>
+<script type="text/javascript">
+    function people(){
+        number=$("#max_num").val();
+        num = /^\d+(\.\d+)?$/;
+        if(number>20){
+            alert("团购人数不得超过20人！");
+            $("#max_num").attr("value",20)
+        }else if(number<1){
+            alert("团购人数不得少于1人！");
+            $("#max_num").attr("value",1)
+        }else if(!num.test(number)){
+            alert("请输入正确的团购人数！");
+        }
+    }
+    $(function () {
+        if (szpd == 1) {
+            $("#rules").append(ybzfczz(zksj, rules));
+        }
+        //返回
+        $('#fanhui').click(function () {
+            window.history.go(-1);
+        });
+
+        //获取url值
+        function getQueryString(name) {
+            var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+            if (result == null || result.length < 1) {
+                return "";
+            }
+            return result[1];
+        }
+
+        //判断是修改麻
+        id = getQueryString('kid') ? getQueryString('kid') : 0;
+        $('#submit').click(function () {
+            var index = layer.load(1, {
+                shade: [0.1, '#fff'] //0.1透明度的白色背景
+            });
+            window.mypd = true;
+            //json字符串组装
+            arrt = {};
+            for (i = 0; i < $('.rule-discount').length; i++) {
+                if ($('.rule-discount').eq(i).val() != '') {
+                    if (i == $('.rule-discount').length - 1) {
+                        arrt['leader'] = $('.rule-discount').eq(i).val()
+                    } else {
+                        s = eval('1+' + i);
+                        arrt[s] = $('.rule-discount').eq(i).val()
+                    }
+                } else {
+                    window.mypd = false
+                }
+            }
+            //数据处理
+            arr = [];
+            for (i = 0; i < $('.hd-input').length; i++) {
+                if ($('.hd-input').eq(i).val() != '') {
+                    arr[i] = $('.hd-input').eq(i).val()
+                } else {
+                    window.mypd = false
+                }
+            }
+            arr[eval($('.hd-input').length)] = JSON.stringify(arrt);
+            if (window.mypd == true) {
+                arr[5] = id;
+                console.log(arr);
+                $.post('?s=admin/group_purchase_editor/TuanGouTianJia', {val: arr}, function (evet) {
+                    if (evet['type'] == 1) {
+                        layer.msg(evet['data'], {
+                            icon: 1,
+                            time: 1000
+                        }, function () {
+                            window.history.go(-1);
+                        })
+                    } else {
+                        layer.msg(evet['data'], {
+                            icon: 1,
+                            time: 1000
+                        }, function () {
+                            window.history.go(-1);
+                        })
+                    }
+                    layer.close(index);
+                    window.history.go(-1);
+                })
+            } else {
+               layer.msg("数据不足！")
+                setInterval(function () {
+                    window.location.reload();
+                }, 2000)
+            }
+        })
+    })
+</script>
+<script type="text/javascript">
+    $(function () {
+        //满团人数规则输入
+        $("#max_num").keyup(function () {
+            var max = parseInt($(this).val());
+            if (max != NaN) {
+                $("#rules").find(".yc").remove();
+                $("#rules").append(zfczz(max));
+            } else {
+                layer.alert('请输入数字', {
+                    icon: 2,
+                    skin: 'layer-ext-moon'
+                });
+            }
+        });
+
+        /**
+         * 满团人数输入狂组装
+         * @param max 传入满团人数
+         * @returns {string} 返回 需要的div样式
+         * 丁龙
+         */
+        function zfczz(max) {
+            bfb = 100 / (max + 1);
+            var zfc = '<div class="tr border-none yc" data-discount>';
+            for (i = 1; i <= max; i++) {
+                zfc += '<div class="th" style="width: ' + bfb + '%">' +
+                    '<span class="td-con text-center">' + i + '人</span>' +
+                    '</div>'
+            }
+
+            zfc += '<div class="th" style="width: ' + bfb + '%">' +
+                '<span class="td-con">团长(满团)</span>' +
+                '</div>' +
+                '</div>' +
+                '<div class="tr yc" style="visibility: visible;" data-discount>'
+
+            for (i = 1; i <= max; i++) {
+                zfc += '<div class="td" style="width: ' + bfb + '%">' +
+                    '<div class="td-con operate-info text-center" data-model="rule">' +
+                    '<input class="input rule-discount" type="text" name="rules[' + i + ']" value="" /><span>%</span>' +
+                    '</div>' +
+                    '</div>'
+            }
+
+            zfc += '<div class="td" style="width: ' + bfb + '%">' +
+                '<div class="td-con operate-info text-center" data-model="rule">' +
+                '<input class="input rule-discount" type="text" name="rules[leader]" value="" /><span>%</span>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+            return zfc
+        }
+    })
+</script>
+{/block}

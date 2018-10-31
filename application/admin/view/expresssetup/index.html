@@ -1,0 +1,102 @@
+{extend name="Template/template"/}
+{block name="css"}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<!--标题-->
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">站点设置<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/site/index">站点信息</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/basicsetup/index">基本设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/shopsetup/index">购物设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/dreammoneysetup/index">梦想币设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/integralsetup/index">积分设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/bonussetup/index">分红设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/returngoodssetup/index">退货设置</a></li>
+        <li class="fixed-nav-tab"><a class="current" href="http://api.mxqqlg.com/?s=admin/expresssetup/index">快递设置</a>
+        </li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/logisticscostsetup/index">物流费用设置</a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<!--主体-->
+<div action="" method="POST" enctype="multipart/form-data">
+    <div class="content padding-big have-fixed-nav">
+        <div class="content-tabs">
+            <div class="form-box clearfix">
+                <div class="form-group ">
+                    <span class="label">寄件人名称：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" name="sender_name" value="{$cou.sendername}"
+                               tabindex="0">
+                    </div>
+                    <p class="desc">寄件人名称，将显示在快递单寄件人栏中</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">寄件人电话：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" name="sender_mobile" value="{$cou.senderphone}"
+                               tabindex="0">
+                    </div>
+                    <p class="desc">寄件人电话，将显示在快递单寄件人电话栏中</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">寄件人地址：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" name="sender_address" value="{$cou.senderaddress}"
+                               tabindex="0">
+                    </div>
+                    <p class="desc">寄件人地址，将显示在快递单寄件人地址栏中</p>
+                </div>
+            </div>
+        </div>
+        <div class="padding">
+            <input type="submit" class="button bg-main" value="保存">
+        </div>
+    </div>
+    <input class="hd-input" type="hidden" name="formhash" value="{$cou.id}">
+</div>
+{/block}
+{block name='script'}
+<script type="text/javascript">
+    $(function () {
+        $('div .bg-main').on('click', function () {
+            var array = [];
+            for (var i = 0; i < $('div .hd-input').length; i++) {
+                array[i] = $('div .hd-input').eq(i).val();
+                $('.hd-input').eq(i).css('border', 'solid 1px #ccc');
+            }
+            var phoneReg = /(^1[3|4|5|7|8]\d{9}$)|(^09\d{8}$)/;
+            if (!phoneReg.test(array[1])) {
+                layer.tips('手机号码格式错误！', $('.hd-input').eq(1));
+                $('.hd-input').eq(1).css('border', 'solid 1px red');
+            } else {
+                if (array[0] != '' && array[1] != '' && array[2] != '') {
+                    $.post('/?s=admin/expresssetup/siteupdata', {array: array}, function (data) {
+                        if (data['type'] == '1' && data['explain'] == '更新成功') {
+                            location.href = '/?s=admin/succeed/index&c=expresssetup&a=index'
+                        } else if (data['type'] == '0' && data['explain'] == '手机号码格式错误！') {
+                            $('.hd-input').eq(1).css('border', 'solid 1px red');
+                        } else if (data['type'] == '0' && data['explain'] == '更新失败') {
+                            location.href = '/?s=admin/succeed/index&c=expresssetup&a=index&type=1'
+                        }
+                    })
+                } else if (array[0] == '') {
+                    nonull(0);
+                } else if (array[2] == '') {
+                    nonull(2);
+                } else {
+                }
+            }
+        });
+
+        function nonull(num) {
+            layer.tips('不能为空！', $('.hd-input').eq(num));
+            $('.hd-input').eq(num).css('border', 'solid 1px red');
+        }
+    })
+</script>
+{/block}

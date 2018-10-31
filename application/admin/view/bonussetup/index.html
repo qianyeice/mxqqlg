@@ -1,0 +1,89 @@
+{extend name="Template/template"/}
+{block name="css"}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<!--标题-->
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">站点设置<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/site/index">站点信息</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/basicsetup/index">基本设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/shopsetup/index">购物设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/dreammoneysetup/index">梦想币设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/integralsetup/index">积分设置</a></li>
+        <li class="fixed-nav-tab"><a class="current" href="http://api.mxqqlg.com/?s=admin/bonussetup/index">分红设置</a>
+        </li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/returngoodssetup/index">退货设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/expresssetup/index">快递设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/logisticscostsetup/index">物流费用设置</a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<!--主体-->
+<div action="" method="POST" enctype="multipart/form-data">
+    <div class="content padding-big have-fixed-nav">
+        <div class="content-tabs">
+            <div class="form-box clearfix">
+                <div class="form-group ">
+                    <span class="label">是否开启分红</span>
+                    <div class="box">
+                        {if ($bon.orbonus == 1)}
+                        <label class="select-wrap">
+                            <input class="select-btn" type="radio" name="share_is_open" value="1" checked="">开启
+                        </label>
+                        <label class="select-wrap">
+                            <input class="select-btn" type="radio" name="share_is_open" value="0">关闭
+                        </label><br>
+                        {else /}
+                        <label class="select-wrap">
+                            <input class="select-btn" type="radio" name="share_is_open" value="1">开启
+                        </label>
+                        <label class="select-wrap">
+                            <input class="select-btn" type="radio" name="share_is_open" value="0" checked="">关闭
+                        </label><br>
+                        {/if}
+                    </div>
+                    <p class="desc">每天销售额按指定比例给用户分红</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">分红比例</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" name="share_ratio" value="{$bon.bonusproportion}"
+                               tabindex="0"></div>
+                    <p class="desc">单位为%，按销售额的百分比进行分红</p>
+                </div>
+            </div>
+        </div>
+        <div class="padding">
+            <input type="submit" class="button bg-main" value="保存">
+        </div>
+    </div>
+    <input class="hd-inputt" type="hidden" name="formhash" value="{$bon.id}">
+</div>
+{/block}
+{block name='script'}
+<script type="text/javascript">
+    $(function () {
+        $('div .bg-main').on('click', function () {
+            var reg = new RegExp("^(\\d|[1-9]\\d|100)$");
+            if (reg.test($('.hd-input').val())) {
+                var array = [$(':checked').val(), $('.hd-input').val(), $('.hd-inputt').val()];
+                $.post('/?s=admin/bonussetup/siteupdata', {array: array}, function (data) {
+                    if (data['type'] == '1') {
+                        location.href = '/?s=admin/succeed/index&c=bonussetup&a=index'
+                    }else if (data['type'] == '0' && data['explain'] == '更新失败'){
+                        location.href = '/?s=admin/succeed/index&c=bonussetup&a=index&type=1'
+                    }
+                })
+            }else {
+                layer.tips('请输入0-100的整数！', $('.hd-input'));
+                $('.hd-input').css('border', 'solid 1px red');
+            }
+
+        })
+    })
+</script>
+{/block}

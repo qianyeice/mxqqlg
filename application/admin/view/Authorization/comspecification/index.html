@@ -1,0 +1,364 @@
+<link rel="stylesheet" href="static/admin/css/validate.css"/>
+<link rel="stylesheet" href="static/admin/css/ui-dialog.css"/>
+
+
+<div class="content padding-big have-fixed-nav">
+    <input name="sku[id]" value="{if(!empty($id))}{$id}{/if}" type="hidden">
+    <!-- 商品规格开始 -->
+    <div class="content-tabs margin-large-bottom goods-spec clearfix">﻿
+        <div class="table-work border margin-top border-bottom-none">
+            <div class="border border-white tw-wrap border-bottom-none">
+                <a href="javascript:;" class="text-main" data-model="spec_popup" onclick="iframe()">编辑规格</a>
+                <div class="spacer-gray"></div>
+                <a href="javascript:;" class="text-main" data-model="spec_batch">批量修改</a>
+                <div class="spacer-gray"></div>
+                <a href="javascript:;" class="text-main" id="delect" data-model="spec_clear">清空规格</a>
+                <div class="spacer-gray"></div>
+            </div>
+        </div>
+        <div class="table resize-table border clearfix" style="width: 100%;">
+            <div class="tr border-none spec-name resize-th" style="visibility: visible;">
+                <div class="th" data-width="10" style="width: 9%;">
+
+                    <div class="td-con">扩展标签</div>
+                    <span class="spacer"></span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span
+                        class="spacer"></span><span class="spacer"></span></div>
+                <div class="th" data-width="10" style="width: 9%;">
+                    <div class="td-con">商品货号</div>
+                    <span class="spacer"></span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span
+                        class="spacer"></span><span class="spacer"></span></div>
+                <div class="th" data-width="15" style="width: 9%;">
+                    <div class="td-con">商品条码</div>
+                    <span class="spacer"></span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span
+                        class="spacer"></span><span class="spacer"></span></div>
+                <div class="th" data-width="15" style="width: 9%;">
+                    <div class="td-con">商品规格</div>
+                    <span class="spacer"></span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span><span class="spacer"></span>
+                    <span class="spacer"></span><span class="spacer"></span>
+                    <span class="spacer"></span>
+                </div>
+                <div class="th" data-width="10" style="width: 9.5%;">
+                    <div class="td-con">底价</div>
+                    <span class="spacer"></span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span
+                        class="spacer"></span><span class="spacer"></span></div>
+                <div class="th" data-width="10" style="width: 9.5%;">
+                    <div class="td-con">销售价格</div>
+                    <span class="spacer"></span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span
+                        class="spacer"></span><span class="spacer"></span></div>
+                <div class="th" data-width="10" style="width: 9.5%;">
+                    <div class="td-con">盈利</div>
+                    <span class="spacer"></span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span
+                        class="spacer"></span><span class="spacer"></span></div>
+                <div class="th" data-width="10" style="width: 9.5%;">
+                    <div class="td-con">市场价格</div>
+                    <span class="spacer"></span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span
+                        class="spacer"></span><span class="spacer"></span></div>
+                <div class="th" data-width="5" style="width: 5%;">
+                    <div class="td-con">库存</div>
+                    <span class="spacer"></span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span
+                        class="spacer"></span><span class="spacer"></span></div>
+                <div class="th" data-width="5" style="width: 5%;">
+                    <div class="td-con">重量</div>
+                    <span class="spacer"></span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span
+                        class="spacer"></span><span class="spacer"></span></div>
+                <div class="th" data-width="5" style="width: 5%;">
+                    <div class="td-con">体积</div>
+                    <span class="spacer"></span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span
+                        class="spacer"></span><span class="spacer"></span></div>
+                <div class="th" data-width="5" style="width: 5%;">
+                    <div class="td-con">分成</div>
+                    <span class="spacer"></span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span
+                        class="spacer"></span><span class="spacer"></span></div>
+                <div class="th" data-width="10" style="width: 6%;">
+                    <div class="td-con">操作</div>
+                </div>
+            </div>
+            <input name="spu[sn][]" value="NU152231019238" type="hidden">
+
+
+            <div class="tr spec-list border-none " data-id="" style="visibility: visible;display: none">
+                <!--扩展标签-->
+                <div class="icon td r0 " data-column="status_ext" style="width: 9%;">
+                    <input name="snam" value="" type="hidden">
+                    <!--                <a class="ico ico_promotion cancel" data-value="1" href="javascript:;" title="点击取消促销"></a>-->
+                    <a class="ico ico_novice cancel ico4" data-value="1" href="javascript:;" title="点击取消专区"></a>
+                    <a class="ico ico_new cancel ico2" data-value="2" href="javascript:;" title="点击取消新品"></a>
+                    <a class="ico ico_special cancel ico1 " data-value="3" href="javascript:;" title="点击取消热卖"></a>
+                    <a class="ico ico_reco cancel ico3" data-value="4" href="javascript:;" title="点击取消推荐"></a>
+                    <input  value="0" name="sku[stur][]" class="stur" type="hidden">
+                </div>
+
+                <!--商品货号-->
+                <div class="td r1" data-column="sn" style="width: 9%;">
+                    <div class="td-con">
+                        <input class="input sn" attr="sku[sn][]" name="sku[sn][]" value="" type="text">
+                    </div>
+                </div>
+
+                <!--商品条码-->
+                <input type="hidden" name="uname" value="">
+                <div class="td r2" data-column="barcode" style="width: 9%;">
+                    <div class="td-con"><input class="input" attr="barcode[]" name="sku[ma][]" value="" type="text"></div>
+                </div>
+                <!--商品规格-->
+                <div class="td spec_info r3" data-column="spec" style="width: 9%;">
+                    <div class="td-con text-left">
+                        <span></span>
+                        <!--<span>{if(!empty($voss.value))}{$voss.value}{/if}</span>-->
+                    </div>
+                </div>
+                <!--销售价格-->
+                <div class="td r4" data-column="dijia" style="width: 9.5%;">
+                    <div class="td-con">
+                        <input class="input" nullmsg="底价必须为数字" name="sku[dijia][]" datatype="dijia" attr="dijia[]" value="0.00"
+                               type="text">
+                        <span class="validform_checktip"></span>
+                    </div>
+                </div>
+                <div class="td r4" data-column="shop_price" style="width: 9.5%;">
+                    <div class="td-con">
+                        <input class="input" nullmsg="销售价格必须为数字" name="sku[shoujia][]" datatype="price" attr="shop_price[]"
+                               value="0.00" type="text">
+                        <span class="validform_checktip"></span>
+                    </div>
+                </div>
+                <div class="td r4" data-column="yingli" style="width: 9.5%;">
+                    <div class="td-con">
+                        <input class="input" nullmsg="盈利必须为数字" name="sku[yingli][]" datatype="yingli" attr="yingli[]"
+                               value="0.00" type="text">
+                        <span class="validform_checktip"></span>
+                    </div>
+                </div>
+                <!--市场价格-->
+                <div class="td r5" data-column="market_price" style="width: 9.5%;">
+                    <div class="td-con">
+                        <input class="input" nullmsg="市场价格必须为数字" name="sku[markprice][]" datatype="price" attr="market_price[]"
+                               value="0.00" type="text">
+                        <span class="validform_checktip"></span>
+                    </div>
+                </div>
+                <!--库存-->
+                <div class="td r6" data-column="number" style="width: 5%;">
+                    <div class="td-con">
+                        <input class="input" nullmsg="库存必须为数字" datatype="n" name="sku[number][]" attr="number[]" value="0"
+                               type="text">
+                        <span class="validform_checktip"></span>
+                    </div>
+                </div>
+                <!--重量-->
+                <div class="td r7" data-column="weight" style="width: 5%;">
+                    <div class="td-con">
+                        <input class="input" nullmsg="重量必须为数字" datatype="price" name="sku[weight][]" attr="weight[]" value=""
+                               type="text">
+                        <span class="validform_checktip"></span>
+                    </div>
+                </div>
+                <!--体积-->
+                <div class="td r8" data-column="volume" style="width: 5%;">
+                    <div class="td-con">
+                        <input class="input" nullmsg="体积必须为数字" datatype="price" name="sku[volume][]" attr="volume[]" value=""
+                               type="text">
+                        <span class="validform_checktip"></span>
+                    </div>
+                </div>
+                <!--分成-->
+                <div class="td r9" data-column="fencheng" style="width: 5%;">
+                    <div class="td-con">
+                        <input class="input" nullmsg="分成必须为数字" datatype="price" name="sku[fencheng][]" attr="fencheng[]"
+                               value="" type="text">
+                        <span class="validform_checktip"></span>
+                    </div>
+                </div>
+                <!--操作-->
+                <div class="td r10" data-column="sku_id" style="width: 6%;">
+                    <input class="hidden" data-id="" attr="sku_id[]" value="" type="text">
+                    <a href="javascript:;" class="dele" data-model="spec_delete">删除</a>
+                </div>
+            </div>
+
+
+            <div id="goods_spec">
+                {volist name="vo" id="vo"}
+                <div class="tr spec-list border-none" data-id="" style="visibility: visible;">
+                    <!--扩展标签-->
+                    <div class="icon td r0" data-column="status_ext" style="width: 9%;">
+                        <input name="snam" value="{if(!empty($vo.commodity_type))}{$vo.commodity_type}{/if}"
+                               type="hidden">
+                        <!--                <a class="ico ico_promotion cancel" data-value="1" href="javascript:;" title="点击取消促销"></a>-->
+                        <a class="ico ico_novice cancel ico4" data-value="1" href="javascript:;" title="点击取消专区"></a>
+                        <a class="ico ico_new cancel ico2" data-value="2" href="javascript:;" title="点击取消新品"></a>
+                        <a class="ico ico_special cancel ico1 " data-value="3" href="javascript:;" title="点击取消热卖"></a>
+                        <a class="ico ico_reco cancel ico3" data-value="4" href="javascript:;" title="点击取消推荐"></a>
+
+                        <input attr="status_ext[]" value="{$vo.commodity_type}" name="status_ext[]" type="hidden">
+                    </div>
+                    <!--商品货号-->
+                    <div class="td r1" data-column="sn" style="width: 9%;">
+                        <div class="td-con">
+                            <input class="input sn" attr="sn[]" name="sn" value="{if(!empty($vo.sn))}{$vo.sn}{/if}"
+                                   type="text">
+                        </div>
+                    </div>
+                    <!--商品条码-->
+                    <input type="hidden" name="uname" value="{if(!empty($vo.sku_name))}{$vo.sku_name}{/if}">
+                    <div class="td r2" data-column="barcode" style="width: 9%;">
+                        <div class="td-con"><input class="input" attr="barcode[]" name="" value="" type="text"></div>
+                    </div>
+
+                    <div class="td spec_info r3" data-column="spec" style="width: 9%;">
+                        <!--<input type="hidden" name="specjson" value="{if(!empty($vo.spec))}{$vo.spec}{/if}" class="onjs">-->
+                        <div class="td-con text-left">
+                            <span class="ouire">{if(!empty($vo.name))}{$vo.name}{/if}</span>
+                            <!--<span>{if(!empty($voss.value))}{$voss.value}{/if}</span>-->
+                        </div>
+                    </div>
+                    <div class="td r4" data-column="shop_price" style="width: 9.5%;">
+                        <div class="td-con">
+                            <input class="input" nullmsg="销售价格必须为数字" name="price" datatype="price" attr="shop_price[]"
+                                   value="{if(!empty($vo.shop_price))}{$vo.shop_price}{/if}" type="text">
+                            <span class="validform_checktip"></span>
+                        </div>
+                    </div>
+                    <div class="td r5" data-column="market_price" style="width: 9.5%;">
+                        <div class="td-con">
+                            <input class="input" nullmsg="市场价格必须为数字" name="markprice" datatype="price"
+                                   attr="market_price[]" value="{if(!empty($vo.market_price))}{$vo.market_price}{/if}"
+                                   type="text">
+                            <span class="validform_checktip"></span>
+                        </div>
+                    </div>
+                    <div class="td r6" data-column="number" style="width: 9%;">
+                        <div class="td-con">
+                            <input class="input" nullmsg="库存必须为数字" datatype="n" name="number" attr="number[]"
+                                   value="{if(!empty($vo.number))}{$vo.number}{/if}" type="text">
+                            <span class="validform_checktip"></span>
+                        </div>
+                    </div>
+                    <div class="td r7" data-column="weight" style="width: 9%;">
+                        <div class="td-con">
+                            <input class="input" nullmsg="重量必须为数字" datatype="price" name="weight" attr="weight[]"
+                                   value="{if(!empty($vo.weight))}{$vo.weight}{else}0.00{/if}" type="text">
+                            <span class="validform_checktip"></span>
+                        </div>
+                    </div>
+                    <div class="td r8" data-column="volume" style="width: 9%;">
+                        <div class="td-con">
+                            <input class="input" nullmsg="体积必须为数字" datatype="price" name="volume" attr="volume[]"
+                                   value="{if(!empty($vo.volume))}{$vo.volume}{else}0.00{/if}" type="text">
+                            <span class="validform_checktip"></span>
+                        </div>
+                    </div>
+                    <div class="td r9" data-column="fencheng" style="width: 9%;">
+                        <div class="td-con">
+                            <input class="input" nullmsg="分成必须为数字" datatype="price" name="fencheng" attr="fencheng[]"
+                                   value="{if(!empty($vo.fencheng))}{$vo.fencheng}{/if}" type="text">
+                            <span class="validform_checktip"></span>
+                        </div>
+                    </div>
+                    <div class="td r10" data-column="sku_id" style="width: 9%;">
+                        <input class="hidden" data-id="" attr="sku_id[]" value="{if(!empty($vo.id))}{$vo.id}{/if}"
+                               type="text">
+                        <a href="javascript:;" class="dele" idd="{$vo.id}" data-model="spec_delete">删除</a>
+                    </div>
+                </div>
+                {/volist}
+            </div>
+        </div>
+        <div class="layout" id="table-get-width" style=""></div>
+    </div>
+    <!-- 商品规格结束 -->
+
+</div>
+<script>
+    $(document).ready(function () {
+        $("#goods_spec").on("click", ".dele", function () {
+            var cont = $(this).parents('.spec-list').attr("scgg_id");
+            $(this).parents(".spec-list").remove();
+            $('.guic'+cont+'').remove()
+        });
+        $("#delect").click(function () {
+            var myid = $("input[name='sku[id]']").val();
+            layer.confirm('是否确认删除所有规格？', {
+                btn: ['确定', '取消'] //按钮
+            }, function () {
+                var wqe = $(".spec-list").eq(0).html();
+            })
+        });
+    });
+</script>
+<script>
+    function iframe() {
+//        ?s=admin/Tankuangkuangguigui/index
+        var id = $("input[name='spu[id]']").val();
+
+        layer.open({
+            type: 2,
+            title: '回复',
+            //shadeClose: true,
+            shade: 0.7,
+            skin: 'layui-layer-lan',
+            area: ['681px', '595px'],
+            fixed: false, //不固定
+            maxmin: true,
+//            content: '?s=admin/Tankuangkuangguigui/index&id='+id,
+            content: '?s=admin/Tankuangkuangguigui/index&id=1',
+            success: function (layero, index) {
+                var body = layer.getChildFrame('body', index);
+                var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+
+                body.find('textarea').val();
+            }
+        });
+    }
+       pd=0
+       guic=0;
+    function a(test, name) {
+           pd++
+        var a = $(".spec-list").eq(0).html();
+        if ($('.spec-list').length < 2) {
+            $('#goods_spec').append('<div class="tr spec-list border-none tesu "  style="visibility: visible;">' + a + '</div>')
+        }
+        for (var c = 0; c < test.length; c++) {
+            guic++
+            $("#goods_spec").last().append('<div class="tr spec-list border-none " scgg_id="'+guic+'" style="visibility: visible;">' + a + '</div>');
+            $(".text-left span").last().html(name + ":" + test[c]+'<input type="hidden" name="sku[name]['+guic+']" value="'+test[c]+'">');
+        }
+        if(pd==1){
+            $('.spec-list').eq(0).remove()
+        }
+        $('.tesu').remove()
+        $(".ico").click(function () {
+            var stru = $(this).attr('data-value')
+            var w = $(this).parent('.icon').children('.stur')
+            var f = w.attr('value', stru)
+            $(this).removeClass("cancel").siblings().addClass("cancel");
+        });
+    }
+</script>
+<script>
+</script>
+

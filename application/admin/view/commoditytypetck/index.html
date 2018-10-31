@@ -1,0 +1,115 @@
+{extend name="Template/template"/}
+{block name='title'}编辑{/block}
+{block name="css"}
+<link type="text/css" rel="stylesheet" href="__STATIC__/admin/css/evaluationlist.css"/>
+{/block}
+{block name='body'}
+
+
+<div class="attr-wrap" style="">
+    <div class="tab-con">
+        <div class="layout clearfix" style="padding-bottom: 46px;">
+            <div class="table check-table border-none clearfix" style="height: 327px; overflow: hidden; overflow-y: auto;">
+                <div class="tr border-none attr-title">
+                    <div class="th bg-none bg-white check-option"><b>删除</b></div>
+                    <div class="th bg-none bg-white text-left padding-lr w85"><b>属性名称</b></div>
+                    <div class="th bg-none bg-white w15"><b>操作</b></div>
+                </div>
+                <div class="addtop">
+                    <div class="tr">
+                        <div class="td check-option">
+                            <input type="checkbox">
+                        </div>
+                        <div class="td padding-lr w85 text-left">
+                            <input class="input w50" name="tysonval" value="" type="text">
+
+                        </div>
+                        <div class="td w15">
+                            <a href="javascript:" onclick="delNewAttr(this)">删除</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="spec-add-button" style="position: fixed; left: 0; bottom: 55px; padding: 0 15px; width: 100%; height: 46px; line-height: 46px;  background-color: #fdfdfd;">
+            <a href="javascript:;" id="addbut"><em class="ico_add margin-right"></em>添加一个属性</a>
+            <input class="playdis" name="none" value="" style="" type="text"/>
+
+            <!--<div class="playdis"></div>-->
+        </div>
+    </div>
+    <div class="tab-con attr-choose-spec" style="display: none;">
+        <div class="title"><label><input class="margin-small-right" id="checkAll" type="checkbox">全选</label></div>
+        <div class="padding attr-choose-wrap">
+            <a href="javascript:;">颜色</a>
+            <a href="javascript:;">尺码</a>
+            <a href="javascript:;">型号</a>
+        </div>
+    </div>
+</div>
+
+<div class="padding text-right ui-dialog-footer" style="position: fixed;bottom: 0;">
+    <input class="button bg-main" id="okbtn" value="确定" type="button">
+    <input class="button margin-left bg-gray" id="closebtn" value="返回" type="button">
+</div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        var index = $('.addtop').html();
+
+        $("#addbut").click(function () {
+            $(".addtop").append(index);
+        });
+    });
+</script>
+<script>
+    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+
+    $(document).ready(function () {
+        $("#okbtn").click(function () {
+
+            var arr = [];
+            var txts = document.getElementsByName('tysonval');
+            console.log(txts);
+            for (var i = 0; i < txts.length; i++) {
+                var lan = txts[i].value;
+                arr.push(lan);
+            }
+            console.log(arr);
+            var hami = arr.join(",");
+            $(".playdis").val(hami);    //奖js上传html
+            console.log(hami);
+//            parent.window.location.href='?s=admin/Commoditytypesetting/init&aa='+hami;
+//            parent.$('.playdis').text(hami);
+
+
+            parent.$('.strings').text(hami);
+
+            parent.layer.close(index);
+
+//            var plays = document.getElementsByClassName('playdis');
+//            plays.innerHTML = hami;
+
+//            $.ajax({
+//                type:"post",
+//                url:"?s=admin/Commoditytypetck/set_ajax",
+//                data:{value:hami},
+//                success:function (data) {
+//                    alert("成功");
+//                    console.log(data);
+//                },
+//                error:function (data) {
+//                    alert("失败");
+//                    console.log(data);
+//                }
+//            });
+
+        });
+    });
+
+    $('#closebtn').click(function(){
+        parent.layer.close(index);
+    })
+</script>
+{/block}

@@ -1,0 +1,52 @@
+{extend name="Template/template" /}
+{block name="css"}
+
+{/block}
+{block name="js"}
+{load href="__STATIC__/admin/js/Split.js" / }
+
+{/block}
+{block name='body'}
+
+    <div class="fixed-nav layout">
+        <ul>
+            <li class="first">编辑分成比例</li>
+            <li class="spacer-gray"></li>
+        </ul>
+        <div class="hr-gray"></div>
+    </div>
+    <div class="content padding-big have-fixed-nav">
+
+        <div class="form-box clearfix">
+            <div class="form-group "><span class="label">创始人分成比例：%</span>
+                <div class="box"><input class="input hd-input " type="text" name="fc3" value="{$data.3.bili}" tabindex="0" datatype="*" /></div>
+                <p class="desc">设置创始人分成比例</p></div>
+            <div class="form-group ">
+                <span class="label">发起人分成比例：%</span>
+                <div class="box"><input class="input hd-input " type="text" name="fc2" value="{$data.2.bili}" tabindex="0" datatype="*" /></div>
+                <p class="desc">设置发起人分成比例</p></div>
+            <div class="form-group "><span class="label">合伙人成红比例：%</span><div class="box">
+                <input class="input hd-input " type="text" name="fc1" value="{$data.1.bili}" tabindex="0" datatype="n" />
+            </div>
+                <p class="desc">设置合伙人成红比例</p></div>
+            <div class="form-group ">
+                <span class="label">员工分成比例：%</span>
+            <div class="box"><input class="input hd-input " type="text" name="fc" value="{$data.0.bili}" tabindex="0" datatype="n" /></div>
+                <p class="desc">设置员工分成比例</p>
+            </div>
+            <div class="form-group "><span class="label">是否开启分成：</span>
+                <div class="box">
+                  <label class="select-wrap"><input class="start select-btn" type="radio" checked name="st" value="1" />开启</label>
+                  <label class="select-wrap"><input class="close select-btn" type="radio" name="st" value="0"/>关闭</label>
+                </div>
+                <p class="desc">设置当前分成，默认为开启，如选择关闭，将停止分成</p>
+            </div>
+        </div>
+
+        <div class="padding">
+            <div  class="button bg-main" id="{$yess}">确定</div>
+            <a href="?s=admin/Initiator/index"><input type="reset" name="back" class="button margin-left bg-gray fanhui"  value="返回" /></a>
+        </div>
+    </div>
+
+{/block}

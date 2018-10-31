@@ -1,0 +1,362 @@
+
+{extend name="Template/template"/}
+{block name='css'}
+<style>
+    .th,.td{width: 14.28%}
+</style>
+{/block}
+{block name="js"}
+{load href="__STATIC__\layui\layui.js" / }
+{load href="__STATIC__\admin\js\template.js" / }
+{load href="__STATIC__\js\jami.js"  charset="gbk" / }
+
+{/block}
+
+
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">秒杀活动管理</li>
+        <li class="spacer-gray"></li>
+        <li><a class="current" href="javascript:;"></a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <!--<form action="?s=admin/Sekilleditor/editor" method="POST" >-->
+        <!--<form  >-->
+        <div class="form-box clearfix">
+            <input type="hidden" name="id" value="4" />
+            <div class="form-group ">
+                <span class="label">秒杀活动名称：</span>
+                <div class="box">
+                    <input class="input hd-input " type="text" name="name" value="" tabindex="0" datatype="*" nullmsg="请输入秒杀活动名称" />
+                </div>
+                <p class="desc">请输入秒杀活动名称</p>
+            </div>
+
+            <!-- <div class="form-group ">
+                 <span class="label">秒杀日期：</span>
+                 <div class="box">
+                     <input class=" input laydate-icon hd-input start_time" type="text" name="start_time" value="" id="test5" placeholder="yyyy-MM-dd HH:mm:ss">
+                 </div>
+                 <p class="desc">请选择秒杀日期</p>
+             </div>-->
+
+            <div class="form-group ">
+                <span class="label">秒杀活动日期：</span>
+                <div class="box">
+                    <input class=" input laydate-icon hd-input start_time" type="text" name="date" value=""  id="test3" placeholder="yyyy-MM-dd">
+                </div>
+                <p class="desc">请选择秒杀活动日期</p>
+            </div>
+
+            <div class="form-group">
+                <span class="label">场次：</span>
+                <div class="box">
+                    <div class="form-select-edit">
+                        <select name="Screenings" class="input">
+                            <option value="1" >早场(9-11点)</option>
+                            <option value="2" selected="selected">上午场(11-12点)</option>
+                            <option value="4" >中午场(12-15点)</option>
+                            <option value="3" >下午场(15-16点)</option>
+                            <option value="5" >午夜场(16-23点)</option>
+
+                        </select>
+                    </div>
+                </div>
+                <p class="desc">选择秒杀场次</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">单人限购数量：</span>
+                <div class="box">
+                    <input class="input hd-input " type="text" name="number" value="" tabindex="0" datatype="*" nullmsg="请输入单人限购数量" />
+                </div>
+                <p class="desc">请输入单人限购数量</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">是否在前台显示：</span>
+                <div class="box">
+                    <label class="select-wrap">
+                        <input class="select-btn" type="radio" name="is_display" value="0" />不显示
+                    </label>
+                    <label class="select-wrap">
+                        <input class="select-btn" type="radio" name="is_display" value="1"checked />显示
+                    </label><br/>
+                </div>
+                <p class="desc">再添加阶段避免被前台看到</p>
+            </div>
+        </div>
+
+        <div class="padding">
+            <div class="table-work border margin-tb">
+                <div class="border border-white tw-wrap">
+                    <a class="choose-goods" href="javascript:;" onclick="Choice()"><i class="ico_add"></i>选择商品</a>
+                    <div class="spacer-gray"></div>
+                </div>
+            </div>
+            <div class="table resize-table border high-table clearfix " id="data_frame">
+                <div class="tr border-none">
+                    <div class="th" data-width="30" >
+                        <span class="td-con">商品名称</span>
+                    </div>
+                    <div class="th" data-width="20">
+                        <span class="td-con">原价</span>
+                    </div>
+                    <div class="th" data-width="10">
+                        <span class="td-con">库存</span>
+                    </div>
+                    <div class="th" data-width="10" >
+                        <span class="td-con">活动限量</span>
+                    </div>
+                    <div class="th" data-width="15">
+                        <span class="td-con">现价</span>
+                    </div>
+                    <div class="th" data-width="15">
+                        <span class="td-con">操作</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="padding">
+            <input type="submit" class="button bg-main submit" value="保存" />
+            <a class="button margin-left bg-gray" href="?s=admin/Sekill/index">返回</a>
+        </div>
+    <!--</form>-->
+
+</div>
+
+<script type="text/javascript">
+    var url=new Array();
+    layui.use(['form', 'layedit', 'laydate'], function() {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+
+        //日期范围
+        laydate.render({ elem: '#test3' });
+        /*//日期时间选择器
+        laydate.render({elem: '#test5' ,type: 'datetime' });*/
+    })
+</script>
+
+<script type="text/javascript">
+//
+//        $('.spu_number').blur(function () {
+//            var limited = $(this).val();
+//            if (isNaN(limited)) {
+//                layer.msg('请输入数字', {icon: 5, time: 1500}); return;
+//            }
+//        }
+//
+//        $('.Active_inventory').blur(function () {
+//            var  stock=$(this).val();
+//            if(isNaN(stock)){
+//                layer.msg('请输入数字',{icon: 5,time:1500}); return ;
+//            }
+//        }
+//        $('.sup_personal').blur(function () {
+//            $sup_personal = $(this).val();
+//            if (isNaN($sup_personal)) {
+//                layer.msg('请输入数字', {icon: 5, time: 1500}); return;
+//            }
+//            if ($sup_personal > 5) {
+//                layer.msg('单人限购不能超过5件', {icon: 5, time: 1500}); return;
+//            }
+//        }
+
+    $(".submit").click(function(){
+
+        var name        = $('input[name=name]').val();
+        var spu_price   = $('input[name=spu_price]').val();
+        var Screenings_start_time   = $('input[name=Screenings_start_time]').val();
+        if(!name){
+            layer.msg('请输入名称', {icon: 5,time:1500}); return false;
+        }
+//        if(!spu_price){
+//            layer.msg('请输入活动价格',{icon: 5,time:1500}); return false;
+//        }
+//        var te = /^\d+(\.\d+)?$/;
+//        if(!te.test(spu_price) || spu_price <= 0){
+//            layer.msg('活动价格：请输入大于0的浮点数',{icon: 5,time:1500}); return false;
+//        }
+//        if(!is_display){
+//            layer.msg('请选择显示状态',{icon: 5,time:1500}); return false;
+//        }
+
+        $Arra={};
+        $Arra['name']=$("input[name=name]").val();
+        $Arra['date']=$("input[name=date]").val();
+        $Arra['Screenings']=$("select[name=Screenings]").val();
+//        $Arra['spu_price']=$("input[name=spu_price]").val();
+        $Arra['number']=$("input[name=number]").val();
+        $Arra['is_display']=$(".select-btn:checked").val();
+
+       var  as=[];
+        $('.sku_id').each(function (e) {
+            as[e]={};
+            as[e].id=$(this).attr('data-skuid');
+
+        });
+
+        $('.Active_inventory').each(function (e) {
+            as[e].spu_number=$(this).val();
+
+
+        });
+
+        $('.Price_modification').each(function(e){
+            as[e].spu_price=$(this).val();
+
+        });
+         var Array=$Arra;
+         var shop=as;
+
+//         $.post('?s=admin/Sekilleditor/msedit',{array:Array,shop_data:shop},function (msg) {
+//             console.log(msg);
+//         })
+         $.ajax({
+             url:"?s=admin/Sekilleditor/msedit",
+             type:"post",
+             data:{array:Array,shop_data:shop},
+             success:function (data) {
+                 layer.msg(data['lang'])
+                 setTimeout(function () {
+                     window.location.href="javascript:history.go(-1)";
+                 },2000)
+             },
+             error:function () {
+                 layer.msg('网络错误,请稍后重试');
+             }
+
+         });
+
+
+    });
+
+
+</script>
+
+<script>
+    $(function () {
+        var $array=new Array();
+        for (var  i=0;i<$(".sku_id").length;i++){
+            $array.push($(".sku_id").eq(i).attr("data-skuid"))
+        }
+        localStorage.id=$array;
+    })
+
+    //删除商品
+    function spu_remove(a) {
+
+        layer.confirm('你确定要删除吗', {
+            btn: ['是的','取消'] //按钮
+        }, function(){
+            var sku_id=$(a).parents("id").attr("data-skuid")
+            $.ajax({
+                url:"http://api.mxqqlg.com/?s=admin/Sekilleditor/remove",
+                type:"post",
+                data:{id:sku_id},
+                success:function (data) {
+                    layer.msg(data["lang"]);
+                    if(data["type"]==1){
+                        $(a).parents("id").remove();
+                    }
+                },
+                error:function () {
+                    layer.msg('网络错误,请稍后重试');
+                }
+            })
+        });
+    }
+
+    //iframe框
+    function Choice() {
+        layer.open({
+            type: 2,
+            title: '加载中',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['880px', '400px'],
+            content: '?s=admin/sekilleditor/goods',//iframe的url
+            end:function () {
+                // alert(localStorage.spuzu);
+                if(typeof localStorage.spuzu=="string"){
+                    $array=JSON.parse(localStorage.spuzu);
+                    for (i=0;i<$array.length;i++){
+                        if($array[i]!=null){
+                            $("#data_frame").append(spu_txt($array[i]))
+                        }
+
+                    }
+                }
+            }
+        });
+    }
+
+
+    function spu_txt(a) {
+        var string='<div class="tr sku_lists sku_id" style="visibility: visible" data-skuid='+a["id"]+' >' +
+//            '<input style="display: none;" name="spu_id" value='+a["id"]+'>'+
+            '<div class="td w30" >'+
+            '<div class="td-con td-pic text-left">'+
+            '<div class="pic"><img src='+a["thumb"]+' /></div>'+
+            '<div class="title">'+
+            '<p class="text-ellipsis padding-small-left">'+a["sku_name"]+'</p>'+
+            '</div>'+
+            '<div class="icon">'+
+            '<p class="text-ellipsis"><span class="text-sub"></span></p>'+
+            ' </div>'+
+            '</div>'+
+            '</div>'+
+            '<div class="td w20 price" >'+
+            '<div class="td-con" data-id='+a["id"]+' data-price='+a["shop_price"]+' data-number='+a["spu_number"]+'>'+a["shop_price"]+'</div>'+
+            '</div>'+
+            '<div class="td w10 " >'+
+            '<div class="td-con">'+a["spu_number"]+'<input name="goods_sku['+a["id"]+']" type="hidden" value='+a["spu_number"]+'/></div>'+
+            ' </div>'+
+            '<div class="td w10" >'+
+            '<div class="td-con">'+
+            '<div class="padding-top padding-small-bottom"></div>'+
+            '<input class="input double-click-edit text-ellipsis text-center Active_inventory" name="" type="text" value="" placeholder="请输入活动限量" data-reset="false" />'+
+            '</div>'+
+            '</div>'+
+            '<div class="td w15" >'+
+            '<div class="td-con">'+
+            '<div class="padding-top padding-small-bottom"></div>'+
+            '<input class="input double-click-edit text-ellipsis text-center Price_modification" name="spu_surplus_number" type="text" value="" placeholder="请输入活动剩余库存"  data-reset="false" />'+
+            '</div>'+
+            '</div>'+
+            '<div class="td w15" >'+
+            '<div class="td-con"><a class="remove-tr spu_remove" href="javascript:" >移除</a></div>'+
+            '</div>'+
+            '</div>'
+        return string;
+    }
+    $(document).on("click",".spu_remove",function(){
+        var con=$(this);
+        layer.confirm('你确定要删除吗？', {
+            btn: ['是的', '取消'] //按钮
+        }, function () {
+            var id = con.parents(".sku_id").attr("data-skuid");
+//        for (i = 0; i < window.array.length; i++) {
+//            if (window.array[i]["id"] == id) {
+//                window.array.splice(i, 1)
+//            }
+//        }
+            con.parents(".sku_id").remove();
+            layer.closeAll()
+        });
+    });
+    function Return_page() {
+        window.location.href="?s=admin/Sekill/index"
+    }
+
+
+
+
+
+</script>
+
+{/block}

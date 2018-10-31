@@ -1,0 +1,34 @@
+{extend name="Template/template"/}
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">礼包红包编辑</li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <form action="?s=admin/Addadminred/from_preservation&is_edit={$id}" method="POST" data-reset="" data-validate='true' name="form" enctype="multipart/form-data">
+        <div class="form-box clearfix">
+            <input type="hidden" name="id" value="4" />
+            <div class="form-group "><span class="label">红包名称：</span><div class="box"><input class="input hd-input " type="text" name="name" value="{if $id!=0}{$zhi[0]['name']}{/if}" tabindex="0" datatype="*"  /></div><p class="desc">请输入红包名称</p></div>
+            <div class="form-group "><span class="label">红包金额：</span><div class="box"><input class="input hd-input" type="text" name="value" value="{if $id!=0}{$zhi[0]['value']}{/if}"></div><p class="desc">请输入红包金额</p></div>
+            <div class="form-group "><span class="label">红包数量：</span><div class="box"><input class="input hd-input " type="text" name="number" value="{if $id!=0}{$zhi[0]['number']}{/if}" tabindex="0" datatype="*" /></div><p class="desc">请输入红包数量</p></div>
+            <div class="form-group "><span class="label">红包图片：</span>
+                <div class="box">
+                    <div class="input hd-input file-box clearfix" onchange="$('.file-txt').attr('value', $('.file-view').val())">
+                        <input type="text" name="site_logos"  class="file-txt" value="{if $id!=0}{$zhi[0]['img']}{/if}" tabindex="0">
+                        <input type="button" class="file-btn" value="浏览">
+                        <input type="file" class="file file-view" name="site_logo" >
+                    </div>
+                </div>
+                <p class="desc">请选择红包图片</p>
+            </div>
+            <!--<div class="form-group "><span class="label">红包图片：</span><div class="box"><input class="input hd-input " type="text" name="img" value="{if $id!=0}{$zhi[0]['img']}{/if}" tabindex="0" datatype="*" /></div><p class="desc">请选择红包图片</p></div>-->
+        <div class="padding">
+            <input type="submit" class="button bg-main" value="保存" />
+            <a class="button margin-left bg-gray" href="?s=admin/Adminred/index">返回</a>
+        </div>
+        </div>
+    </form>
+</div>
+{/block}

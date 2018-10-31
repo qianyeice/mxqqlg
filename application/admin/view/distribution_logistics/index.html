@@ -1,0 +1,125 @@
+{extend name="Template/template" /}
+{block name='title'}{/block}
+{block name="js"}
+
+{/block}
+{block name="css"}
+<style>
+    .td-con a{
+        cursor: pointer;
+    }
+</style>
+{/block}
+{block name="body"}
+
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">物流配送管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="tips margin-tb">
+        <div class="tips-info border">
+            <h6>温馨提示</h6>
+            <a id="show-tip" data-open="true" href="javascript:;"></a>
+        </div>
+        <div class="tips-txt padding-small-top layout" id="">
+            <p>- 此处预设了部分常用快递方式，可继续自行添加其他配送方式。</p>
+            <p>- 如发货时不想让用户自行选择快递公司，可新建一个普通快递，发货时后台指定配送方式即可</p>
+            <p>- 请按照《标准快递公司及参数说明》设置快递公司标识，用于系统快递订单追踪</p>
+            <p>- 不用的快递公司不建议删除，禁用即可，禁用的快递公司不影响后台发货时指定</p>
+        </div>
+    </div>
+
+
+		<div class="table-work border margin-tb">
+			<div class="border border-white tw-wrap">
+				<a href="?s=admin/Logisticsdistributionsetting/index"><i class="ico_add"></i>添加</a>
+				<div class="spacer-gray"></div>
+			</div>
+		</div>
+		<div class="table resize-table check-table border clearfix" style="width: 100%">
+			<div class="tr resize-th" style="visibility: visible;">
+				<div class="th check-option" data-resize="false">
+					<input id="check-all" type="checkbox">
+					<span class="spacer"></span><span class="spacer"></span></div>
+            <span class="th" data-width="20" style="width: 25%">
+						<span class="td-con">配送方式</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+            <span class="th" data-width="50" style="width: 25%">
+						<span class="td-con"> 排序</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+            <span class="th" data-width="10" style="width: 25%">
+						<span class="td-con"> 状态</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+            <span class="th" data-width="15" style="width: 25%">
+						<span class="td-con">操作</span>
+					</span>
+			</div>
+			{volist name="name" id="vo"}
+			<div class="tr" style="visibility: visible;">
+				<div class="td check-option r0">
+					<input type="checkbox" name="id" value="1">
+				</div>
+
+            <span class="td r1" style="width: 25%">
+						<span class="td-con">
+							<img src="{$vo.logo}" alt="" style="margin-left: 15%;width:56px ;height: 56px;float: left">
+							<div style="float: left;line-height: 56px;margin-left: 10px">{$vo.name}</div>
+						</span>
+					</span>
+            <span class="td r2" style="width: 25%">
+						<span class="td-con">{$vo.sort}</span>
+					</span>
+            <span class="td r3" style="width: 25%">
+						 <span class="td r1" style="width: 56px;color: green;text-align:center;margin-left: 40%">
+                   		 {$vo.enabled}
+                		</span>
+			</span>
+            <span class="td r4" style="width: 25%">
+						<span class="td-con">
+							<a onclick="edit('{$vo.id}')">编辑</a>&nbsp;&nbsp;&nbsp;
+							<a onclick="Template('{$vo.id}')">模板</a>&nbsp;&nbsp;&nbsp;
+							<a href="javascript:;" data-confirm="是否确定删除？"  onclick="deletes('{$vo.id}')">删除</a>
+
+						</span>
+					</span>
+			</div>
+			{/volist}
+
+		</div>
+    {include file="/Template/listPage"}
+		<div class="layout" id="table-get-width"></div>
+</div>
+<script>
+
+    $(".table").resizableColumns();
+    $(".paging-table").fixedPaging();
+    function edit(id) {
+		window.location.href='?s=admin/Logisticsdistributionsetting/index?id='+id;
+    }
+    function Template(id) {
+        window.location.href='?s=admin/Logisticstemplate/index?id='+id;
+    }
+    function deletes(id) {
+        layer.confirm('你是否确定删除？', {
+            btn: ['确认','取消'] //按钮
+        }, function(){
+            $.post('?s=admin/Distribution_Logistics/deletes',{'id':id},function (data) {
+                if(data.type==1){
+                    layer.alert(data.lang, {icon: 6, title: "提示"});
+                   location.reload();
+                }else {
+                    layer.alert(data.lang);
+
+                }
+            })
+        });
+    }
+
+</script>
+
+
+{/block}

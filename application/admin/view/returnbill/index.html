@@ -1,0 +1,117 @@
+{extend name="Template/template"/}
+{block name='title'}退货单管理{/block}
+{block name="css"}
+<link type="text/css" rel="stylesheet" href="__STATIC__/admin/css/Returnbill.css"/>
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<div class="fixed-nav layout">
+	<ul>
+		<li class="first">退货单管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+		<li class="spacer-gray"></li>
+		<li><a  class="jump" class="current" href="?s=admin/returnbill/index">全部</a></li>
+		<li><a  class="jump" href="?s=admin/returnbill/index&type=2">待处理</a></li>
+		<li><a  class="jump" href="?s=admin/returnbill/index&type=1">已处理</a></li>
+	</ul>
+	<div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+	<form action="" method='get'>
+		<input type="hidden" name="m" value="order">
+		<input type="hidden" name="c" value="admin_server">
+		<input type="hidden" name="a" value="index_return">
+		<div class="clearfix">
+			<div class="form-group form-layout-rank border-none" style="width: 300px;">
+				<span class="label" style="width: auto;">搜索</span>
+				<div class="box "  style="margin-right: 0px;">
+					<div class="field margin-none">
+						<input class="input" id="input_search" type="text" name="keywords" placeholder="商品名/会员账号" tabindex="0">
+					</div>
+				</div>
+			</div>
+			<input class="button bg-sub margin-top fl" id="search"  style="height: 26px; line-height: 14px;" value="查询">
+		</div>
+	</form>
+	<div class="table-wrap">
+		<div class="table resize-table paging-table high-table border clearfix">
+			<div class="tr">
+				 <span class="th" style="width: 30%">
+						<span class="td-con">退货商品</span>
+					</span>
+				<span class="th" style="width:10%">
+						<span class="td-con">会员账号</span>
+					</span>
+				<span class="th" style="width:10%">
+						<span class="td-con">退款金额</span>
+					</span>
+				<span class="th" style="width:15%">
+						<span class="td-con">申请时间</span>
+					</span>
+				<span class="th" style="width:15%">
+						<span class="td-con">物流信息</span>
+					</span>
+				<span class="th" style="width:10%">
+						<span class="td-con">处理状态</span>
+					</span>
+				<span class="th w1" style="width:10%">
+							<span class="td-con">操作</span>
+						</span>
+			</div>
+			{if condition="count($val.data) gt 0"}
+			{volist name="val.data" id="vo"}
+			<div class="tr">
+				<span class="td"style="width:30%">
+								<div class="td-con td-pic text-left">
+									<span class="pic"><img src="__STATIC__{$vo.goods_url}" /></span>
+									<span class="title text-ellipsis txt"><a href="" target="_blank">{$vo.goods_name}</a></span>
+									<span class="icon">
+										<em class="text-main">商品规格：</em>{$vo.spec}
+									</span>
+								</div>
+							</span>
+				<span class="td"style="width:10%">
+							<span class="td-con">{$vo.username}</span>
+						</span>
+				<span class="td" style="width:10%">
+							<span class="td-con">{$vo.paid_amount}</span>
+						</span>
+				<span class="td"style="width:15%">
+							<span class="td-con">{$vo.refund_time}</span>
+						</span>
+				<span class="td"style="width:15%">
+							<span class="td-con double-row text-left">物流公司：{$vo.return_logistics}<br />物流单号：{$vo.return_number}</span>
+								</span>
+				<span class="td"style="width:10%">
+					   {if $vo.type==0}<span class="td-con">待审核</span>
+                   {else  $vo.type==1/}<span class="td-con">已退货</span>
+                    {/if}
+				</span>
+				<span class="td"style="width:10%">
+					   {if $vo.type==0}<span class="td-con"><a href="?s=admin/Detailsoforderreturn/index&id={$vo.id}">处理</a></span>
+                   {else  $vo.type==1/}<span class="td-con"><a href="?s=admin/Detailsoforderreturn/index&id={$vo.id}">查看</a></span>
+                    {/if}
+				</span>
+			</div>
+			{/volist}
+			{else /}
+			{/if}
+			{include file="Template/listPage" /}
+		</div>
+	</div>
+</div>
+{/block}
+{block name='script'}
+<script src="__STATIC__/admin/js/tab_url.js"></script>
+<Script language="javascript">
+    $(function () {
+        GetRequest()
+    })
+    /**
+     * 点击搜索
+     */
+    $('#search').click(function () {
+        $(window).attr('location','?s=admin/returnbill/index&val='+$('#input_search').val());
+    })
+</Script>
+{/block}

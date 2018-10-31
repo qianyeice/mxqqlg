@@ -1,0 +1,157 @@
+{extend name="Template/template"/}
+{block name="css"}
+{load href="__STATIC__/admin/css/validate.css" /}
+{load href="__STATIC__/admin/css/orderexpresssingle.css" /}
+{/block}
+{block name="js"}
+{load href="__STATIC__/admin/js/jump.js" /}
+{/block}
+{block name='body'}
+<!--标题-->
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">首页管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="tips margin-tb">
+        <div class="tips-info border">
+            <h6>温馨提示</h6>
+            <a id="show-tip" data-open="true" href="javascript:;">关闭操作提示</a>
+        </div>
+        <div class="tips-txt padding-small-top layout">
+            <p>- 首页幻灯片可添加多张，图片尺寸根据不同的模板，均不一样，具体尺寸以当前使用模板首页幻灯片尺寸为准。</p>
+        </div>
+    </div>
+    <div class="hr-gray"></div>
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a href="?s=admin/site_home_page/slide"><i class="ico_add"></i>添加</a>
+            <div class="spacer-gray"></div>
+            <a data-message="是否确认删除？" href="javascript:;" data-ajax="id"><i class="ico_delete"></i>删除</a>
+            <div class="spacer-gray"></div>
+        </div>
+    </div>
+    <div class="table resize-table paging-table check-table clearfix">
+        <div class="tr">
+					<span class="th check-option" data-resize="false">
+						<span><input id="check-all" type="checkbox"/></span>
+						<span class="spacer"></span>
+					</span>
+            <span class="th width40" data-width="30">
+							<span class="td-con">幻灯片名称</span>
+				<span class="spacer"></span>
+						</span>
+            <span class="th width50" data-width="50">
+							<span class="td-con">幻灯片链接</span>
+				<span class="spacer"></span>
+						</span>
+            <span class="th width10" data-width="10">
+						<span class="td-con">操作</span>
+					</span>
+        </div>
+        {volist name='slide' id='v'}
+        <div class="tr">
+            <span class="td check-option"><input type="checkbox" name="id" value="{$v.id}"/></span>
+            <span class="td ident width40">
+							<span class="ident-show">
+								<em class="ico_pic_show"></em>
+								<div class="ident-pic-wrap">
+									<img src="{$v.img_url}"/>
+								</div>
+							</span>
+							<div class="double-click">
+								<a class="double-click-button margin-none padding-none" title="双击可编辑"
+                                   href="javascript:;"></a>
+								<input class="input double-click-edit text-ellipsis" name="title" data-id="9"
+                                       type="text" value="{$v.name}"/>
+							</div>
+						</span>
+            <span class="td width50">
+						<div class="double-click">
+							<a class="double-click-button margin-none padding-none" title="双击可编辑"
+                               href="javascript:;"></a>
+							<input class="input double-click-edit text-ellipsis " type="text" name="url" data-id="9"
+                                   value="{$v.url}"/>
+						</div>
+					</span>
+            <span class="td width10">
+                <span class="td-con">
+                    <a id="editor" href="javascript:;">编辑</a>&nbsp;&nbsp;&nbsp;
+                    <a class="delect" zdy="{$v.id}" data-confirm="是否确认删除？" href="javascript:;">删除</a></span>
+				</span>
+        </div>
+        {/volist}
+        {include file="/Template/listPage"}
+        </div>
+    </div>
+</div>
+{/block}
+{block name='script'}
+<script>
+    //数据库一共有多少数据
+count = {$count}
+</script>
+<script type="text/javascript">
+    $(function () {
+        var array = [];
+        //all单选框
+        $('#check-all').live('click', function () {
+            var judge = document.getElementById("check-all").checked;
+            if (judge) {
+                for (var i = 1; i < $(':checkbox').length; i++) {
+                    $(':checkbox')[i].checked = true;
+                    array[i] = $(':checkbox').eq(i).val();
+                }
+            } else {
+                for (var i = 1; i < $(':checkbox').length; i++) {
+                    $(':checkbox')[i].checked = false;
+                }
+            }
+        });
+
+        //all删除
+        $('[data-message]').live('click', function () {
+            var judge = document.getElementById("check-all").checked;
+            if (!judge) {
+                layer.alert('请选择您要操作的数据', {
+                    icon: 3,
+                    skin: 'layer-ext-moon'
+                });
+            } else {
+                var cyan = confirm('是否确认删除?');
+                if (cyan) {
+                    $.post('http://api.mxqqlg.com/?s=admin/site_home_page/alldel', {array}, function (data) {
+                        if (data['type'] == '1') {
+                            location.href = 'http://api.mxqqlg.com/?s=admin/site_home_page/index';
+                        }
+                    })
+                }
+            }
+        });
+
+        //编辑页面跳转
+        $('#editor').live('click', function () {
+            var id = $(this).parent().parent().parent().find('span').eq(0).find('input').val();
+            window.location.href = '?s=admin/site_home_page/slide&page=' + id
+        })
+
+        //删除
+        for (i = 0; i < $('.delect').length; i++) {
+            $('.delect').eq(i).click(function () {
+                var id = $(this).attr('zdy');
+                var cyan = confirm('是否确认删除?');
+                if (cyan) {
+                    $.post('http://api.mxqqlg.com/?s=admin/site_home_page/del', {id}, function (data) {
+                        if (data) {
+                            location.href = 'http://api.mxqqlg.com/?s=admin/site_home_page/index';
+                        }
+                    })
+                }
+            })
+        }
+    })
+</script>
+{/block}

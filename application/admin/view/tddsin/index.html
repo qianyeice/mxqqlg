@@ -1,0 +1,120 @@
+{extend name="Template/template" /}
+{block name='title'}首页管理{/block}
+{block name='body'}
+<!--导航-->
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">站点设置<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li class="fixed-nav-tab"><a href="?s=admin/site/index">站点信息</a></li>
+        <li class="fixed-nav-tab"><a class="current" href="?s=admin/tddsin/index">首页通知</a></li>
+        <li class="fixed-nav-tab"><a href="?s=admin/basicsetup/index">基本设置</a></li>
+        <li class="fixed-nav-tab"><a href="?s=admin/shopsetup/index">购物设置</a></li>
+        <li class="fixed-nav-tab"><a  href="?s=admin/dreammoneysetup/index">梦想币设置</a></li>
+        <li class="fixed-nav-tab"><a href="?s=admin/integralsetup/index">积分设置</a></li>
+        <li class="fixed-nav-tab"><a href="?s=admin/bonussetup/index">分红设置</a></li>
+        <li class="fixed-nav-tab"><a href="?s=admin/returngoodssetup/index">退货设置</a></li>
+        <li class="fixed-nav-tab"><a href=?s=admin/expresssetup/index">快递设置</a></li>
+        <li class="fixed-nav-tab"><a href="?s=admin/logisticscostsetup/index">物流费用设置</a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<!--修改主体-->
+<div action="" method="POST" enctype="multipart/form-data">
+    <div class="content padding-big have-fixed-nav
+    <div class=" content-tabs>
+
+        <div class="form-box clearfix">
+            <br>
+            <div class="form-group ">
+                <input id="r1" type="radio" value=1 class="kaigua" name="tongzhi">开启通知</input>
+                <input id="r2" type="radio" value=" " class="kaigua" name="tongzhi">关闭通知</input>
+            </div>
+
+            <div class="form-group ">
+                <span class="label">输入首页通知内容：</span>
+                <div class="box">
+                    <input class="input hd-input " type="text" name="dream_days" tabindex="0" id="tongz">
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="padding">
+        <input type="submit" class="button bg-main" value="保存" id="baocun">
+    </div>
+</div>
+{/block}
+
+{block name='script'}
+<script type="text/javascript">
+ $(function () {
+        //开关    1开  " "关
+   $('.kaigua').on('click', function () {
+       $a = $("input[type='radio']:checked").val();
+       if($a==1){
+           layer.confirm('你是否确定开启通知？',
+                   {btn: ['确认', '取消']},
+                   function (index) {
+                   layer.close(index);
+           $.ajax({
+               type: "POST",     //为post请求
+               url: "?s=admin/Tddsin/kaiguan",//这是我在后台接受数据的文件名
+               dataType: 'json',
+               data: {
+                   kg:1
+               },
+               success:function(data){    //请求成功之后的操作
+                   layer.msg('开启通知成功')
+               }
+           })
+           });
+
+       }else{  //关闭
+           layer.confirm('确认关闭通知？',
+                   {btn: ['确认', '取消']},
+                   function (index) {
+                       layer.close(index);
+                       $.ajax({
+                           type: "POST",     //为post请求
+                           url: "?s=admin/Tddsin/kaiguan",//这是我在后台接受数据的文件名
+                           dataType: 'json',
+                           data: {
+                               kg:''
+                           },
+                           success:function(data){    //请求成功之后的操作
+                               layer.msg('关闭通知成功')
+                           }
+                       })
+                   });
+       }
+       });
+
+
+        $('#baocun').on('click', function () {
+//            if($a==0){     //开启通知
+                $tz=$("#tongz").val();
+                if($tz==""){
+                    layer.msg('输入不能为空')
+                }else{
+                    $.ajax({
+                        type:"POST",     //为post请求
+                        url:"?s=admin/Tddsin/tongzhi",//这是我在后台接受数据的文件名
+                        dataType:'json',
+                        data:{
+                            val:$tz
+                        },
+                        success:function(data){    //请求成功之后的操作
+                            if(data==true){
+                                layer.msg('修改成功');
+                            }else{
+                                layer.msg('修改出错，请开启通知...')
+                            }
+                        }
+                    })
+                }
+//            }
+        });
+    });
+</script>
+{/block}

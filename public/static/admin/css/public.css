@@ -1,0 +1,18 @@
+.choose_hidden{
+    display: none;
+}
+#choose>table{
+    position: absolute;
+    top: 50px;
+    left: 10%;
+    z-index: 9;
+}
+#choose{
+    position: relative !important;
+    top: 0 !important;
+    left:0 !important;
+}
+.blue{
+    background:#1e90ff;
+    color: white;
+}

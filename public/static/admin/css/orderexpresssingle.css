@@ -1,0 +1,51 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.width5{
+     width: 5% !important;
+ }
+.width7{
+    width: 7% !important;
+}
+.width8{
+    width: 8% !important;
+}
+.width9{
+    width: 9% !important;
+}
+.width10{
+      width: 10% !important;
+  }
+.width13{
+    width: 13% !important;
+}
+.width15{
+    width: 15% !important;
+}
+.width20{
+    width: 20% !important;
+}
+
+.width25{
+    width: 25% !important;
+}
+.width30{
+    width: 30% !important;
+}
+.width35{
+    width: 35% !important;
+}
+.width40{
+    width: 40% !important;
+}
+.width45{
+    width: 45% !important;
+}
+.width50{
+     width: 50% !important;
+ }
+
+.productrecycle_width{
+    width: 100% !important;
+}

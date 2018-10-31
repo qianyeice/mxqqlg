@@ -1,0 +1,22 @@
+<div class="layui-header">
+    <div class="layui-logo" style="color: #fff">梦想全球乐购</div>
+    <!-- 头部区域（可配合layui已有的水平导航） -->
+    <ul class="layui-nav layui-layout-left">
+        <!--循环输出数据库内容-->
+        {volist name="data.top" id="vo"}
+        <li class="layui-nav-item choice" ><a href="?s=admin/page/index&id={$vo.id}">{$vo.memuname}</a></li>
+        {/volist}
+    </ul>
+    <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item">
+            <a href="javascript:;">
+                <img src="http://p5od7vvyw.bkt.clouddn.com/d0239439d5492bdf357a4595ff868e30" class="layui-nav-img">
+                {$name.username}
+            </a>
+            <dl class="layui-nav-child">
+                <dd><a href="">安全设置</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item clean"><a href="javascript:;">注销</a></li>
+    </ul>
+</div>

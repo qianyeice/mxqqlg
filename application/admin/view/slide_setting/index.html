@@ -1,0 +1,21 @@
+{extend name="Template/template" /}
+{block name='title'}首页管理{/block}
+{block name="body"}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">幻灯片设置</li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<form action="" name="focus_form" method="POST" enctype="multipart/form-data">
+    <div class="content padding-big have-fixed-nav">
+        <div class="form-box clearfix">
+            <div class="form-group "><span class="label">幻灯片名称：</span><div class="box"><input class="input hd-input input-error" name="title" value="" tabindex="0" datatype="*" nullmsg="请填写幻灯片名称" type="text"><span class="validform_checktip validation-tips"><i></i>请填写幻灯片名称</span></div><p class="desc">请填写幻灯片名称</p></div>				<div class="form-group "><span class="label">幻灯片图片：</span><div class="box"><div class="input hd-input file-box clearfix"><input class="file-txt" value="" tabindex="0" type="text"><input class="file-btn" value="浏览" type="button"><input class="file file-view" name="thumb" value="" type="file"></div></div><p class="desc">请上传幻灯片图片</p></div>				<div class="form-group "><span class="label">幻灯片链接：</span><div class="box"><input class="input hd-input " name="url" value="" tabindex="0" type="text"></div><p class="desc">请填写幻灯片点击后跳转的地址</p></div>				<div class="form-group "><span class="label">排序：</span><div class="box"><input class="input hd-input " name="sort" value="100" tabindex="0" type="text"></div><p class="desc">请填写自然数，幻灯片将会根据排序进行由小到大排列显示</p></div>			</div>
+        <div class="padding">
+            <input class="button bg-main" value="保存" type="submit">
+            <input class="button margin-left bg-gray" value="返回" type="button">
+        </div>
+    </div>
+    <input name="formhash" value="kv8z82" type="hidden"></form>
+{/block}

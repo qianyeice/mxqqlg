@@ -1,0 +1,68 @@
+{extend name="Template/template"/}
+{block name="css"}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<div class="table bg-white">
+    <div class="tr">
+        <div class="td w25"><span class="text-main">应付订单金额</span></div>
+        <div class="td w10"></div>
+        <div class="td w25"><span class="text-main">折扣率(%)</span></div>
+        <div class="td w10"></div>
+        <div class="td w25"><span class="text-main">实付订单金额</span></div>
+    </div>
+    <div class="tr">
+        <div class="td w25"><span id="old"class="text-orange">{$val.data[0]['real_amount']}</span></div>
+        <div class="td w10">×</div>
+        <div class="td w25">
+            <div class="td-con">
+                <input class="input" id="discount" type="text">
+            </div>
+        </div>
+        <div class="td w10">=</div>
+        <div class="td w25">
+            <div class="td-con">
+                <input class="input"id="Result" type="text" name="real_price" value="0.00">
+            </div>
+        </div>
+    </div>
+    <p class="text-center line-height-40">小提示：您可以直接调整订单的最终付款价格，确认实付订单金额或折扣率均可</p>
+</div>
+<div class="padding text-right">
+    <input type="button" class="button bg-main" id="okbtn" value="确定">
+    <input type="button" class="button margin-left bg-gray" id="closebtn" value="取消">
+    <input type="hidden"id="order_id"value="{$val.data[0]['id']}">
+</div>
+{/block}
+{block name='script'}
+<script src="__STATIC__/admin/js/handle.js"></script>
+<script type="text/javascript">
+    var index=parent.layer.getFrameIndex(window.name)
+    /**
+     * 计算折扣
+     */
+    $('#discount').keyup(function () {
+        var a=$('#old').html()
+        var b=$('#discount').val()
+        var c=a*b/100
+      $('#Result').attr('value',c)
+    })
+    /**
+     * 提交
+     */
+    $('#okbtn').click(function () {
+        $.post('?s=admin/Modifymoney/ajax_modif',{'val':$('#Result').val(),'id':$('#order_id').val()},function (data) {
+            if(data.type==1){
+                layer.alert(data.lang, {icon: 1, title: "提示"});
+                refresh(index)
+            }else {
+                layer.alert(data.lang);
+                refresh(index)
+            }
+        })
+    })
+
+</script>
+
+{/block}

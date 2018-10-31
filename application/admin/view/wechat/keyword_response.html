@@ -1,0 +1,73 @@
+
+{if $array.type==6}
+{include file="wechat/keyword_response_add" /}
+{else/}
+<div class="content padding-big have-fixed-nav">
+	<div class="table-work border margin-tb">
+		<div class="border border-white tw-wrap">
+			<a href="?s=admin/wechat/index&type=6"><i class="ico_add"></i>添加</a>
+			<div class="spacer-gray"></div>
+		</div>
+	</div>
+	<div class="table resize-table treetable border clearfix" style="width: 100%;">
+		<div class="tr resize-th" style="visibility: visible;">
+										<span class="th" data-width="20" style="width:20%;">
+						<span class="td-con">关键词</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+			<span class="th" data-width="50" style="width: 40%;">
+						<span class="td-con">回复素材</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+			<span class="th" data-width="10" style="width: 20%;">
+						<span class="td-con"> 创建时间</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+			<span class="th" data-width="15" style="width: 20%;">
+						<span class="td-con">操作</span>
+					</span>
+		</div>
+		{volist name="data" id="vo"}
+		<div class="tr" style="visibility: visible;">
+			<span class="td r0" style="width: 20%;">
+						<span class="td-con">
+							{volist name="vo['keyword']" id="v"}
+						        {$v}
+							{/volist}
+						</span>
+					</span>
+			<span class="td r1" style="width:  39%;">
+						<span class="td-con">{$vo['souce']}</span>
+					</span>
+			<span class="td r2" style="width:  20%;">
+						<span class="td-con">{$vo['inserttime']}</span>
+					</span>
+			<span class="td r3" style="width:   20%;">
+						<span class="td-con">
+							<a  href="?s=admin/wechat/index&type=6&id={$vo['souceid']}" >编辑</a>&nbsp;&nbsp;&nbsp;<a class="replay_del" data-confirm="是否确定删除？" data-id="{$vo['souceid']}">删除</a>
+						</span>
+					</span>
+		</div>
+		{/volist}
+	</div><div class="layout" id="table-get-width"></div>
+	{include file="Template/listPage" /}
+</div>
+{/if}
+<script type="text/javascript">
+$(function(){
+    $('.replay_del').click(function(){
+      var id=  $(this).attr('data-id');
+      var notice=  $(this).attr('data-confirm');
+        layer.confirm(notice, {
+            btn: ['确定', '取消'] //按钮
+        }, function () {
+           $.post(href('delete'),{'id':id},function (data) {
+              layer.msg(data['data'],{
+                  end:function () {
+					  window.location.reload();
+                  }
+			  });
+           });
+        }, function () {
+            layer.msg('取消!');
+        })
+	});
+})
+</script>

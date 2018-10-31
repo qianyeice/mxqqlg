@@ -1,0 +1,130 @@
+{extend name="Template/template"/}
+
+{block name="css"}
+
+{/block}
+{block name="js"}
+
+{/block}
+{block name='body'}
+<script>
+     idt = {$id};
+     pdt = {$pd}
+</script>
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">幻灯片设置</li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<form id="uploadForm" action="" name=" " method="POST" enctype="multipart/form-data">
+    <div class="content padding-big have-fixed-nav">
+        <div class="form-box clearfix">
+            <div class="form-group ">
+                <span class="label">幻灯片名称：</span>
+                <div class="box">
+                    <input class="input hd-input " type="text" name="title" value="{if $pd==0 } {$select.name}{/if}"
+                           tabindex="0"
+                           datatype="*"
+                           nullmsg="请填写幻灯片名称"/>
+                </div>
+                <p class="desc">请填写幻灯片名称</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">幻灯片图片：</span>
+                <div class="box">
+                    <div class="input hd-input file-box clearfix">
+                        <input type="text" id="changeval" class="file-txt" value={if $pd==0 } {$select.img_url}{else}""{/if} tabindex="0"/>
+                        <input id="upload" type="button" class="file-btn" value="浏览"/>
+                        <input style="width: 198px !important ;" type="file" id="files" class="file file-view"
+                               name="thumb" value=/>
+                    </div>
+                </div>
+                <p class="desc">请上传幻灯片图片</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">幻灯片链接：</span>
+                <div class="box">
+                    <input class="input hd-input " type="text" name="url" value="{if $pd==0 } {$select.url}{/if}"
+                           tabindex="0"/>
+                </div>
+                <p class="desc">请填写幻灯片点击后跳转的地址</p>
+            </div>
+        </div>
+        <div class="padding">
+            <input type="button" class="button bg-main" value="保存"/>
+            <input type="button" class="button margin-left bg-gray" value="返回"/>
+        </div>
+    </div>
+</form>
+{/block}
+{block name='script'}
+
+<script type="text/javascript">
+    $(function () {
+        //图片选择
+        $('#files').change(function (e) {
+            var name = e.currentTarget.files[0].name;
+            $('#changeval').val(name)
+        });
+        //返回上一页
+        $('form .bg-gray:not(no)').live('click', function () {
+            history.go(-1);
+        });
+        var reader = new FileReader();
+        FileReader.onload = function (oFREvent) {
+            console.log(oFREvent.target.result);
+        };
+        //保存
+        $('form .bg-main').live('click', function () {
+            if ($('form .hd-input').eq(0).val() != '' && $('form .hd-input').eq(2).val() != '') {
+                //上传图片
+                var index = layer.load(1, {
+                    shade: [0.1,'#fff'] //0.1透明度的白色背景
+                });
+                var xhr = new XMLHttpRequest();
+                file = document.getElementById("files").files;
+                var formData = new FormData;
+                formData.append("file[0]", file[0]);
+                xhr.open('POST', '?s=admin/site_home_page/files');
+                xhr.send(formData);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        imgurl = xhr.responseText;
+
+                        //上传数据库信息
+                        var array = [];
+                        for (var i = 0; i < $('form .hd-input').length; i++) {
+                            array[i] = $('form .hd-input').eq(i).val()
+                        }
+                        array[1] = imgurl;
+                        $.post('?s=admin/site_home_page/all', {
+                            array,
+                            ispd: pdt,
+                            id: idt
+                        }, function (data) {
+
+                            if (data['type'] == '1') {
+                                layer.close(index);
+                                history.go(-1);
+                            }else {
+                                layer.alert('未修改数据网络异常', {
+                                    icon: 2,
+                                    skin: 'layer-ext-moon'
+                                });
+                            }
+                        })
+                    }
+                };
+
+            } else {
+                layer.alert('请补全内容', {
+                    icon: 0,
+                    skin: 'layer-ext-moon'
+                });
+            }
+        })
+    });
+</script>
+{/block}

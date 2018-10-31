@@ -1,0 +1,403 @@
+{extend name="Template/template"}
+
+{block name="css"}
+
+<style>
+    .layui-layer {
+        border: 2px solid #417eb7;
+        border-radius: 15px;
+    }
+
+    .layui-layer-title {
+        background: #417eb7;
+        border-radius: 10px 10px 0 0;
+    }
+
+    #layui-layer-iframe1 {
+        border-radius: 0 0 10px 10px;
+    }
+</style>
+{/block}
+
+{block name="js"}
+
+{/block}
+
+{block name='body'}
+
+<div class="aaa">
+    <div class="fixed-nav layout">
+        <ul>
+            <li class="first">会员管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+            <li class="spacer-gray"></li>
+        </ul>
+        <div class="hr-gray"></div>
+    </div>
+    <div class="content padding-big have-fixed-nav">
+        <div class="member-list-search clearfix">
+            <div action="" method="get">
+                <div class="form-box form-layout-rank clearfix border-bottom-none">
+                    <div class="form-group  form-group-id1" style="z-index: 2;">
+                        <span class="label">按会员等级查看</span>
+                        <div class="box">
+                            <div class="form-select-edit ">
+                                <div class="form-buttonedit-popup">
+                                    <select id="option" name="city" lay-verify="" class="input">
+                                        <option value="9" selected>所有等级</option>
+                                        <option value="0">V0</option>
+                                        <option value="1">V1</option>
+                                        <option value="2">V2</option>
+                                        <option value="3">V3</option>
+                                        <option value="4">V4</option>
+                                        <option value="5">V5</option>
+                                    </select>
+                                    <!--<input class="input" value="所有等级" readonly="readonly" type="text">-->
+                                    <!--<span class="ico_buttonedit"></span>-->
+                                </div>
+                                <div class="listbox-items" style="display: none;">
+                                    <span class="listbox-item listbox-item-selected" data-val="0">所有等级</span>
+                                    <span class="listbox-item" data-val="1">V0</span>
+                                    <span class="listbox-item" data-val="2">V1</span>
+                                    <span class="listbox-item" data-val="3">V2</span>
+                                    <span class="listbox-item" data-val="4">V3</span>
+                                    <span class="listbox-item" data-val="5">V4</span>
+                                    <span class="listbox-item" data-val="6">V5</span>
+                                </div>
+                                <input class="form-select-name" name="group_id" value="0" type="hidden">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group  form-group-id2">
+                        <span class="label">搜索</span>
+                        <div class="box">
+                            <input class="input hd-input " name="keyword" value="" tabindex="0"
+                                   placeholder="输入会员名/手机/邮箱均可搜索" type="text">
+                        </div>
+                    </div>
+                </div>
+                <input name="m" value="member" type="hidden">
+                <input name="c" value="member" type="hidden">
+                <input name="a" value="index" type="hidden">
+                <input class="button bg-sub fl" value="查询" type="submit">
+                <input name="formhash" value="iem6Rt" type="hidden">
+            </div>
+        </div>
+        <!--<script type="text/html" id="barDemo">-->
+        <!--<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>-->
+        <!--<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>-->
+        <!--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>-->
+        <!--</script>-->
+        <div class="table-work border margin-tb">
+            <div class="border border-white tw-wrap">
+                <a class="lock" data-ins="delete" data-message="是否确定删除所选？" href="javascript:;" data-ajax='ids'>
+                    <i class="ico_delete"></i>
+                    删除
+                </a>
+                <div class="spacer-gray"></div>
+                <a class="lock" data-ins="lock" data-message="是否锁定此用户？" href="javascript:;" data-ajax='ids'>
+                    <i class="ico_lock"></i>
+                    锁定
+                </a>
+                <div class="spacer-gray"></div>
+                <a class="lock" data-ins="unlock" data-message="是否解锁此用户？" href="javascript:;" data-ajax='ids'>
+                    <i class="ico_unlock"></i>
+                    解锁
+                </a>
+                <div class="spacer-gray"></div>
+                <!--<a href=""><i class="ico_out"></i>导出</a>
+                <div class="spacer-gray"></div>-->
+            </div>
+        </div>
+        <div class="table-wrap member-info-table">
+            <div class="table resize-table paging-table check-table high-table border clearfix"
+                 style="position: relative;">
+                <div class="tr">
+                <span class="th check-option" data-resize="false"><span>
+                    <input id="check-all" type="checkbox"/>
+                    <span class="spacer"></span>
+                </span>
+                </span>
+                    <span class="th" data-width="20" style="width: 20%">
+						<span class="td-con">会员</span>
+                        <span class="spacer"></span>
+					</span>
+                    <span class="th" data-width="16" style="width: 16%">
+						<span class="td-con">上级</span>
+                        <span class="spacer"></span>
+					</span>
+                    <span class="th" data-width="10" style="width: 10%">
+						<span class="td-con">等级&积分</span>
+                        <span class="spacer"></span>
+					</span>
+                    <span class="th" data-width="12" style="width: 12%">
+						<span class="td-con">账户余额</span>
+                        <span class="spacer"></span>
+					</span>
+                    <span class="th" data-width="8" style="width: 8%">
+						<span class="td-con">梦想币</span>
+                        <span class="spacer"></span>
+					</span>
+                    <span class="th" data-width="16" style="width: 16%">
+						<span class="td-con">注册&登录</span>
+                        <span class="spacer"></span>
+					</span>
+                    <span class="th" data-width="6" style="width: 6%">
+						<span class="td-con">状态</span>
+                        <span class="spacer"></span>
+					</span>
+                    <span class="th" data-width="12" style="width: 12%"><span class="td-con">操作</span></span>
+                </div>
+                <!--读取数据-->
+
+                {volist name="data" id="vo"}
+
+                <div class="tr">
+                <span class="td check-option">
+                    <input type="checkbox" name="id" value="{$vo.id}"/>
+                </span>
+                    <span class="td" style="width: 20%">
+                    <div class="td-con td-pic text-left over-initial">
+                        <span class="pic">
+                            <img src="{$vo.avatar}" alt="用户头像"/>
+                        </span>
+                        <span class="title txt">{$vo.username}&nbsp;&nbsp;</span>
+                        <span class="icon">
+                            <div class="ico_emial member-info-tip">
+                                <span>
+                                    <i></i>邮箱：{$vo.email}
+                                </span>
+                            </div>
+                            <div class="ico_moblie member-info-tip">
+                                <span>
+                                    <i></i>手机：{$vo.mobile}
+                                </span>
+                            </div>
+                            <a class="ico_address" href="javascript:;"
+                               data-id='{$vo.id}' data-iframe='true' data-iframe-width='300' title="点击查看收货地址">
+                            </a>
+						</span>
+					</div>
+                </span>
+                    <span class="td" style="width: 16%">
+                    <div class="td-con td-pic text-left over-initial">
+                        <span class="pic" style="width: 40px; height: 40px;">
+                            <img src="{$vo.sup.avatar}" alt="用户头像"/>
+                        </span>
+                        <span class="title txt" style="margin: 0; line-height: 20px;">{$vo.sup.username}</span>
+                        <span class="title txt" style="margin: 0;line-height: 20px;">{$vo.sup.mobile}</span>
+                        <span class="icon">
+                            <a href="javascript:;" class="fl upsup"
+                               data-url="/?s=admin/member/sup&name={$vo.sup.username}&id={$vo.id}">修改上级</a>
+                        </span>
+                    </div>
+                </span>
+                    <span class="td" style="width: 10%">
+                    <span class="td-con text-left double-row">等级：V{$vo.group_id}<br/>积分：{$vo.integral}</span>
+                </span>
+                    <span class="td" style="width: 12%">
+						<span class="td-con double-row text-left">可用余额：￥{$vo.money}<br/>冻结余额：￥{$vo.frozen_money}</span>
+                </span>
+                    <span class="td" style="width: 8%">
+						<span class="td-con">{$vo.coin}</span>
+                </span>
+                    <span class="td" style="width: 16%">
+                    <span class="td-con double-row text-left">注册时间：{$vo.register_time}<br/>最后登录：{$vo.login_time}</span>
+                </span>
+                    <span class="td" style="width: 6%">
+                        {if ($vo.islock == 0)}
+                    <span class="td-con">正常</span>
+                        {else /}
+                         <span class="td-con">锁定</span>
+                        {/if}
+                </span>
+                    <span class="td" style="width: 12%">
+                    <span class="td-con">
+                        <a href="javascript:;" class="member_update" data-id="{$vo.id}">编辑</a>
+                        <!--&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="member_update_retail" data-url="/index.php?m=member&c=member&a=update_retail&id=2994">调整所属上级</a>-->&nbsp;&nbsp;&nbsp;
+                        <a href="javascript:;" class="adelete" data-id="{$vo.id}" data-confirm="您确认要删除？">删除</a>
+                    </span>
+				</span>
+                </div>
+                {/volist}
+                <div class="paging padding-tb body-bg clearfix" style="top:100%;">
+                    <ul class="fr">
+                        <li>共{$count}条数据</li>
+                        <li class="spacer-gray margin-lr"></li>
+                        <li>每页显示<input class="input radius-none" type="text" name="limit" value="{$limit}"/>条</li>
+                        <li class="spacer-gray margin-left"></li>
+                        <li class="default-start"><a href="/?s=admin/member/lists&page=1"></a></li>
+                        <li class="default-prev"><a href="/?s=admin/member/lists&page={$page-1}"></a></li>
+                        <li class="current"><a href="/?s=admin/member/lists&page={$page}">{$page}</a></li>
+                        <li><a href="/?s=admin/member/lists&page={$page+1}">{$page+1}</a></li>
+                        <li><a href="/?s=admin/member/lists&page={$page+2}">{$page+2}</a></li>
+                        <li><a href="/?s=admin/member/lists&page={$page+3}">{$page+3}</a></li>
+                        <li><a href="/?s=admin/member/lists&page={$page+4}">{$page+4}</a></li>
+                        <li class="next"><a href="/?s=admin/member/lists&page={$page+1}"></a></li>
+                        <li class="end"><a href="/?s=admin/member/lists&page={$end}"></a></li>
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <!--{include file="/Template/listPage"}-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        //option
+        $('.bg-sub').click(function () {
+            var hd=$('.hd-input ').val();
+            for (var y = 0; y < $('option').length; y++) {
+                if ($('option').eq(y).attr('selected')) {
+                    var option=$('option').eq(y).val();
+                }
+            }
+            $.post('/?s=admin/member/lists&view=false',{'hd':hd,'option':option},function (data) {
+                if(data){
+                    location.href = '/?s=admin/member/querys&hdd='+data[0]+'&opp='+data[1];
+                }else {
+                    location.href = '/?s=admin/member/lists';
+                }
+            })
+        });
+        //单选框
+        $('#check-all').click(function () {
+            window.checked = $('#check-all')[0].checked;
+            if (window.checked) {
+                for (var i = 1; i < $(':checkbox').length; i++) {
+                    $(':checkbox').eq(i)[0].checked = true;
+                }
+            } else {
+                for (var i = 1; i < $(':checkbox').length; i++) {
+                    $(':checkbox').eq(i)[0].checked = false;
+                }
+            }
+        });
+
+        //锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁锁
+        $('.lock').click(function () {
+            var array = [];
+            for (var i = 1; i < $(':checkbox').length; i++) {
+                if ($(':checkbox').eq(i)[0].checked == true) {
+                    array[i] = $(':checkbox').eq(i).val();
+                }
+            }
+            var ins = $(this).attr('data-ins');
+            var pink = confirm($(this).attr('data-message'));
+            if (array != '') {
+                if (pink) {
+                    $.post('/?s=admin/member/alldelete', {'array': array, 'ins': ins}, function (data) {
+                        if (data) {
+                            alert('操作成功！');
+                            location.href = '/?s=admin/member/lists';
+                        } else {
+                            alert('操作失败！')
+                        }
+                    });
+                }
+                // switch (ins) {
+                //     case 'delete':
+                //         if (pink) {
+                //             $.post('/?s=admin/member/alldelete',{'array':array},function (data) {
+                //                 if (data) {
+                //                     alert('操作成功！');
+                //                     location.href = '/?s=admin/member/lists';
+                //                 }else {
+                //                     alert('操作失败！')
+                //                 }
+                //             });
+                //         }
+                //         break;
+                //     case 'lock.txt':
+                //         if (pink) {
+                //             $.post('/?s=admin/member/lock.txt',{'array':array,'ins':ins},function (data) {
+                //                 if (data) {
+                //                     alert('操作成功！');
+                //                     location.href = '/?s=admin/member/lists';
+                //                 }else {
+                //                     alert('操作失败！')
+                //                 }
+                //             });
+                //         }
+                //         break;
+                //     case 'unlock':
+                //
+                //         break;
+                //     default:
+                //         break;
+                // }
+            } else {
+                alert('请选择您要操作的数据！')
+            }
+        });
+
+
+        //删除
+        $('.adelete').click(function () {
+            var text = $(this).attr('data-confirm');
+            var id = $(this).attr('data-id');
+
+            var cyan = confirm(text);
+            if (cyan) {
+                $.post('/?s=admin/member/adelete', {'id': id}, function (data) {
+                    if (data['type'] == '1') {
+                        location.href = '/?s=admin/succeed/index&c=member&a=lists'
+                    } else {
+                        location.href = '/?s=admin/succeed/index&c=member&a=lists&type=1'
+                    }
+                })
+            }
+        });
+        $('.ico_emial').mousemove(function () {
+            $(this).find('span').css('display', 'block');
+        });
+        $('.ico_emial').mouseleave(function () {
+            $(this).find('span').css('display', 'none');
+        });
+        $('.ico_moblie').mousemove(function () {
+            $(this).find('span').css('display', 'block');
+        });
+        $('.ico_moblie').mouseleave(function () {
+            $(this).find('span').css('display', 'none');
+        });
+        $('.member_update').click(function () {
+            var id = $(this).attr('data-id');
+            layer.open({
+                type: 2,
+                title: '修改用户信息',
+                shadeClose: true,
+                shade: 0.7,
+                maxmin: true, //开启最大化最小化按钮
+                area: ['460px', '280px'],
+                content: '?s=admin/member/modify&id=' + id
+            });
+        });
+        $('.ico_address').click(function () {
+            var id = $(this).attr('data-id');
+            layer.open({
+                type: 2,
+                title: '查看收货地址',
+                shadeClose: true,
+                shade: 0.7,
+                maxmin: true, //开启最大化最小化按钮
+                area: ['780px', '368px'],
+                content: '/?s=admin/member/address&id=' + id
+
+            });
+        });
+        $('.upsup').click(function () {
+            var url = $(this).attr('data-url');
+            layer.open({
+                type: 2,
+                title: '修改用户信息',
+                shadeClose: true,
+                shade: 0.7,
+                maxmin: true, //开启最大化最小化按钮
+                area: ['460px', '254px'],
+                content: url
+            });
+        });
+    })
+</script>
+{/block}

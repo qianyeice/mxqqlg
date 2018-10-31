@@ -1,0 +1,199 @@
+{extend name="Template/template"/}
+
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">秒杀活动<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li><a class="current" href="javascript:;"></a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="tips margin-tb">
+        <div class="kong"></div>
+        <div class="tips-info border">
+            <h6>温馨提示</h6>
+            <a id="show-tip" data-open="true" href="javascript:;">关闭操作提示</a>
+        </div>
+        <div class="tips-txt padding-small-top layout">
+            <p>- 针对自营商品SKU在有效时间内的价格促销活动</p>
+            <p>- 秒杀活动是完全独立活动，不参与其他形式促销</p>
+        </div>
+    </div>
+    <div class="hr-gray"></div>
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a href="?s=admin/Sekilleditor/add"><i class="ico_add"></i>添加</a>
+            <div class="spacer-gray"></div>
+            <a data-message="是否确定删除所选？" class="mnumber" href="javascript:" data-ajax='id'><i class="ico_delete"></i>删除</a>
+            <div class="spacer-gray"></div>
+        </div>
+    </div>
+    <div class="table resize-table paging-table check-table border clearfix">
+        <div class="tr">
+            <span class="th check-option" data-resize="false">
+                <span><input id="check-all" type="checkbox" /></span>
+            </span>
+            <span class="th" data-width="25" style="width: 12%">
+				<span class="td-con">秒杀活动名称</span>
+			</span>
+            <span class="th" data-width="15" style="width: 30%">
+				<span class="td-con">场次</span>
+			</span>
+            <span class="th" data-width="20" style="width: 28%">
+				<span class="td-con">秒杀活动时间</span>
+			</span>
+            <!--<span class="th" data-width="10" style="width: 14%">-->
+				<!--<span class="td-con">秒杀价格</span>-->
+			<!--</span>-->
+            <span class="th" data-width="10" style="width: 7%">
+				<span class="td-con">状态</span>
+			</span>
+            <span class="th" data-width="10" style="width: 13%">
+				<span class="td-con">前台显示状态</span>
+			</span>
+            <span class="th" data-width="10" style="width: 10%">
+                <span class="td-con">操作</span>
+            </span>
+        </div>
+
+        {volist name="lists" id="vo"}
+        <div class="tr">
+            <span class="td check-option"><input type="checkbox" name="id" value="{$vo.id}" /></span>
+            <span class="td" style="width: 12%">
+                <div class="double-click">
+                    <a class="double-click-button margin-none padding-none" title="双击可编辑" href="javascript:;"></a>
+                    <input class="input double-click-edit text-ellipsis text-center" type="text" name="name" data-id="4" value="{$vo.name}" />
+                </div>
+            </span>
+            <span class="td" style="width: 30%">
+                <span class="td-con">
+                    {$vo.date|date="Y-m-d H:i:s",###}
+                    {if($vo.Screenings == 1)/}
+                        早场(9-11点)
+                    {elseif($vo.Screenings == 2)/}
+                        上午场(11-12点)
+                    {elseif($vo.Screenings == 3)/}
+                        中午场(12-15点)
+                    {elseif($vo.Screenings == 4)/}
+                        下午场(15-16点)
+                    {elseif($vo.Screenings == 5)/}
+                        午夜场(16-23点)
+                    {else/}
+                        休息时间
+                    {/if}
+                </span>
+            </span>
+            <span class="td" style="width: 28%">
+                <span class="td-con">
+                    {$vo.Screenings_start_time|date="Y-m-d H:i:s",###}
+                     ~
+                    {$vo.Screenings_end_time|date="Y-m-d H:i:s",###}
+
+                </span>
+            </span>
+            <!--<span class="td" style="width: 14%">-->
+                <!--<span class="td-con">{$vo.spu_price}</span>-->
+            <!--</span>-->
+            <span class="td" style="width: 8%">
+                <span class="td-con">
+                    {if(($vo.Screenings_start_time) > strtotime("now"))}
+                    准备中
+                    {elseif( strtotime("now") >= ($vo.Screenings_start_time) && strtotime("now")<=($vo.Screenings_end_time))}
+                    正在抢购中
+                    {else/}
+                    活动已结束
+                    {/if}
+
+                </span>
+            </span>
+            <span class="td" style="width: 11%">
+                <span class="td-con">
+                    {if($vo.is_display == 1)}
+                    显示
+                    {else /}
+                    隐藏
+                    {/if}
+                </span>
+            </span>
+            <span class="td" style="width: 10%">
+                <span class="td-con">
+                    <a href="?s=admin/Sekilleditor/edit&Promotion_commodity_id={$vo.Promotion_commodity_id}">编辑</a>
+                    <a href="javascript:;" onclick="banner_del(this,'{$vo.Promotion_commodity_id}')" >删除</a>
+                </span>
+            </span>
+        </div>
+        {/volist}
+        {include file="/Template/listPage"}
+
+    </div>
+</div>
+<script>
+    function banner_del(obj,id){
+        layer.confirm('确认要删除吗？',function(index){
+            //发异步删除数据
+            $.get("?s=admin/Sekill/delete",{id:id});
+            $(obj).parents("tr").remove();
+            layer.msg('已删除!',{icon:1,time:1000});
+            location.reload();
+        });
+    }
+//    关闭提示操作：
+    $("#show-tip").click(function(){
+        num=$(this).html();
+        if(num=="关闭操作提示"){
+            $(".tips-txt").css("display","none");
+            $(this).html("打开操作提示")
+        }else{
+            $(".tips-txt").css("display","block");
+            $(this).html("关闭操作提示")
+        }
+
+    })
+
+    $("#check-all").click(function(){
+
+        if($(this).attr("checked")){
+
+            $("input:checkbox").attr("checked","checked");
+
+        }else{
+
+            $("input:checkbox").removeAttr("checked");
+        }
+    });
+
+    //选中的用户进行删除操作
+    $(".mnumber").click(function(){
+        arr=[];
+        var i=-1;
+        $("input:checkbox[name='id']:checked").each(function() { // 遍历name=id的多选框
+            i++;
+            arr[i]= $(this).val();  // 每一个被选中项的值
+        });
+        con=arr.join(",");
+        if(con==""){
+            layer.msg("请先选择删除对象！")
+        }else {
+            layer.confirm('是否确认删除选中的用户？', {
+                btn: ['确定', '取消'] //按钮
+            }, function () {
+                $.ajax({
+                    type: "post",
+                    dataType: "json",
+                    url: "?s=admin/Sekill/delete",
+                    data: {
+                        id: con
+                    },
+                    success: function () {
+                        window.location.reload();
+                    }
+                })
+            }, function () {
+                layer.closeAll();
+            });
+        }
+    });
+</script>
+{/block}

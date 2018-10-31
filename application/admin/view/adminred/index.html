@@ -1,0 +1,152 @@
+{extend name="Template/template"/}
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">礼包红包管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li><a class="current" href="javascript:;"></a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="tips margin-tb">
+        <div class="kong"></div>
+        <div class="tips-info border">
+            <h6>温馨提示</h6>
+            <a id="show-tip" data-open="true" href="javascript:;">关闭操作提示</a>
+        </div>
+        <div class="tips-txt padding-small-top layout">
+            <p>- 管理礼包里的红包</p>
+        </div>
+    </div>
+    <div class="hr-gray"></div>
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a href="?s=admin/Addadminred/index&id=0"><i class="ico_add"></i>添加</a>
+            <div class="spacer-gray"></div>
+            <a href="javascript:;" id="delete"><i class="ico_delete"></i>删除</a>
+            <div class="spacer-gray"></div>
+        </div>
+    </div>
+    <div class="table resize-table paging-table check-table border clearfix">
+        <div class="tr">
+            <span class="th check-option" id="cheeee" data-resize="false">
+                <span><input id="check-all" type="checkbox"/></span>
+            </span>
+            <span class="th" data-width="25" style="width: 20%">
+				<span class="td-con">红包名称</span>
+			</span>
+            <span class="th" data-width="15" style="width: 20%">
+				<span class="td-con">红包金额</span>
+			</span>
+            <span class="th" data-width="20" style="width: 20%">
+				<span class="td-con">红包数量</span>
+			</span>
+            <span class="th" data-width="10" style="width: 20%">
+				<span class="td-con">红包图片</span>
+			</span>
+            <span class="th" data-width="10" style="width: 20%">
+                <span class="td-con">操作</span>
+            </span>
+        </div>
+        {volist name="hb" id="hongbao"}
+        <div class="tr">
+            <span class="td check-option"><input class="che" type="checkbox" name="id" value="4"
+                                                 ccc="{$hongbao.id}"/></span>
+            <span class="td" style="width: 20%">
+                <div class="double-click">
+                    <a class="double-click-button margin-none padding-none" title="双击可编辑" href="javascript:;"></a>
+                    <input class="input double-click-edit text-ellipsis text-center" type="text" name="name" data-id="4"
+                           value="{$hongbao.name}"/>
+                </div>
+            </span>
+            <span class="td" style="width: 20%">
+                <span class="td-con">{$hongbao.value}</span>
+            </span>
+            <span class="td" style="width: 20%">
+                <span class="td-con">{$hongbao.number}</span>
+            </span>
+            <span class="td" style="width: 20%">
+                <span class="td-con"><img style="width: 20%;height: 30px" src="{$hongbao.img}"></span>
+            </span>
+            <span class="td" style="width: 20%">
+                <span class="td-con">
+                    <a href="?s=admin/Addadminred/index&id={$hongbao.id}">编辑</a>&nbsp;
+                    <a onclick="layer.confirm('你是否确定删除？',
+                    {btn: ['确认','取消']},function() {location.href='?s=admin/Addadminred/from_delete&id={$hongbao.id}'})">删除</a>
+                </span>
+            </span>
+        </div>
+        {/volist}
+        {include file="/Template/listPage"}
+        <!--<div class="paging padding-tb body-bg clearfix">-->
+            <!--<ul class="fr">-->
+                <!--<li>共条数据</li>-->
+                <!--<li class="spacer-gray margin-lr"></li>-->
+                <!--<li>每页显示<input class="input radius-none" type="text" name="limit" value="20"/>条</li>-->
+                <!--<li class="spacer-gray margin-left"></li>-->
+                <!--<li class="default-start"></li>-->
+                <!--<li class="default-prev"></li>-->
+                <!--<li class="current"><a href="/index.php?m=promotion&c=spike&a=index&formhash=dTq52O&page=1"></a></li>-->
+                <!--<li class="default-next"></li>-->
+                <!--<li class="default-end"></li>-->
+            <!--</ul>-->
+            <!--<div class="clear"></div>-->
+        <!--</div>-->
+    </div>
+</div>
+<script>
+    var ajax_name = "/index.php?m=promotion&c=spike&a=ajax_name";
+    $(".table").resizableColumns();
+    $(".table").fixedPaging();
+    $('input[name=name]').bind('blur', function () {
+        var name = $(this).val();
+        var id = $(this).attr('data-id');
+        list_action.change_name(ajax_name, id, name);
+    });
+</script>
+
+<script>
+    $("#show-tip").click(function(){
+        if($(this).html()=='关闭操作提示'){
+            $(this).html("打开操作提示");
+            $(".padding-small-top").css("display","none")
+        }else{
+            $(this).html("关闭操作提示");
+            $(".padding-small-top").css("display","block")
+        }
+    });
+
+    //全选
+    $('#check-all').click(function () {
+        var quanxuan = $('#check-all').is(':checked');
+        if (quanxuan) {
+            $('.che:checkbox').attr("checked", true);
+        } else {
+            $('.che:checkbox').attr("checked", false);
+        }
+    });
+
+
+    $("#delete").click(function () {
+        layer.confirm('你是否确定删除？', {btn: ['确认', '取消']}, function () {
+            var array = {};
+            $('.che').each(function (a) {
+                if ($(this).is(":checked")) {
+                    var id = $(this).attr('ccc');
+                    array[a] = id;
+                }
+            });
+            $.post('?s=admin/Addadminred/ajax_delete', {array: array}, function (data) {
+                if (data) {
+                    // layer.alert('成功！');
+                    location.href = '/?s=admin/succeed/index&c=adminred&a=index'
+                } else {
+                    // layer.alert('失败！');
+                    location.href = '/?s=admin/succeed/index&c=adminred&a=index&type=1'
+                }
+            })
+        });
+    })
+</script>
+{/block}

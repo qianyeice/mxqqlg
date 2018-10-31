@@ -1,0 +1,146 @@
+{extend name="Template/template"/}
+{block name="css"}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<!--标题-->
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">管理微信素材、回复和自定义菜单<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li class="fixed-nav-tab"><a href="/index.php?m=admin&amp;c=wechat&amp;a=index&amp;formhash=fKRHLh">微信素材</a>
+        </li>
+        <li class="fixed-nav-tab"><a href="/index.php?m=admin&amp;c=wechat&amp;a=reply&amp;formhash=fKRHLh">关注回复</a>
+        </li>
+        <li class="fixed-nav-tab"><a href="/index.php?m=admin&amp;c=wechat&amp;a=reply&amp;type=2&amp;formhash=fKRHLh">消息自动回复</a>
+        </li>
+        <li class="fixed-nav-tab"><a href="/index.php?m=admin&amp;c=wechat&amp;a=keyword&amp;formhash=fKRHLh">关键词回复</a>
+        </li>
+        <li class="fixed-nav-tab"><a class="current"
+                                     href="/index.php?m=admin&amp;c=wechat&amp;a=menu&amp;formhash=fKRHLh">自定义菜单</a>
+        </li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<!--主体-->
+<div class="content padding-big have-fixed-nav">
+    <form action="" method="POST" data-reset="" data-valcontent_idate="true" name="form">
+        <div class="content-tabs">
+            <div class="form-box clearfix">
+                <div class="form-group">
+                    <span class="label">选择上级菜单</span>
+                    <div class="box">
+                        <select class="input" name="pid">
+                            <option value="0">=选择上级菜单=</option>
+                            <option value="1">
+                                我的商城
+                            </option>
+                            <option value="2">
+                                视频专区
+                            </option>
+                            <option value="3">
+                                会员中心
+                            </option>
+                        </select>
+                    </div>
+                    <p class="desc">用户点击菜单发送的消息内容</p>
+                </div>
+                <div class="form-group">
+                    <span class="label">菜单名称</span>
+                    <div class="box">
+                        <input type="text" class="input hd-input" id="menu_name" name="menu_name" value=""
+                               data-valcontent_idate="required;">
+                    </div>
+                    <p class="desc">一级菜单最多4个汉字，二级菜单最多7个汉字，多出来的部分将会以“...”代替</p>
+                </div>
+                <div class="form-group">
+                    <span class="label">菜单类型</span>
+                    <div class="box">
+                        <select class="input" name="menu_type" data-valcontent_idate="required;">
+                            <option value="">=选择菜单类型=</option>
+                            <option value="click">发送消息</option>
+                            <option value="view">打开链接</option>
+                        </select>
+                    </div>
+                    <p class="desc">菜单的响应动作类型</p>
+                </div>
+                <div class="form-group toggle click hide-flag">
+                    <span class="label">消息规则</span>
+                    <div class="box">
+                        <select class="input" name="key">
+                            <option value="0">=选择消息规则=</option>
+                            <option value="1">
+                                关键词测试回复
+                            </option>
+                            <option value="2">
+                                关注回复
+                            </option>
+                            <option value="3">
+                                关注回复
+                            </option>
+                            <option value="4">
+                                星推荐
+                            </option>
+                            <option value="5">
+                                星导购
+                            </option>
+                            <option value="6">
+                                商城优势
+                            </option>
+                            <option value="7">
+                                企业宣传
+                            </option>
+                            <option value="8">
+                                疑难解答
+                            </option>
+                            <option value="9">
+                                我的素材库
+                            </option>
+                            <option value="10">
+                                我的素材库
+                            </option>
+                            <option value="11">
+                                商城动画
+                            </option>
+                            <option value="12">
+                                核心模式
+                            </option>
+                            <option value="13">
+                                操作指南
+                            </option>
+                            <option value="14">
+                                星体验
+                            </option>
+                            <option value="15">
+                                敬请期待
+                            </option>
+                        </select>
+                    </div>
+                    <p class="desc">用户点击菜单发送的消息内容</p>
+                </div>
+                <div class="form-group toggle view hide-flag">
+                    <span class="label">链接地址</span>
+                    <div class="box">
+                        <input type="text" class="input" id="menu_url" name="menu_url" size="20" value="">
+                    </div>
+                    <p class="desc">用户点击菜单打开的链接地址(注：链接地址必须以http://开头)</p>
+                </div>
+                <div class="form-group">
+                    <p class="label">排序</p>
+                    <div class="box">
+                        <input type="number" class="input" id="sort" name="sort" size="20" value="1" datatype="n">
+                    </div>
+                    <p class="desc">自定义菜单显示排序</p>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="formhash" value="fKRHLh"></form>
+</div>
+<!--保存-->
+<div class="padding">
+    <input type="submit" class="button bg-main" value="保存">
+</div>
+{/block}
+{block name='script'}
+{/block}

@@ -1,0 +1,58 @@
+{extend name="Template/template"/}
+{block name="css"}
+{load href="__STATIC__/admin/css/initiator_update.css" /}
+{/block}
+{block name="js"}
+{load href="__STATIC__/admin/js/initiator_update.js" / }
+{/block}
+{block name='body'}
+<table   >
+
+    <tr>
+        <td i="body" class="ui-dialog-body">
+            <div i="content" class="ui-dialog-content" style="width: 100%; height: 100%;">
+
+                <div class="xianshi">
+                <div class="biao"><b> <span>请选择会员:</span> <input class="cxtj" type="text"
+                style="border: solid skyblue 1px;height: 20px" placeholder="请输入姓名/手机号">&nbsp&nbsp&nbsp<input
+                class="chaxun" value="查询" type="button"></b></div>
+                </div>
+
+                <!--<div style="width: 100%;height: 2px"></div>-->
+                <div class="mxx" >
+                <img class="imgg"  src="" >
+                <div class="cname" >
+                </div>
+
+                <input class="bjid" type="hidden" value="" name="">
+
+                </div>
+                <div class="biao"><b><span> 请选择等级:</span><select
+                        class="dengji">
+                    <option value="3">
+                        发起人
+                    </option>
+                    <option value="2">
+                        合伙人
+                    </option>
+                    <option value="1">
+                        员工
+                    </option>
+                </select></b></div>
+
+                <div class="padding text-right ui-dialog-footer">
+                    <input name="dsubmit" value="确定" class="button bg-main" type="submit"  id="xgqd">
+                    <input name="button" value="取消" class="button  bg-gray" data-back="false"
+                           type="button">
+                </div>
+            </div>
+
+        </td>
+    </tr>
+
+</table>
+
+<script type="text/javascript">
+
+</script>
+{/block}

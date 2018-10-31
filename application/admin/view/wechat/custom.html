@@ -1,0 +1,312 @@
+<div class="content padding-big have-fixed-nav">
+    <div class="tips margin-tb">
+        <div class="tips-info border">
+            <h6>温馨提示</h6>
+            <a id="show-tip" data-open="true" href="javascript:;">关闭操作提示</a>
+        </div>
+        <div class="tips-txt padding-small-top layout">
+            <p> 自定义菜单最多包括3个一级菜单，每个一级菜单最多包含5个二级菜单。 </p>
+            <p> 一级菜单最多4个汉字，二级菜单最多7个汉字，多出来的部分将会以“...”代替。 </p>
+            <p> 创建自定义菜单后，菜单的刷新策略是，在用户进入公众号会话页或公众号profile页时，如果发现上一次拉取菜单的请求在5分钟以前，就会拉取一下菜单，如果菜单有更新，就会刷新客户端的菜单。测试时可以尝试取消关注公众账号后再次关注，则可以看到创建后的效果。</p>
+        </div>
+    </div>
+    <div class="hr-gray"></div>
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_info&amp;formhash=fKRHLh"><i class="ico_add"></i>添加</a>
+            <div class="spacer-gray"></div>
+            <a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_update&amp;formhash=fKRHLh"><i class="ico_moblie"></i>更新自定义菜单</a>
+            <a data="/index.php?m=admin&amp;c=wechat&amp;a=menu_drop" href="javascript:;" id="ico_delete" title="删除微信客户端自定义菜单"><i class="ico_delete"></i>删除微信客户端自定义菜单</a>
+        </div>
+    </div>
+    <div class="table resize-table treetable border clearfix" style="width: 1051px;">
+        <div class="tr border-none resize-th" style="visibility: visible;">
+										<span class="th" data-width="20" style="width: 221px;">
+						<span class="td-con">菜单名称</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+            <span class="th" data-width="15" style="width: 166px;">
+						<span class="td-con">菜单类型</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+            <span class="th" data-width="20" style="width: 221px;">
+						<span class="td-con">回复内容</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+            <span class="th" data-width="20" style="width: 221px;">
+						<span class="td-con">链接地址</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+            <span class="th" data-width="10" style="width: 110px;">
+						<span class="td-con"> 创建时间</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+            <div class="th" data-width="10" style="width: 110px;"><span class="td-con">操作</span></div>
+        </div>
+        <div class="tr" data-tree-id="1" data-tree-parent-id="0" style="visibility: visible;">
+																														<span class="td r0" style="width: 221px;">
+						<span class="td-con">我的商城</span>
+					</span>
+            <span class="td r1" style="width: 166px;">
+												打开链接												</span>
+            <span class="td r2" style="width: 221px;">
+												</span>
+            <span class="td r3" style="width: 221px;">
+												http://m.mxqqlg.com												</span>
+            <span class="td r4" style="width: 110px;">
+						<span class="td-con">2017-11-21 19:12</span>
+					</span>
+            <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						<a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_info&amp;id=1&amp;formhash=fKRHLh">编辑</a>&nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="/index.php?m=admin&amp;c=wechat&amp;a=menu_del&amp;id=1&amp;formhash=fKRHLh">删除</a></span>
+					</span>
+        </div>
+        <div class="tr" data-tree-id="8" data-tree-parent-id="0" style="visibility: visible;">
+																														<span class="td r0" style="width: 221px;">
+						<span class="td-con">&nbsp;&nbsp;├“星”导购</span>
+					</span>
+            <span class="td r1" style="width: 166px;">
+												发送消息												</span>
+            <span class="td r2" style="width: 221px;">
+													星导购												</span>
+            <span class="td r3" style="width: 221px;">
+																								</span>
+            <span class="td r4" style="width: 110px;">
+						<span class="td-con">2017-11-21 20:07</span>
+					</span>
+            <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						<a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_info&amp;id=8&amp;formhash=fKRHLh">编辑</a>&nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="/index.php?m=admin&amp;c=wechat&amp;a=menu_del&amp;id=8&amp;formhash=fKRHLh">删除</a></span>
+					</span>
+        </div>
+        <div class="tr" data-tree-id="7" data-tree-parent-id="0" style="visibility: visible;">
+																														<span class="td r0" style="width: 221px;">
+						<span class="td-con">&nbsp;&nbsp;├“星”推荐</span>
+					</span>
+            <span class="td r1" style="width: 166px;">
+												发送消息												</span>
+            <span class="td r2" style="width: 221px;">
+													星推荐												</span>
+            <span class="td r3" style="width: 221px;">
+																								</span>
+            <span class="td r4" style="width: 110px;">
+						<span class="td-con">2017-11-21 20:07</span>
+					</span>
+            <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						<a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_info&amp;id=7&amp;formhash=fKRHLh">编辑</a>&nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="/index.php?m=admin&amp;c=wechat&amp;a=menu_del&amp;id=7&amp;formhash=fKRHLh">删除</a></span>
+					</span>
+        </div>
+        <div class="tr" data-tree-id="18" data-tree-parent-id="0" style="visibility: visible;">
+																														<span class="td r0" style="width: 221px;">
+						<span class="td-con">&nbsp;&nbsp;└进入商城</span>
+					</span>
+            <span class="td r1" style="width: 166px;">
+												打开链接												</span>
+            <span class="td r2" style="width: 221px;">
+												</span>
+            <span class="td r3" style="width: 221px;">
+												http://m.mxqqlg.com												</span>
+            <span class="td r4" style="width: 110px;">
+						<span class="td-con">2017-11-24 11:03</span>
+					</span>
+            <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						<a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_info&amp;id=18&amp;formhash=fKRHLh">编辑</a>&nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="/index.php?m=admin&amp;c=wechat&amp;a=menu_del&amp;id=18&amp;formhash=fKRHLh">删除</a></span>
+					</span>
+        </div>
+        <div class="tr" data-tree-id="2" data-tree-parent-id="0" style="visibility: visible;">
+																														<span class="td r0" style="width: 221px;">
+						<span class="td-con">视频专区</span>
+					</span>
+            <span class="td r1" style="width: 166px;">
+												打开链接												</span>
+            <span class="td r2" style="width: 221px;">
+												</span>
+            <span class="td r3" style="width: 221px;">
+												http://m.mxqqlg.com/index.php?m=member&amp;c=index&amp;a=index												</span>
+            <span class="td r4" style="width: 110px;">
+						<span class="td-con">2017-11-21 19:13</span>
+					</span>
+            <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						<a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_info&amp;id=2&amp;formhash=fKRHLh">编辑</a>&nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="/index.php?m=admin&amp;c=wechat&amp;a=menu_del&amp;id=2&amp;formhash=fKRHLh">删除</a></span>
+					</span>
+        </div>
+        <div class="tr" data-tree-id="13" data-tree-parent-id="0" style="visibility: visible;">
+																														<span class="td r0" style="width: 221px;">
+						<span class="td-con">&nbsp;&nbsp;├商城优势</span>
+					</span>
+            <span class="td r1" style="width: 166px;">
+												发送消息												</span>
+            <span class="td r2" style="width: 221px;">
+													商城优势												</span>
+            <span class="td r3" style="width: 221px;">
+																								</span>
+            <span class="td r4" style="width: 110px;">
+						<span class="td-con">2017-11-22 09:10</span>
+					</span>
+            <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						<a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_info&amp;id=13&amp;formhash=fKRHLh">编辑</a>&nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="/index.php?m=admin&amp;c=wechat&amp;a=menu_del&amp;id=13&amp;formhash=fKRHLh">删除</a></span>
+					</span>
+        </div>
+        <div class="tr" data-tree-id="12" data-tree-parent-id="0" style="visibility: visible;">
+																														<span class="td r0" style="width: 221px;">
+						<span class="td-con">&nbsp;&nbsp;├企业宣传</span>
+					</span>
+            <span class="td r1" style="width: 166px;">
+												发送消息												</span>
+            <span class="td r2" style="width: 221px;">
+													企业宣传												</span>
+            <span class="td r3" style="width: 221px;">
+																								</span>
+            <span class="td r4" style="width: 110px;">
+						<span class="td-con">2017-11-22 09:09</span>
+					</span>
+            <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						<a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_info&amp;id=12&amp;formhash=fKRHLh">编辑</a>&nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="/index.php?m=admin&amp;c=wechat&amp;a=menu_del&amp;id=12&amp;formhash=fKRHLh">删除</a></span>
+					</span>
+        </div>
+        <div class="tr" data-tree-id="11" data-tree-parent-id="0" style="visibility: visible;">
+																														<span class="td r0" style="width: 221px;">
+						<span class="td-con">&nbsp;&nbsp;├商城动画</span>
+					</span>
+            <span class="td r1" style="width: 166px;">
+												发送消息												</span>
+            <span class="td r2" style="width: 221px;">
+													商城动画												</span>
+            <span class="td r3" style="width: 221px;">
+																								</span>
+            <span class="td r4" style="width: 110px;">
+						<span class="td-con">2017-11-22 09:09</span>
+					</span>
+            <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						<a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_info&amp;id=11&amp;formhash=fKRHLh">编辑</a>&nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="/index.php?m=admin&amp;c=wechat&amp;a=menu_del&amp;id=11&amp;formhash=fKRHLh">删除</a></span>
+					</span>
+        </div>
+        <div class="tr" data-tree-id="10" data-tree-parent-id="0" style="visibility: visible;">
+																														<span class="td r0" style="width: 221px;">
+						<span class="td-con">&nbsp;&nbsp;├核心模式</span>
+					</span>
+            <span class="td r1" style="width: 166px;">
+												发送消息												</span>
+            <span class="td r2" style="width: 221px;">
+													核心模式												</span>
+            <span class="td r3" style="width: 221px;">
+																								</span>
+            <span class="td r4" style="width: 110px;">
+						<span class="td-con">2017-11-22 09:09</span>
+					</span>
+            <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						<a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_info&amp;id=10&amp;formhash=fKRHLh">编辑</a>&nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="/index.php?m=admin&amp;c=wechat&amp;a=menu_del&amp;id=10&amp;formhash=fKRHLh">删除</a></span>
+					</span>
+        </div>
+        <div class="tr" data-tree-id="9" data-tree-parent-id="0" style="visibility: visible;">
+																														<span class="td r0" style="width: 221px;">
+						<span class="td-con">&nbsp;&nbsp;└操作指南</span>
+					</span>
+            <span class="td r1" style="width: 166px;">
+												发送消息												</span>
+            <span class="td r2" style="width: 221px;">
+													操作指南												</span>
+            <span class="td r3" style="width: 221px;">
+																								</span>
+            <span class="td r4" style="width: 110px;">
+						<span class="td-con">2017-11-22 09:08</span>
+					</span>
+            <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						<a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_info&amp;id=9&amp;formhash=fKRHLh">编辑</a>&nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="/index.php?m=admin&amp;c=wechat&amp;a=menu_del&amp;id=9&amp;formhash=fKRHLh">删除</a></span>
+					</span>
+        </div>
+        <div class="tr" data-tree-id="3" data-tree-parent-id="0" style="visibility: visible;">
+																														<span class="td r0" style="width: 221px;">
+						<span class="td-con">会员中心</span>
+					</span>
+            <span class="td r1" style="width: 166px;">
+												打开链接												</span>
+            <span class="td r2" style="width: 221px;">
+												</span>
+            <span class="td r3" style="width: 221px;">
+												http://m.mxqqlg.com												</span>
+            <span class="td r4" style="width: 110px;">
+						<span class="td-con">2017-11-21 19:13</span>
+					</span>
+            <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						<a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_info&amp;id=3&amp;formhash=fKRHLh">编辑</a>&nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="/index.php?m=admin&amp;c=wechat&amp;a=menu_del&amp;id=3&amp;formhash=fKRHLh">删除</a></span>
+					</span>
+        </div>
+        <div class="tr" data-tree-id="17" data-tree-parent-id="0" style="visibility: visible;">
+																														<span class="td r0" style="width: 221px;">
+						<span class="td-con">&nbsp;&nbsp;├个人中心</span>
+					</span>
+            <span class="td r1" style="width: 166px;">
+												打开链接												</span>
+            <span class="td r2" style="width: 221px;">
+												</span>
+            <span class="td r3" style="width: 221px;">
+												http://m.mxqqlg.com/index.php?m=member&amp;c=index&amp;a=index												</span>
+            <span class="td r4" style="width: 110px;">
+						<span class="td-con">2017-11-22 09:14</span>
+					</span>
+            <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						<a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_info&amp;id=17&amp;formhash=fKRHLh">编辑</a>&nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="/index.php?m=admin&amp;c=wechat&amp;a=menu_del&amp;id=17&amp;formhash=fKRHLh">删除</a></span>
+					</span>
+        </div>
+        <div class="tr" data-tree-id="19" data-tree-parent-id="0" style="visibility: visible;">
+																														<span class="td r0" style="width: 221px;">
+						<span class="td-con">&nbsp;&nbsp;├我要发红包</span>
+					</span>
+            <span class="td r1" style="width: 166px;">
+												发送消息												</span>
+            <span class="td r2" style="width: 221px;">
+													敬请期待												</span>
+            <span class="td r3" style="width: 221px;">
+																								</span>
+            <span class="td r4" style="width: 110px;">
+						<span class="td-con">2018-02-05 14:51</span>
+					</span>
+            <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						<a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_info&amp;id=19&amp;formhash=fKRHLh">编辑</a>&nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="/index.php?m=admin&amp;c=wechat&amp;a=menu_del&amp;id=19&amp;formhash=fKRHLh">删除</a></span>
+					</span>
+        </div>
+        <div class="tr" data-tree-id="16" data-tree-parent-id="0" style="visibility: visible;">
+																														<span class="td r0" style="width: 221px;">
+						<span class="td-con">&nbsp;&nbsp;├我的二维码</span>
+					</span>
+            <span class="td r1" style="width: 166px;">
+												打开链接												</span>
+            <span class="td r2" style="width: 221px;">
+												</span>
+            <span class="td r3" style="width: 221px;">
+												http://m.mxqqlg.com/index.php?m=member&amp;c=index&amp;a=recommend												</span>
+            <span class="td r4" style="width: 110px;">
+						<span class="td-con">2017-11-22 09:13</span>
+					</span>
+            <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						<a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_info&amp;id=16&amp;formhash=fKRHLh">编辑</a>&nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="/index.php?m=admin&amp;c=wechat&amp;a=menu_del&amp;id=16&amp;formhash=fKRHLh">删除</a></span>
+					</span>
+        </div>
+        <div class="tr" data-tree-id="4" data-tree-parent-id="0" style="visibility: visible;">
+																														<span class="td r0" style="width: 221px;">
+						<span class="td-con">&nbsp;&nbsp;└疑问解答</span>
+					</span>
+            <span class="td r1" style="width: 166px;">
+												发送消息												</span>
+            <span class="td r2" style="width: 221px;">
+													疑难解答												</span>
+            <span class="td r3" style="width: 221px;">
+																								</span>
+            <span class="td r4" style="width: 110px;">
+						<span class="td-con">2017-11-21 19:13</span>
+					</span>
+            <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						<a href="/index.php?m=admin&amp;c=wechat&amp;a=menu_info&amp;id=4&amp;formhash=fKRHLh">编辑</a>&nbsp;&nbsp;&nbsp;<a data-confirm="是否确认删除？" href="/index.php?m=admin&amp;c=wechat&amp;a=menu_del&amp;id=4&amp;formhash=fKRHLh">删除</a></span>
+					</span>
+        </div>
+    </div><div class="layout" id="table-get-width"></div>
+</div>

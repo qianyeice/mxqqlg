@@ -1,0 +1,180 @@
+{extend name="Template/template" /}
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">限时促销<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li><a class="current" href="javascript:;"></a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="tips margin-tb">
+        <div class="tips-info border">
+            <h6>温馨提示</h6>
+            <a id="show-tip" data-open="true" href="javascript:;">关闭操作提示</a>
+        </div>
+        <div class="tips-txt padding-small-top layout">
+            <p>- 针对自营商品SKU在有效时间内的价格促销活动</p>
+            <p>- 限时促销是完全独立活动，不参与其他形式促销</p>
+        </div>
+    </div>
+    <div class="hr-gray"></div>
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a href="?s=admin/Time_Limit_Promotion_add/TimeLimitPromotionAdd"><i class="ico_add"></i>添加</a>
+            <div class="spacer-gray"></div>
+            <a data-message="是否确定删除所选？" href="javascript:" id="Time_limit_deleting" data-ajax='id'><i class="ico_delete"></i>删除</a>
+            <div class="spacer-gray"></div>
+        </div>
+    </div>
+    <div class="table resize-table paging-table check-table border clearfix" style="width: 100%" id="table">
+        <div class="tr">
+					<span class="th check-option" data-resize="false">
+						<span><input id="check-all" type="checkbox" state="0" /></span>
+					</span>
+            <span class="th" data-width="30" style="width: 17%">
+				<span class="td-con">促销名称</span>
+			</span>
+            <span class="th" data-width="20" style="width: 25%">
+				<span class="td-con">促销时间</span>
+			</span>
+            <span class="th" data-width="10" style="width: 16%">
+				<span class="td-con">状态</span>
+			</span>
+            <span class="th" data-width="15" style="width: 13%">
+				<span class="td-con">限购数量</span>
+			</span>
+            <span class="th" data-width="15" style="width: 13%">
+				<span class="td-con">剩余库存数量</span>
+			</span>
+            <span class="th" data-width="10" style="width: 16%">
+						<span class="td-con">操作</span>
+					</span>
+        </div>
+        {if $type == 1}
+        {foreach $data as $key=>$vo }
+        <div class="tr">
+            <span class="td check-option"><input type="checkbox" class="check_data" name="id" value="{$vo.id}" /></span>
+            <span class="td" style="width: 17%">
+						<div class="double-click">
+							<a class="double-click-button margin-none padding-none" title="双击可编辑" href="javascript:;"></a>
+							<input class="input double-click-edit text-ellipsis text-center" type="text" name="name" data-id="19" value="{$vo.name}" />
+						</div>
+					</span>
+            <span class="td" style="width: 25%">
+						<span class="td-con">{$vo.time}1</span>
+					</span>
+            <span class="td" style="width: 16%">
+						<span class="td-con">{$vo.type}</span>
+					</span>
+            <span class="td" style="width: 13%">
+						<span class="td-con">{$vo.number}</span>
+					</span>
+            <span class="td" style="width: 13%">
+						<span class="td-con">{$vo.spu_surplus_number}</span>
+					</span>
+            <span class="td" style="width: 16%">
+						<span class="td-con">
+						<a href="?s=admin/Time_Limit_Promotion/edit&id={$vo.id}">编辑</a>&nbsp;&nbsp;&nbsp;
+                            <a data-confirm="是否确认删除？" href="javascript:" onclick="promotion_delete('{$vo.id}',this)">删除</a></span>
+					</span>
+        </div>
+        {/foreach}
+        {elseif $type==0 /} 暂时没有添加限时抢购
+        {/if}
+        {include file="/Template/listPage"}
+    </div>
+</div>
+{/block}
+{block name='script'}
+<script>
+    $(function () {
+        $("#show-tip").click(function(){
+            if($(this).html()=='关闭操作提示'){
+                $(this).html("打开操作提示");
+                $(".padding-small-top").css("display","none")
+            }else{
+                $(this).html("关闭操作提示");
+                $(".padding-small-top").css("display","block")
+            }
+        });
+        $("#check-all").click(function () {
+            var $state=$(this).attr("state")
+            if($state==1){
+                $(":checkbox").attr("checked",false)
+                window.idArray.splice(0,window.idArray.length)
+                $(this).attr("state",0)
+            }else if($state==0){
+                $(":checkbox").attr("checked",true)
+                window.idArray=[];
+                for (i =0; i<$(".check_data").length;i++){
+                   window.idArray.push($(".check_data").eq(i).val())
+                }
+                $(this).attr("state",1)
+            }
+        })
+        $(".check_data").click(function () {
+            $("#check-all").attr("state",0);
+            $("#check-all").attr("checked",false);
+            for (i=0;i<window.idArray.length;i++){
+                if(window.idArray[i]==$(this).val()){
+                    window.idArray.splice(i,1)
+                }
+            }
+        })
+
+        $("#Time_limit_deleting").click(function(){
+                arr=[];
+                var i=-1;
+                $("input:checkbox[name='id']:checked").each(function() { // 遍历name=id的多选框
+                    i++;
+                    arr[i]= $(this).val();  // 每一个被选中项的值
+                });
+                con=arr.join(",");
+            if(con!=""){
+                layer.confirm('是否确认删除选中的用户？', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    $.ajax({
+                        type:"post",
+                        dataType:"json",
+                        url:"?s=admin/time_limit_promotion/Time_limit_deleting",
+                        data:{
+                            idArray:con
+                        },
+                        success:function(data){
+                            layer.msg(data["lang"])
+                        $(".check_data:checked").parents(".tr").remove()
+                        $(":checkbox").attr("checked",false)
+                        }
+                    })
+                }, function(){
+                    layer.closeAll();
+                });
+
+            }else{
+                layer.msg("请先选择操作数据")
+            }
+
+        })
+    })
+
+function promotion_delete(a,b) {
+    $.ajax({
+        url:"?s=admin/time_limit_promotion/delete",
+        type:"post",
+        data:{id:a},
+        success:function (data) {
+            layer.msg(data["lang"])
+            if(data["type"]==1){
+                $(b).parents(".tr").remove()
+            }
+        },
+        error:function () {
+            layer.msg("网络错误，请稍后重试")
+        }
+    })
+}
+</script>
+{/block}

@@ -1,0 +1,123 @@
+{extend name="Template/template"/}
+{block name="title"}{/block}
+
+
+{block name="css"}
+
+
+{/block}
+{block name="js"}
+{/block}
+
+
+{block name="body"}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">商品类型<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+
+<div class="content padding-big have-fixed-nav">
+    <div class="tips margin-tb">
+        <div class="tips-info border">
+            <h6>温馨提示</h6>
+            <a id="show-tip" data-open="true" href="javascript:;">关闭操作提示</a>
+        </div>
+        <div class="tips-txt padding-small-top layout" id="prompt">
+            <p>- 添加商品分类时需选择类型，前台分类下商品列表页通过类型生成商品检索，方便用户搜索需要的商品</p>
+        </div>
+    </div>
+    <div class="hr-gray"></div>
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <!--<a href="?s=admin/Commoditytypesetting/init"><i class="ico_add"></i>添加</a>-->
+            <a id="add" href="javascript:;"><i class="ico_add"></i>添加</a>
+            <div class="spacer-gray"></div>
+            <a class="mnumber" data-message="是否确定删除所选？" href="javascript:" data-ajax='id'><i class="ico_delete"></i>删除</a>
+            <div class="spacer-gray"></div>
+        </div>
+    </div>
+    <div class="table-wrap resize-table">
+        <div class="table paging-table resize-table check-table border clearfix">
+            <div class="tr">
+						<span class="th check-option" data-resize="false">
+							<span><input id="check-all" type="checkbox" /></span>
+						</span>
+                <span class="th" data-width="20" style="width: 20%;">
+							<span class="td-con">属性名称</span>
+						</span>
+                <span class="th" data-width="50" style="width: 50%;">
+							<span class="td-con">属性标签</span>
+						</span>
+                <span class="th" data-width="10" style="width: 10%;">
+							<span class="td-con">排序</span>
+						</span>
+                <span class="th" data-width="10" style="width: 10%;">
+							<span class="td-con">启用</span>
+						</span>
+                <span class="th" data-width="10" style="width: 10%;">
+							<span class="td-con">操作</span>
+						</span>
+            </div>
+            {volist name="record" id="vo"}
+            <div class="tr li_vo_tr">
+                <span class="td check-option">
+                    <input name="id" class="li_vo_id" value="{$vo.id}" type="checkbox">
+                </span>
+                <span class="td" style="width: 20%">
+						<div class="td-con">
+							<div class="double-click">
+								<a class="double-click-button margin-none padding-none" title="双击可编辑" href="javascript:;"></a>
+								<input class="input double-click-edit text-ellipsis text-center" name="sn" data-id="26" value="{$vo.name}" type="text">
+							</div>
+						</div>
+					</span>
+                <span class="td" style="width: 50%">
+						<span class="td-con">{$vo.content}</span>
+					</span>
+                <span class="td" style="width: 10%">
+						<div class="td-con">
+							<div class="double-click">
+								<a class="double-click-button margin-none padding-none" title="双击可编辑" href="javascript:;"></a>
+								<input class="input double-click-edit text-ellipsis text-center" name="sort" data-id="26" value="100" type="text">
+							</div>
+						</div>
+					</span>
+                <span class="td" style="width: 10%">
+                     {if $vo.status=='0'}
+                     <a class="ico_up_rack cancel" href="javascript:;" data-id="{$vo.id}" title="点击推荐"></a>
+                     {else/}
+                     <a class="ico_up_rack" href="javascript:;" data-id="{$vo.id}" title="点击取消推荐"></a>
+                     {/if}
+						<!--<a class="ico_up_rack spu_status " href="javascript:;" data-id="26" title="点击取消推荐"></a>-->
+					</span>
+                <span class="td" style="width: 10%">
+						<div class="td-con double-row">
+                            <!--<a id="upste" href="?s=admin/Commoditytypesetting/init&id={$vo.id}">编辑</a>-->
+                            <a href="?s=admin/Commoditytypesettings/index&id={$vo.id}">编辑</a>&nbsp;&nbsp;&nbsp;
+                            <a data-id="{$vo.id}" class="delete" data-confirm="是否确认删除？" href="javascript:;">删除</a>
+                            <!--<a data-confirm="是否确认删除？" href="?s=admin/Commoditytypesetting/delete&id={$vo.id}">删除</a>-->
+                        </div>
+					</span>
+            </div>
+            {/volist}
+            {include file="/Template/listPage"}
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#add').click(function () {
+            window.location.href="?s=admin/Commoditytypesetting/init";
+        })
+    });
+
+</script>
+<script type="text/javascript" src="static/admin/js/commoditytype.js"></script>
+{/block}
+
+{block name="script"}
+
+{/block}

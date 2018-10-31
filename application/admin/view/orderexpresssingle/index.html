@@ -1,0 +1,124 @@
+{extend name="Template:template" /}
+{block name="css"}
+{load href="__STATIC__/admin/css/ui-dialog.css" /}
+{load href="__STATIC__/admin/css/validate.css" /}
+{load href="__STATIC__/admin/css/orderexpresssingle.css" /}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">快递单管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li><a class="jump" class="current" href="?s=admin/Orderexpresssingle/index">全部</a></li>
+        <li><a class="jump" href="?s=admin/Orderexpresssingle/index&type=1">未打印</a></li>
+        <li><a class="jump" href="?s=admin/Orderexpresssingle/index&type=2">已打印</a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="tips margin-tb">
+        <div class="tips-info border">
+            <h6>温馨提示</h6>
+            <a id="show-tip" data-open="true" href="javascript:;">关闭操作提示</a>
+        </div>
+        <div class="tips-txt padding-small-top layout">
+            <p>- 添加商品时可选择商品分类，用户可根据分类查询商品列表</p>
+            <p>- 点击分类名前“+”符号，显示当前分类的下级分类</p>
+            <p>- 对分类作任何更改后，都需要到 设置 -> 清理缓存 清理商品分类，新的设置才会生效</p>
+        </div>
+    </div>
+    <!-- <div class="hr-gray"></div>
+    <div class="clearfix">
+        <form>
+            <input type="hidden" name="m" value="order" />
+            <input type="hidden" name="c" value="admin_order" />
+            <input type="hidden" name="a" value="parcel" />
+            <div class="form-group form-layout-rank border-none" style="width: 300px;">
+                <span class="label" style="width: auto;">搜索</span>
+                <div class="box ">
+                    <div class="field margin-none">
+                        <input class="input" type="text" name="keyword" value="" placeholder="输入订单号/物流名称/物流编号" tabindex="0">
+                    </div>
+                </div>
+            </div>
+            <input class="button bg-sub margin-top fl" type="submit" style="height: 26px; line-height: 14px;" value="查询">
+        </form>
+    </div> -->
+    <div class="table-wrap">
+        <div class="table resize-table paging-table border clearfix">
+            <div class="tr">
+						<span class="th width15" data-width="15">
+						<span class="td-con">订单号</span>
+						<span class="spacer"></span>
+					</span>
+                <span class="th width15" data-width="15">
+						<span class="td-con">物流名称</span>
+						<span class="spacer"></span>
+					</span>
+                <span class="th width20" data-width="20">
+						<span class="td-con">物流编号</span>
+					<span class="spacer"></span>
+					</span>
+                <span class="th width20" data-width="20">
+						<span class="td-con">发货时间</span>
+					<span class="spacer"></span>
+					</span>
+                <span class="th width10" data-width="10">
+						<span class="td-con">是否收货</span>
+					<span class="spacer"></span>
+					</span>
+                <span class="th width10" data-width="10">
+						<span class="td-con">打印状态</span>
+					<span class="spacer"></span>
+					</span>
+                <span class="th width10" data-width="10">
+						<span class="td-con">操作</span>
+					</span>
+            </div>
+            {volist name="val.data" id="vo"}
+            <div class="tr">
+				<span class="td width15">
+						<span class="td-con">{$vo.sn}</span>
+					</span>
+                <span class="td width15">
+						<span class="td-con">{$vo.delivery_name}</span>
+					</span>
+                <span class="td width20">
+						<span class="td-con">{$vo.delivery_sn}</span>
+					</span>
+                <span class="td width20">
+						<span class="td-con">{$vo.delivery_time}</span>
+					</span>
+                <span class="td width10">
+                     {if $vo.isreceive==0}<span class="td-con">未收货</span>
+                   {else  $vo.isreceive==1/}<span class="td-con">已收货</span>
+                    {/if}
+					</span>
+                <span class="td width10">
+                      {if $vo.print_type==0}<span class="td-con">未打印</span>
+                   {else  $vo.print_type==1/}<span class="td-con">已打印</span>
+                    {/if}
+					</span>
+                <span class="td width10">
+						<span class="td-con">
+							<a href="">打印</a>
+						</span>
+					</span>
+            </div>
+            {/volist}
+            <!-- 分页 -->
+            {include file="Template/listPage" /}
+        </div>
+    </div>
+</div>
+{/block}
+{block name='script'}
+<script src="__STATIC__/admin/js/tab_url.js"></script>
+<Script language="javascript">
+    $(function () {
+        GetRequest()
+    })
+</Script>
+{/block}

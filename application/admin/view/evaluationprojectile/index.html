@@ -1,0 +1,66 @@
+{extend name="Template/template"/}
+{block name='title'}回复{/block}
+{block name="css"}
+<link type="text/css" rel="stylesheet" href="__STATIC__/admin/css/evaluationlist.css"/>
+{/block}
+{block name='body'}
+<!--<div class="Evaluationprojectileall">-->
+<form class="" method="post" action="">
+    <div class="">
+    <!--<div class="Evaluationprojectileall_top">回复</div>-->
+        <textarea id="popup-input" class="textarea layout padding border-none replys ylper" style="height: 150px;" placeholder="请输入对买家评论的回复"></textarea>
+        <input type="text" id="plr" class="eval" name="text" value="{$vo}" style="display: none;"/>
+        <td i="footer" class="ui-dialog-footer">
+            <div i="button" class="ui-dialog-button"  id="vv" style="height: 34px;">
+                <button type="button" id="cancel" style="background: #999">取消</button>
+                <button type="button" id="ok" autofocus="" class="ui-dialog-autofocus new" style="margin-right: 10px">确定</button>
+            </div>
+        </td>
+    </div>
+</form>
+
+<script type="text/javascript">
+    var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+
+    $('.new').click(function(){
+        var val = $('.replys').val();
+        if(val === ''){
+            parent.layer.msg('请填写回复内容');
+            return;
+        }
+
+        var dis = $('#plr').val();
+        $.ajax({
+            type:'post',
+            dataType:'json',
+            data:{id:dis,reply:val},
+            url:"?s=admin/evaluationprojectile/eval_ajax",
+            success:function (date) {
+                if(date==0){
+                    alert('未修改');
+                }else if(date==2){
+                    alert('评论内容不能为空')
+                }else{
+                    alert("成功");
+                }
+
+            },
+            error:function (date) {
+//                console.log(date)
+               alert('成功');
+            }
+        });
+
+        parent.$('.parentIframe{$vo}').text(val);
+        parent.layer.close(index);
+
+    });
+
+    $('#cancel').click(function(){
+        parent.layer.close(index);
+    })
+
+
+</script>
+
+{/block}

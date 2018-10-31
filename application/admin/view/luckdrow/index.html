@@ -1,0 +1,178 @@
+{extend name="Template/template"/}
+
+{block name="css"}
+<link rel="stylesheet" href="static/admin/css/validate.css"/>
+<link rel="stylesheet" href="static/admin/css/ui-dialog.css"/>
+{/block}
+
+{block name="js"}
+
+{/block}
+
+
+{block name='body'}
+
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">活动抽奖管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li><a class="current" href="">抽奖活动列表</a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="hr-gray"></div>
+   <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a href="?s=admin/luckdrowlist/index"><i class="ico_add"></i>添加</a>
+            <div class="spacer-gray"></div>
+            <a data-message="是否确定删除所选？" class="mnumber" href="javascript:" data-ajax='id'><i class="ico_delete"></i>删除</a>
+            <div class="spacer-gray"></div>
+        </div>
+    </div>
+    <div class="table resize-table paging-table check-table border clearfix">
+        <div class="tr" >
+            <span class="th check-option" data-resize="false">
+                <span><input id="check-all" type="checkbox" /></span>
+            </span>
+            <span class="th" data-width="20" style=" width: 14.25%;">
+				<span class="td-con">活动名称</span>
+			</span>
+            <span class="th" data-width="20" style=" width: 26.25%;">
+				<span class="td-con">活动时间</span>
+			</span>
+            <span class="th" data-width="10" style=" width: 10.25%;">
+				<span class="td-con">活动状态</span>
+			</span>
+            <span class="th" data-width="10" style=" width: 10.25%;">
+				<span class="td-con">前台显示状态</span>
+			</span>
+            <span class="th" data-width="10" style=" width: 10.25%;">
+				<span class="td-con">用户每日抽奖次数</span>
+			</span>
+            <span class="th" data-width="10" style=" width: 14.25%;">
+				<span class="td-con">创建时间</span>
+			</span>
+            <span class="th" data-width="20" style=" width: 14.25%;">
+                <span class="td-con">操作</span>
+            </span>
+        </div>
+
+        {volist name="lists" id="vo"}
+
+        <div class="tr" style="position: relative">
+            <span class="td check-osption" style="position: absolute;left: 3px;width: 48px;"><input type="checkbox" name="id" value="{$vo.id}" /></span>
+            <span class="td" style=" width: 14.25%;">
+                <div class="double-click">
+                    <a class="double-click-button margin-none padding-none" title="双击可编辑" href="javascript:;"></a>
+                    <input class="input double-click-edit text-ellipsis text-center" type="text" name="name" data-id="1" value="{$vo.name}" />
+                </div>
+            </span>
+            <span class="td" style=" width: 26.25%;">
+                <span class="td-con">{$vo.start_time} ~ {$vo.end_time}</span>
+            </span>
+            <span class="td" style=" width: 10.25%;">
+                <span class="td-con">
+                    {if (($date) < ($vo.start_time))}
+                    活动准备中
+                    {elseif (($date) > ($vo.start_time)) && (($date) < ($vo.end_time))/}
+                    活动进行中
+                    {elseif(($date) > ($vo.end_time))/}
+                    活动已结束
+                    {else/}
+                    暂时没有活动
+                    {/if}
+                </span>
+            </span>
+
+            <span class="td" style=" width: 10.25%;">
+                <span class="td-con">
+                    {if($vo.is_display=='0')}
+                    隐藏
+                    {elseif($vo.is_display=='1')}
+                    显示
+                    {/if}
+                </span>
+            </span>
+
+            <span class="td" style=" width: 10.25%;">
+                <span class="td-con">{$key}</span>
+            </span>
+            <span class="td" style=" width: 14.25%;">
+                <span class="td-con">{$vo.date}</span>
+            </span>
+            <span class="td">
+                <span class="td-con">
+                    <a href="?s=admin/Winningrecord/index&id={$vo.name}"}>中奖记录</a>&nbsp;
+                    <a href="?s=admin/Lottery_prize_lists/lists&lottery_id={$vo.id}&id={$vo.name}">奖品配置</a><br>
+                    <a href="?s=admin/luckdrowlist/index&id={$vo.id}">编辑</a>&nbsp;
+                    <a href="javascript:;" onclick="banner_del(this,'{$vo.id}')" >删除</a>
+                </span>
+            </span>
+        </div>
+        {/volist}
+        {include file="/Template/listPage"}
+
+    </div>
+
+</div>
+
+<Script language="javascript">
+    //删除
+    function banner_del(obj,id){
+        layer.confirm('确认要删除吗？',function(index){
+            //发异步删除数据
+            $.get("?s=admin/Luckdrow/delete",{id:id});
+            $(obj).parents("tr").remove();
+            layer.msg('已删除!',{icon:1,time:1000});
+            location.reload();
+        });
+    }
+
+    $("#check-all").click(function(){
+
+        if($(this).attr("checked")){
+
+            $("input:checkbox").attr("checked","checked");
+
+        }else{
+
+            $("input:checkbox").removeAttr("checked");
+        }
+    });
+
+    //选中的用户进行删除操作
+    $(".mnumber").click(function(){
+        arr=[];
+        var i=-1;
+        $("input:checkbox[name='id']:checked").each(function() { // 遍历name=id的多选框
+            i++;
+            arr[i]= $(this).val();  // 每一个被选中项的值
+        });
+        con=arr.join(",");
+        if(con==""){
+            layer.msg("请先选择删除对象！")
+        }else {
+            layer.confirm('是否确认删除选中的用户？', {
+                btn: ['确定', '取消'] //按钮
+            }, function () {
+                $.ajax({
+                    type: "post",
+                    dataType: "json",
+                    url: "?s=admin/Luckdrow/delete",
+                    data: {
+                        id: con
+                    },
+                    success: function () {
+                        window.location.reload();
+                    }
+                })
+            }, function () {
+                layer.closeAll();
+            });
+        }
+    });
+</script>
+
+{/block}
+

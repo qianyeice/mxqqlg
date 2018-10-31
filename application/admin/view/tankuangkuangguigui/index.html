@@ -1,0 +1,476 @@
+{extend name="Template/template"}
+{block name="css"}
+<link rel="stylesheet" href="static/admin/css/validate.css"/>
+<link rel="stylesheet" href="static/admin/css/ui-dialog.css"/>
+
+<style>
+    .block{display: block;}
+</style>
+{/block}
+{block name='body'}
+<table class="ui-dialog-grid">
+    <tbody>
+    <!--<tr>-->
+        <!--<td i="header" class="ui-dialog-header">-->
+            <!--<button i="close" class="ui-dialog-close">×</button>-->
+            <!--<div i="title" class="ui-dialog-title" id="title:1522304125599">请选择规格</div>-->
+        <!--</td>-->
+    <!--</tr>-->
+    <tr>
+        <td i="body" class="ui-dialog-body">
+            <input type="hidden" name="spuid" value="{if(!empty($spuid))}{$spuid}{/if}">
+            <div i="content" class="ui-dialog-content" style="width: 681px; height: 548px;" id="content:1522304125599">
+                <div class="goods-spec-popup layout">
+                    <div class="setspec-popup bg-white">
+                        <div class="left fl zuoleft">
+                            <p>请选择规格 [可多选]</p>
+                            <div class="spec-left-body border">
+                                <div class="eman">
+                                    <!--<div class="ceps"><a data-id="10" class="specname" href="javascript:;">颜色<em>[0]</em><i>×</i></a></div>-->
+                                    <!--<a data-id="10" class="specname" href="javascript:;">颜色<em>[0]</em><i>×</i></a>-->
+
+                                    {volist name="data" id="vo"}
+                                    <a data-id="{$vo.id}" class="specname" href="javascript:;">{$vo.name}<em>[{$vo.count}]</em><i data-iid="{$vo.id}">×</i></a>
+                                    {/volist}
+
+                                </div>
+                                <a class="new-spec specs" href="javascript:;"><i class="ico_plus margin-lr"></i>添加新规格</a>
+                            </div>
+                        </div>
+
+                        <div class="right">
+                            <p>请选择规格 [可多选]</p>
+                            <div class="spec-right-body">
+                                <div class="top border spec_choose">
+
+                                    <div class="title spec_title">
+                                        <label class="">
+                                            <input class="margin-small-right" id="checkAll" type="checkbox" />全选
+                                        </label>
+                                        <p class="hidden">请填写您要添加的新规格名称</p>
+                                        <div class="spec_add hidden">
+                                            <input class="input radius-none fl enter" type="text" name="new_value" placeholder="新属性名称(可用回车提交)">
+                                            <input class="button bg-sub fl" id="sub-value" type="button" value="确定">
+                                        </div>
+                                    </div>
+
+                                    <div class="wrap hidden spec-num ipip" data-id="">
+                                        <input type="hidden" name="spid" value="">
+                                        <input type="hidden" name="spvalue" value="">
+                                        <input type="hidden" name="spname" value="">
+
+                                        <div class="guige">
+                                            <a class="hidden" data-id="" data-name="颜色" data-value="绿" data-style="" data-color="" data-img="" href="javascript:;">绿<i>×</i></a>
+                                        </div>
+
+                                        <span class="new-prop" id="tianjia" data-id="10">
+                                            <i class="ico_plus margin-right"></i>添加属性
+                                        </span>
+                                    </div>
+
+                                    <!--<script id="spec_value" type="text/html">-->
+                                        <!--<div class="wrap hidden spec-num" data-id="">-->
+                                            <!--<span class="new-prop" data-id=""><i class="ico_plus margin-right"></i>添加属性</span>-->
+                                        <!--</div>-->
+                                    <!--</script>-->
+
+                                    <div class="wrap hidden newspec">
+                                        <input class="input radius-none" type="text" name="new_spec" value="" placeholder="请输入新规格名称">
+                                        <input class="button bg-sub margin-top query" id="sub-spec" type="button" value="确定">
+                                    </div>
+
+                                    <p class="no-choose-tip lefts">请选择左边规格列表</p>
+                                </div>
+
+                                <div class="bottom margin-top border" style="display: none;">
+                                    <div class="title">
+                                        <span class="fl">规格展现方式</span>
+                                        <span class="fr padding-right text-sub">请指定规格在前台的展现方式</span>
+                                    </div>
+
+                                    <div class="table-wrap tablewr" data-id="23" style="display: none;">
+                                        <div class="fixed-tr">
+                                            <div class="th w33">
+                                                <label><input class="choose-show margin-right" name="type[23]" value="0" checked="checked" type="radio">文字展现</label>
+                                            </div>
+                                            <div class="th w33">
+                                                <label><input class="choose-show margin-right" name="type[23]" value="1" type="radio">颜色展现</label>
+                                            </div>
+                                            <div class="th w34">
+                                                <label><input class="choose-show margin-right" name="type[23]" value="2" type="radio">图片展现</label>
+                                            </div>
+                                            <div class="bg-box"><div class="bg-block" style="display: block; left: 0%; width: 33%;"></div></div>
+                                        </div>
+                                        <div class="table" style="">
+                                            <div class="table-h" style="">
+
+                                                <div class="tr" data-title="打算的撒" title="打算的撒">
+                                                    <div class="td w33 dasu" style="height:25px;cursor:pointer;">打算的撒</div>
+                                                    <div class="td w33">
+                                                        <input class="color-choose input_cxcolor" readonly="readonly" style="background-color:;" value="" type="text">
+                                                    </div>
+                                                    <div class="td w34">
+                                                        <div class="pic-center">
+                                                            <img src="">
+                                                        </div>
+                                                        <a class="txt upload webuploader-container">
+                                                            <div class="webuploader-pick">更换图片</div>
+                                                            <div id="rt_rt_1ccn0von459u1qdu1fep1cg8c261" style="position: absolute; top: 0px; left: 0px; width: 48px; height: 31px; overflow: hidden; bottom: auto; right: auto;">
+                                                                <input name="file" class="webuploader-element-invisible" multiple="multiple" accept="image/*" type="file">
+                                                                <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255) none repeat scroll 0% 0%;"></label>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <p class="no-choose-tip shang">请选择上方规格</p>
+                                    <!--<script id="spec_show" type="text/html">-->
+                                        <!--<div class="table-wrap" data-id="<%=spec_id%>">-->
+                                            <!--<div class="fixed-tr">-->
+                                                <!--<div class="th w33">-->
+                                                    <!--<label><input class="choose-show margin-right" type="radio" name="type[<%=spec_id%>]" value="0" checked="checked" />文字展现</label>-->
+                                                <!--</div>-->
+                                                <!--<div class="th w33">-->
+                                                    <!--<label><input class="choose-show margin-right" type="radio" name="type[<%=spec_id%>]" value="1" />颜色展现</label>-->
+                                                <!--</div>-->
+                                                <!--<div class="th w34">-->
+                                                    <!--<label><input class="choose-show margin-right" type="radio" name="type[<%=spec_id%>]" value="2" />图片展现</label>-->
+                                                <!--</div>-->
+                                                <!--<div class="bg-box"><div class="bg-block"></div></div>-->
+                                            <!--</div>-->
+                                            <!--<div class="table">-->
+                                                <!--<div class="table-h">-->
+
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</script>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="padding text-right ui-dialog-footer">
+                        <input type="button" class="button bg-main" id="okbtn" value="生成" />
+                        <input type="button" class="button margin-left bg-gray" id="closebtn" value="取消" />
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td i="footer" class="ui-dialog-footer" style="display: none;">
+            <div i="statusbar" class="ui-dialog-statusbar" style="display: none;"></div>
+            <div i="button" class="ui-dialog-button"></div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<script>
+//    点击生成
+    $("#okbtn").click(function () {
+        var sepname = $(".uuuu.current").attr("data-name");//获取标题
+        var array=new Array();
+        var a=0;
+        $(".uuuu").each(function () {
+            if($(this).hasClass("current")){
+                var sepval=$(this).attr("data-value");
+                array[a]=sepval;
+                a++;
+
+            }
+        });
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        parent.layer.close(index); //再执行关闭
+        window.parent.a(array,sepname);
+        window.parent.sku_gg(array,sepname);
+//        var sepname = $(".uuuu.current").attr("data-name");//获取标题
+//        var sepval = $(".uuuu.current").attr("data-value");//获取值
+//        var sepid = $(".uuuu.current").attr("data-id");//获取id
+//        var xxq = $(".uuuu.current");
+//
+//        var spuid = $("input[name='spuid']").val();
+//        var mrnt = [];
+//        var param = {};
+//        for(var i = 0;i<=xxq.length-1;i++)
+//        {
+//            var bbb = xxq.eq(i).attr("data-value");
+//            var banana = {"id":sepid,"name":sepname,"value":bbb}
+//            mrnt.push(banana);
+//        }
+////        var abcd = param.resutl=mrnt;
+//        var abcd = JSON.stringify(mrnt);
+//        console.log(abcd);
+//        $.ajax({
+//            type:"post",
+//            url:"?s=admin/Tankuangkuangguigui/okbtn_ajax",
+//            data:{id:spuid,spec:abcd},
+//            success:function (data) {
+////                alert("成功");
+//                console.log(data);
+//                parent.location.reload();
+//                var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+//                parent.layer.close(index); //再执行关闭
+//            },
+//            error:function (data) {
+////                alert("失败");
+//                console.log(data);
+//            }
+//        });
+
+
+    });
+
+//    点击关闭
+    $("#closebtn").click(function () {
+        var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+        parent.layer.close(index); //再执行关闭
+    });
+</script>
+
+<script>
+//    添加第五步
+    function but(id) {
+        var ton = id.id;
+
+        var iddata = $('#'+ton).attr("data-id");
+        $(".choose-show").attr('name',"type"+iddata);
+
+//        var ting = 0;
+
+        var onst = $('#'+ton).toggleClass("current");
+
+        if($(".uuuu").hasClass("current")){
+//            ting++
+            $(".tablewr").attr("style","display:block;");
+            $(".shang").addClass("hidden");
+//            $('#'+ton).attr('data-onid',ting);
+
+        }else {
+            $(".tablewr").attr("style","display:none;");
+            $(".shang").removeClass("hidden");
+        }
+
+//        var namese = $('#'+ton).attr('data-value');
+////        alert(name);
+//        $(".tr").attr('data-title',namese);
+//        $(".tr").attr('title',namese);
+//
+
+
+
+    }
+</script>
+
+<script>
+//    添加第二步
+    $(document).ready(function () {
+
+        $(".specname").click(function () {
+            $(".newspec").addClass("hidden");
+            $(".lefts").addClass("hidden");
+            $(".ipip").removeClass("hidden");
+
+            var her = $(this).attr('data-id');
+//            console.log(her);
+//            $(".spec-num").attr('data-id',her);
+//            $(".spec-num a").attr('data-id',her);
+
+            $.ajax({
+                type:"post",
+                url:"?s=admin/Tankuangkuangguigui/spectwo_ajax",
+                data:{id:her},
+                success:function (data) {
+//                    console.log(data);
+                    var names = data.name;
+                    var ids = data.id;
+                    var lue = data.value;
+                    $(".ipip").attr('data_id',ids);
+                    $("input[name='spvalue']").val(lue);
+                    $("input[name='spname']").val(names);
+                    $("input[name='spid']").val(data.id);
+
+                    $(".guige").html('');
+                    if(lue!=null){
+
+                        var array = lue.split(",");
+                        for (var i=0;i<=array.length-1;i++){
+                            $(".guige").append('<a class="uuuu" id="gooda'+i+'" data-onid="" data-id="'+ids+'" onclick="but(gooda'+i+')" data-name="'+names+'" data-value="'+array[i]+'" data-style="" data-color="" data-img="" href="javascript:;">'+array[i]+'<i id="'+'dele'+i+'" onclick="YYY('+'dele'+i+')">×</i></a>');
+                        }
+                    }
+                },
+                error:function () {
+                   alert("失败");
+                }
+            })
+        });
+
+        $(".specname i").click(function () {
+            var reh = $(this).attr('data-iid');
+
+            var confims = confirm("是否删除此规格");
+            if (confims==true)
+            {
+                $.ajax({
+                    type:"post",
+                    data:{id:reh},
+                    url:"?s=admin/Tankuangkuangguigui/specer_ajax",
+                    success:function (data) {
+                        alert('删除失败');
+                        window.location.reload();
+                    },
+                    error:function (data) {
+                        alert('删除成功');
+                        window.location.reload();
+                    }
+                });
+            }else{
+
+            }
+        });
+    });
+</script>
+
+<script>
+    //    添加第三步
+    $(document).ready(function () {
+        $(".ipip").on('click','#tianjia',function () {
+            $("#tianjia").toggleClass("current");
+            if($("#tianjia").hasClass("current")){
+                $(this).html('<i class="ico_plus margin-right"></i>取消添加');
+                $(".title.spec_title label").addClass("hidden");
+                $(".spec_add").removeClass("hidden");
+//                var string='';
+//                $(".uuuu").each(function (i,o) {
+//                    var can=$(this).attr('data-value');
+//                    string+=can+","
+//                });
+//                console.log(string)
+
+            }else{
+                $(this).html('<i class="ico_plus margin-right"></i>添加属性');
+                $(".title.spec_title label").removeClass("hidden");
+                $(".spec_add").addClass("hidden");
+            }
+        });
+    });
+
+</script>
+
+<script>
+    //    添加第四步
+    $(document).ready(function () {
+        var lmeh = $(".spec-num").html();
+//        $(".enter").keyup(function(){ if(event.keyCode == 13){ //这里写你要执行的事件; } });
+        var str=0;
+        $("#sub-value").click(function () {
+            var daid = $(".ipip").attr("data_id");""
+            var valuey = $('input[name=new_value]').val();
+            var spname = $("input[name='spname']").val();
+            str++;
+            $(".guige").append('<a class="uuuu" id="goodc'+str+'" data-onid="" data-id="'+daid+'" data-name="'+spname+'" onclick="but(goodc'+str+')" data-value="'+valuey+'" data-style="" data-color="" data-img="" href="javascript:;">'+valuey+'<i id="'+'delest'+str+'" onclick="YYY('+'delest'+str+')">×</i></a>');
+
+            var ides = $(".ipip").attr('data_id');
+
+            var orps = document.getElementsByClassName("uuuu");
+            var arrs="";
+            for (var i = 0; i < orps.length; i++) {
+                var oo = $(".uuuu").eq(i).attr("data-value");
+                arrs += oo+',';
+
+                var orders = arrs.slice(0,arrs.length-1);
+
+            }
+
+            $.ajax({
+                type:"post",
+                data:{id:ides,value:orders},
+                url:"?s=admin/Tankuangkuangguigui/specfour_ajax",
+                success:function (data) {
+                    alert('成功');
+                },
+                error:function (data) {
+                    alert('失败');
+                }
+            });
+
+        });
+    });
+</script>
+<script>
+    function YYY(id) {
+        var aa = id;
+        var ven = aa.id;
+
+        var confims = confirm("是否删除此规格值");
+        if (confims==true)
+        {
+            $("#"+ven).parent().remove();
+
+            var ides = $(".ipip").attr('data_id');
+            var orps = document.getElementsByClassName("uuuu");
+            var arrs="";
+            for (var i = 0; i < orps.length; i++) {
+                var oo = $(".uuuu").eq(i).attr("data-value");
+                arrs += oo+',';
+
+                var orders = arrs.slice(0,arrs.length-1);
+            }
+
+            $.ajax({
+                type:"post",
+                data:{id:ides,value:orders},
+                url:"?s=admin/Tankuangkuangguigui/specfour_ajax",
+                success:function (data) {
+                    alert('成功');
+                },
+                error:function (data) {
+                    alert('失败');
+                }
+            });
+        }else{
+
+        }
+    }
+</script>
+<script>
+//    添加第一步
+    $(document).ready(function () {
+        $(".specs").click(function () {
+            $(".lefts").addClass("hidden");
+            $(".newspec").removeClass("hidden");
+            if ($(".spec-num").hasClass("hidden")){
+
+            }else {
+                $(".spec-num").addClass("hidden");
+            }
+
+            $(".query").click(function () {
+                var wens  = $("input[name='new_spec']").val();
+
+                $.ajax({
+                    type:"post",
+                    url:"?s=admin/Tankuangkuangguigui/spec_ajax",
+                    data:{name:wens},
+                    success:function (data) {
+                        alert('成功');
+                        window.location.reload(); //刷新当前页面
+                    },
+                    error:function () {
+                        console.log('失败');
+                    }
+                });
+            });
+        });
+    });
+
+
+</script>
+
+{/block}

@@ -1,0 +1,45 @@
+<div class="content padding-big have-fixed-nav">
+    <form action="" method="POST" data-reset="" data-valcontent_idate="true" name="form" onsubmit="return false">
+        <div class="content-tabs">
+            <div class="form-box clearfix">
+                <div class="form-group " style="z-index: 2;"><span class="label">请选择关注回复内容</span>
+                    {include file="wechat/material" /}
+                </div>
+            </div>
+        </div>
+        <div class="padding">
+            <input type="submit" class="button bg-main" value="保存">
+           {if $array["replay"]!=null}  <div style="display: inline-block;">
+            <a class="button button-small js-del" href="javascript:;"
+               type="{$array.type}" title="取消关注回复">取消关注回复</a>
+        </div>{/if}
+        </div>
+        <input type="hidden" name="formhash" value="fKRHLh">
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var type = $('.current').attr('type');
+        //判断页面显示内容为关注回复或者消息自动回复
+        if (type == 3) {
+            $('.js-del').attr('title', '取消消息回复');
+            $('.js-del').html($('.js-del').attr('title'));
+            if($('input[readonly="readonly"]').attr('value')==''){
+                $('input[readonly="readonly"]').attr('value','消息自动回复')
+            };
+        }
+        //取消微信自动回复或关注回复
+        $('.js-del').click(function () {
+            $.post(href('replayEditor'), {'type': type, 'delete': '1'}, function () {
+                     window.location.href=window.location.href;
+            })
+        });
+
+        $('input[type="submit"]').click(function () {
+            var val= $('input[name="material_id"]').val();
+            $.post(href('replayEditor'),{'id':val,'type':type},function(){
+                window.location.href=window.location.href;
+            });
+        });
+    })
+</script>

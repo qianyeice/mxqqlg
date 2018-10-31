@@ -1,0 +1,152 @@
+{extend name="Template/template" /}
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">优惠券管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li><a class="current" href="javascript:;"></a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <form action="/index.php?m=promotion&c=coupon&a=edit" name="promotion_order_add" method="post"
+          enctype="multipart/form-data">
+        <input type="hidden" name="id" value="">
+        <div class="form-box clearfix">
+            <div class="form-group "><span class="label">优惠券名称：</span>
+                <div class="box"><input class="input hd-input " type="text" name="name" value="" tabindex="0"
+                                        datatype="*" nullmsg="请输入优惠券名称"/></div>
+                <p class="desc">请输入优惠券名称</p></div>
+            <div class="form-group">
+                <span class="label">优惠券获取途径：</span>
+                <div class="box">
+                    <div class="form-select-edit">
+                        <select class="input" name="data_type">
+                            <option value="0" selected="selected">
+                                普通优惠券
+                            </option>
+                            <option value="1">
+                                活动优惠券
+                            </option>
+                            <option value="2">
+                                新手专区优惠券
+                            </option>
+                            <option value="3">
+                                用户分享优惠券
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <p class="desc">请选择优惠券获取途径</p>
+            </div>
+            <div class="form-group "><span class="label">优惠券图标：</span>
+                <div class="box">
+                    <div class="input hd-input file-box clearfix"><input type="text" class="file-txt" value=""
+                                                                         tabindex="0"/><input type="button"
+                                                                                              class="file-btn"
+                                                                                              value="浏览"/><input
+                            type="file" class="file file-view" name="pic" value=""/></div>
+                </div>
+                <p class="desc">请上传优惠券图标</p></div>
+            <div class="form-group "><span class="label">优惠券类型：</span>
+                <div class="box">
+                    <div class="form-select-edit prom_list">
+                        <div class="form-buttonedit-popup"><input class="input" type="text" value="折扣券"
+                                                                  readonly="readonly"><span
+                                class="ico_buttonedit"></span></div>
+                        <div class="listbox-items" style="display: none;"><span
+                                class="listbox-item listbox-item-selected" data-val="0">折扣券</span><span
+                                class="listbox-item" data-val="1">满减券</span><span class="listbox-item"
+                                                                                  data-val="2">现金券</span><span
+                                class="listbox-item" data-val="3">红包券</span></div>
+                        <input class="form-select-name" type="hidden" name="type" value="0"></div>
+                </div>
+                <p class="desc">请选择优惠券类型</p></div>
+            <div class="prom-list " data-type="0">
+                <div class="form-group "><span class="label">折扣券使用最低金额：</span>
+                    <div class="box"><input class="input hd-input " type="text" name="price0" value="" tabindex="0"
+                                            datatype="price"/></div>
+                    <p class="desc">请填写折扣券使用最低金额</p></div>
+                <div class="form-group "><span class="label">折扣券使用最高金额：</span>
+                    <div class="box"><input class="input hd-input " type="text" name="max_price" value="" tabindex="0"
+                                            datatype="price"/></div>
+                    <p class="desc">请填写订折扣券使用最高金额</p></div>
+                <div class="form-group "><span class="label">折扣数值：</span>
+                    <div class="box"><input class="input hd-input " type="text" name="discount0" value="" tabindex="0"
+                                            datatype="price" nullmsg="请输入折扣数值" errormsg="请输入正确的折扣数值"/></div>
+                    <p class="desc">请填写折扣数值</p></div>
+            </div>
+
+            <div class="prom-list hidden" data-type="1">
+                <div class="form-group "><span class="label">满减券使用最低金额：</span>
+                    <div class="box"><input class="input hd-input " type="text" name="price1" value="" tabindex="0"
+                                            datatype="price"/></div>
+                    <p class="desc">请填写满减券使用最低金额</p></div>
+                <div class="form-group "><span class="label">满减券立减金额：</span>
+                    <div class="box"><input class="input hd-input " type="text" name="discount1" value="" tabindex="0"
+                                            datatype="price"/></div>
+                    <p class="desc">请填写满减券立减金额</p></div>
+            </div>
+            <div class="prom-list hidden" data-type="2">
+                <div class="form-group "><span class="label">现金券优惠金额：</span>
+                    <div class="box"><input class="input hd-input " type="text" name="discount2" value="" tabindex="0"
+                                            datatype="price"/></div>
+                    <p class="desc">请填写现金券优惠金额</p></div>
+            </div>
+            <div class="prom-list hidden" data-type="3">
+                <div class="form-group "><span class="label">红包券金额：</span>
+                    <div class="box"><input class="input hd-input " type="text" name="discount3" value="" tabindex="0"
+                                            datatype="price"/></div>
+                    <p class="desc">请填写红包券金额(红包券领取后直接累积至用户余额，可提现)</p></div>
+            </div>
+
+            <div class="form-group time_list_ "><span class="label">有效期类型：</span>
+                <div class="box">
+                    <div class="form-select-edit time_list">
+                        <div class="form-buttonedit-popup"><input class="input" type="text" value="固定时间段"
+                                                                  readonly="readonly"><span
+                                class="ico_buttonedit"></span></div>
+                        <div class="listbox-items" style="display: none;"><span
+                                class="listbox-item listbox-item-selected" data-val="1">固定时间段</span><span
+                                class="listbox-item" data-val="2">领取后固定时长</span></div>
+                        <input class="form-select-name" type="hidden" name="time_type" value="1"></div>
+                </div>
+                <p class="desc">请选择优惠券有效期类型</p></div>
+            <div class="time_list_ time-list " data-type="1">
+                <div class="form-group "><span class="label">开始时间：</span>
+                    <div class="box"><input class="input laydate-icon hd-input" type="text" name="start_time" value=""
+                                            placeholder="YYYY-MM-DD hh:mm" tabindex="0" format="YYYY-MM-DD hh:mm"
+                                            onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm' })">
+                        <script type="text/javascript" src="/statics/js/laydate/laydate.js"></script>
+                        <script type="text/javascript">laydate.skin('danlan');</script>
+                    </div>
+                    <p class="desc">优惠券开始时间</p></div>
+                <div class="form-group "><span class="label">结束时间：</span>
+                    <div class="box"><input class="input laydate-icon hd-input" type="text" name="end_time" value=""
+                                            placeholder="YYYY-MM-DD hh:mm" tabindex="0" format="YYYY-MM-DD hh:mm"
+                                            onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm' })"></div>
+                    <p class="desc">优惠券结束时间</p></div>
+            </div>
+            <div class="time_list_ time-list hidden" data-type="2">
+                <div class="form-group "><span class="label">领取后有效时长：</span>
+                    <div class="box"><input class="input hd-input " type="text" name="day" value="" tabindex="0"
+                                            datatype="n"/></div>
+                    <p class="desc">请填写领取后有效时长(注:以天为单位)</p></div>
+            </div>
+            <div class="form-group "><span class="label">说明：</span>
+                <div class="box"><textarea class="textarea hd-input" name="content" placeholder=""></textarea></div>
+                <p class="desc">请填写优惠券使用说明</p></div>
+        </div>
+        <div class="padding">
+            <input type="submit" name="dosubmit" class="button bg-main" value="保存"/>
+            <input type="button" class="button margin-left bg-gray" value="返回">
+        </div>
+    </form>
+</div>
+
+{/block}
+
+{block name='script'}
+
+
+{/block}

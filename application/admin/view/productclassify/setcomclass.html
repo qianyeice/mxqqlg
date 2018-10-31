@@ -1,0 +1,55 @@
+{extend name="Template/template"}
+{block name="css"}
+<link rel="stylesheet" href="static/admin/css/validate.css"/>
+<link rel="stylesheet" href="static/admin/css/ui-dialog.css"/>
+{/block}
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">商品分类设置</li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <form action="" method="POST">
+        <div class="form-box">
+            <div class="form-group "><span class="label">分类名称：</span><div class="box"><input class="input hd-input " type="text" name="name" value="" tabindex="0" validate="required" /></div><p class="desc">填写商品分类名称，不能为空</p></div>			</div>
+        <input type="hidden" name="id" value="">
+        <div class="padding-lr">
+            <div class="form-group">
+                <span class="label">上级分类：</span>
+                <div class="box ">
+                    <div class="field">
+                        <input class="goods-class-text input input-readonly" id="choosecat" value="顶级分类>食品/酒类/生鲜/特产" title="" readonly="readonly" type="text" placeholder="请选择商品分类" data-reset="false" />
+                        <input class="goods-class-btn" type="button" value="选择" id="choose-class" data-reset="false" />
+                        <input type="hidden" name="parent_id" data-value="0,3" value="3">
+                    </div>
+                </div>
+                <p class="desc">选择分类隶属哪个商品分类下，如是顶级分类，请直接选择顶级分类</p>
+            </div>
+            <div class="form-group">
+                <span class="label">关联类型：</span>
+                <div class="box ">
+                    <div class="field">
+                        <input class="goods-class-text input input-readonly" id="choosetype" value="" title="" readonly="readonly" type="text" placeholder="请选择商品类型" data-reset="false" />
+                        <input class="goods-class-btn" type="button" value="选择" id="choose-type" data-reset="false" />
+                        <input type="hidden" name="type_id" value="">
+                    </div>
+                </div>
+                <p class="desc">每个分类可以管理一个商品类型，用于前台筛选及商品类型添加</p>
+            </div>
+        </div>
+        <div class="form-box clearfix">
+            <div class="form-group "><span class="label">分类外链：</span><div class="box"><input class="input hd-input " type="text" name="url" value="http://" tabindex="0" /></div><p class="desc">为前台分类列表指定一个固定连接用于跳转，不影响分类的基本属性，特殊情况下使用，否则无需填写</p></div>			<div class="form-group "><span class="label">价格分级：</span><div class="box"><textarea class="textarea hd-input" name="grade" placeholder="" ></textarea></div><p class="desc">填写分类下商品筛选价格分级，如：0-99，每行一个</p></div>			<div class="form-group "><span class="label">排序：</span><div class="box"><input class="input hd-input " type="text" name="sort" value="100" tabindex="0" /></div><p class="desc">请填写自然数。商品分类将会根据排序进行由小到大排列显示</p></div>
+            <div class="form-group "><span class="label">是否启用：</span><div class="box"><label class="select-wrap"><input class="select-btn" type="radio" name="status" value="1" checked/>开启</label><label class="select-wrap"><input class="select-btn" type="radio" name="status" value="0"/>关闭</label></div><p class="desc">请设置商品分类是否启用，不影响后台显示使用</p></div>
+            <div class="form-group "><span class="label">是否显示在导航：</span><div class="box"><label class="select-wrap"><input class="select-btn" type="radio" name="show_in_nav" value="1"/>开启</label><label class="select-wrap"><input class="select-btn" type="radio" name="show_in_nav" value="0" checked/>关闭</label></div><p class="desc">请设置商品分类是否在前台导航上推荐</p></div>
+            <div class="form-group "><span class="label">分类关键词：</span><div class="box"><input class="input hd-input " type="text" name="keywords" value="" tabindex="0" /></div><p class="desc">Keywords项出现在页面头部的<Meta>标签中，用于记录本页面的关键字，多个关键字请用分隔符分隔</p></div>
+            <div class="form-group "><span class="label">分类描述：</span><div class="box"><textarea class="textarea hd-input" name="descript" placeholder="" ></textarea></div><p class="desc">Description出现在页面头部的Meta标签中，用于记录本页面的高腰与描述，建议不超过80个字</p></div>			</div>
+        <div class="padding">
+            <input type="submit" name="dosubmit" class="button bg-main" value="确定" />
+            <input type="button" class="button margin-left bg-gray" value="返回" />
+        </div>
+    </form>
+</div>
+{/block}

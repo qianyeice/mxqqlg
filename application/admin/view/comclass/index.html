@@ -1,0 +1,101 @@
+{extend name="Template/template"}
+{block name="css"}
+<link rel="stylesheet" href="static/admin/css/validate.css"/>
+<link rel="stylesheet" href="static/admin/css/ui-dialog.css"/>
+{/block}
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">分类管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="tips margin-tb">
+        <div class="tips-info border">
+            <h6>温馨提示</h6>
+            <a id="show-tip" data-open="true" href="javascript:;">关闭操作提示</a>
+        </div>
+        <div class="tips-txt padding-small-top layout">
+            <p>- 添加商品时可选择商品分类，用户可根据分类查询商品列表</p>
+            <p>- 设置商品分类关联类型，可以让所属分类以下的商品设置商品类型属性</p>
+        </div>
+    </div>
+    <div class="hr-gray"></div>
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a href="{:url('/?s=admin/Commodity/index')}"><i class="ico_add"></i>添加</a>
+            <div class="spacer-gray"></div>
+            <!--<a href=""><i class="ico_out"></i>导出</a>
+            <div class="spacer-gray"></div>-->
+        </div>
+    </div>
+    <div class="table resize-table treetable border clearfix">
+        <div class="tr border-none">
+            <span class="th" data-width="10" style="width:10%;">
+						<span class="td-con">排序</span>
+					</span>
+            <span class="th" data-width="55" style="width:55%;">
+						<span class="td-con">名称</span>
+					</span>
+            <span class="th" data-width="10" style="width:10%;">
+						<span class="td-con">启用</span>
+					</span>
+            <div class="th" data-width="10" style="width:25%;"><span class="td-con">操作</span></div>
+        </div>
+
+        {volist name="data" id="v"}
+        <div class="tr cate_limit" data-tree-id="{$v.id}" data-tree-parent-id='{$v.parent_id}' data-id="{$v.id}">
+            <span class="td" style="width:10%;">
+                <div class="tree-indenter ">
+                    <a class=" {if $v.children=='0'}  tree-ind-status close {/if}" data-level='{$v.id}'
+                       data-id="{$v.id}" data-open="false" href="javascript:;"></a>
+                    <div class="double-click">
+                        <a class="double-click-button margin-none padding-none" href="javascript:;"></a>
+                        <input class="input double-click-edit text-ellipsis" data-id="{$v.id}" name="sort" type="text"
+                               value="{$v.id}"/>
+                    </div>
+                </div>
+            </span>
+            <span class="td" style="width:55%;">
+                <div class="tree-edit-input">
+                    <div class="double-click">
+                        <a class="double-click-button margin-none padding-none" href="javascript:;"></a>
+                        <input class="input double-click-edit text-ellipsis" type="text" data-id="{$v.id}" name="name"
+                               value="{$v.name}"/>
+                    </div>
+                    <a class="tree-add-button" href="{:url('/?s=admin/commodity/index&id='.$v['id'].'&type=1')}"><em
+                            class="ico_add"></em>添加下级分类</a>
+                </div>
+            </span>
+            <span class="td" style="width:10%;">
+             {if $v.status=='0'}
+                <a class="ico_up_rack cancel" href="javascript:;" data-id="{$v.id}" title="点击推荐"></a>
+              {else/}
+                <a class="ico_up_rack" href="javascript:;" data-id="{$v.id}" title="点击取消推荐"></a>
+             {/if}
+            </span>
+            <span class="td" style="width:20%;text-align: center">
+                <span class="td-con">
+                    <a href="{:url('/?s=admin/commodity/index&id='.$v['id'].'&type=0')}">编辑</a>&nbsp;&nbsp;
+                    <a data-id="{$v.id}" class="delete"
+                       data-confirm="{if $v.children=='0'}确认删除该类及其子类？{else/}确认删除该类？{/if}" href="javascript:;">删除</a>&nbsp;&nbsp;
+
+                </span>
+            </span>
+        </div>
+        {/volist}
+    </div>
+    {include file="Template/listPage" /}
+</div>
+{/block}
+{block name='script'}
+<script type="text/javascript">
+    $(function () {
+
+    })
+</script>
+<script type="text/javascript" src="static/admin/js/comclass.js"></script>
+
+{/block}

@@ -1,0 +1,104 @@
+{extend name="Template/template"}
+{block name="css"}
+<link rel="stylesheet" href="static/admin/css/validate.css"/>
+<link rel="stylesheet" href="static/admin/css/ui-dialog.css"/>
+{/block}
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">商品品牌设置</li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+
+<div class="content padding-big have-fixed-nav" style="margin-bottom: 44px;">
+    <form action="?s=admin/Setbrand/update&id={if(!empty($id))}{$id}{/if}" onsubmit="return fun()" method="POST" enctype="multipart/form-data">
+        <div class="form-box clearfix" id="form">
+            <div class="form-group "><span class="label">品牌名称：</span>
+                <div class="box">
+                    <!--<input class="input hd-input " type="text" name="name" required="required" value="" tabindex="0"/>-->
+                    <!--<input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">-->
+                    <input class="input hd-input" type="text" name="name" value="{if(!empty($set['name']))}{$set['name']}{/if}" tabindex="0" required="required"/>
+                </div>
+                <p class="desc">请填写商品品牌的名称；例如：耐克；可口可乐等。</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">品牌标识：</span>
+                <div class="box">
+                    <div class="input hd-input file-box clearfix">
+                        <input type="text" class="file-txt" name="logo" value="{if(!empty($set['logo']))}{$set['logo']}{/if}" tabindex="0"/>
+                        <input type="button" class="file-btn" value="浏览"/>
+
+                        <input type="file" class="file file-view" id="phot" name="file" value="1" tabindex="0"/>
+
+                    </div>
+                </div>
+                <p class="desc">请上传品牌LOGO，用于前台展示。</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">品牌网址：</span>
+                <div class="box">
+                    <input class="input hd-input " type="text" name="url" value="{if(!empty($set['url']))}{$set['url']}{/if}" tabindex="0"/>
+                </div>
+                <p class="desc">请填写品牌网址，以http://开头。</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">品牌排序：</span>
+                <div class="box">
+                    <input class="input hd-input " type="text" name="sort" value="{if(!empty($set['sort']))}{$set['sort']}{/if}" tabindex="0" />
+                </div>
+                <p class="desc">请填写自然数。品牌列表将会根据排序进行由小到大排列显示。</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">是否推荐：</span>
+                <div class="box">
+                    <label class="select-wrap">
+                        <input class="select-btn" type="radio" name="isrecommend" value="1" checked/>开启
+                    </label>
+                    <label class="select-wrap"><input class="select-btn" type="radio" name="isrecommend" value="0"/>关闭</label>
+                </div>
+                <p class="desc">请设置品牌是否为推荐品牌。</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">品牌描述：</span><div class="box">
+                <textarea class="textarea hd-input" name="descript" placeholder="" >
+                    {if(!empty($set['descript']))}{$set['descript']}{/if}
+                </textarea>
+            </div>
+                <p class="desc">请填写品牌的描述信息。</p>
+            </div>
+
+            <div class="padding">
+                <input type="hidden" name="id" value="">
+                <input type="submit" name="dosubmit" class="button bg-main" value="确定" />
+                <button  class="button margin-left bg-gray" id="return" type="button" >返回</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+<script>
+    function fun() {
+
+            if ($("input[name=logo]").val() == "") {
+                layer.tips("请选择标示图片！", $("input[name=logo]"))
+                return false;
+            }
+
+
+    }
+    $("#return").click(function(){
+        window.history.go(-1);
+    });
+    $(".file").change(function(){
+            var file = this.files[0];
+
+            url = window.URL.createObjectURL(file);
+
+          $(".file-txt").attr("value",url)
+
+
+    })
+</script>
+{/block}

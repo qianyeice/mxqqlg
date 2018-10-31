@@ -1,0 +1,17 @@
+<div class="layui-body" style="padding: 5px;">
+    <!-- 内容主体区域 -->
+    <div>
+        <!--<iframe id="iframe" src="http://api.mxqqlg.com/?s={$data['left'][0]['m'].'/'.$data['left'][0]['c'].'/'.$data['left'][0]['a']}" scrolling="no" name="aa" frameborder="0"-->
+        <!--width="100%" height=""></iframe>-->
+        <iframe id="iframe" src="<?php echo
+        url('/?s='.$data['left'][0]['m'].'/'.$data['left'][0]['c'].'/'.$data['left'][0]['a'])?>"
+                scrolling="yes" name="aa" frameborder="0"
+                width="100%" height=""></iframe>
+    </div>
+</div>
+<script>
+    var div = document.getElementsByClassName("layui-body");
+    var gao=div[0].offsetHeight-20 + "px";
+    var rame = document.getElementById("iframe");
+    rame.style.height = gao;
+</script>

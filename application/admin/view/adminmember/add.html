@@ -1,0 +1,107 @@
+{extend name="Template/template" /}
+{block name='title'}权限管理{/block}
+{block name="css"}{/block}
+{block name="js"}
+{/block}
+{block name="body"}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">团队管理设置</li>
+        <li class="spacer-gray"></li>
+        <li><a class="current" href="javascript:;"></a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <form action="?s=admin/adminmember/add_add?id={$user.id}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="$_GET['id']}">
+        <div class="form-box clearfix">
+            <div class="form-group "><span class="label">用户名：</span>
+                <div class="box"><input class="input hd-input " name="username" value="{$user.username}" tabindex="0"
+                                        type="text"></div>
+                <p class="desc">请输入用户名</p></div>
+            <div class="form-group "><span class="label">密码：</span>
+                <div class="box"><input class="input hd-input " name="password" value="" tabindex="0"
+                                        type="password"></div>
+                <p class="desc">为空则不进行修改</p></div>
+            <div class="form-group "><span class="label">是否是商家用户：</span>
+                <div class="box">
+
+                    <label class="select-wrap"><input class="select-btn" name="is_supplier" value="1"
+                                                      {if ($user.is_supplier==1)}checked{/if} type="radio">是</label>
+
+                    <label
+                            class="select-wrap"><input class="select-btn" name="is_supplier" value="0"
+                                                       {if ($user.is_supplier==0)}checked{/if} type="radio">否</label>
+
+                </div>
+                <p class="desc">设置是否是商家用户</p></div>
+            <div class="form-group " style="z-index: 3;"><span class="label">品牌</span>
+                <div class="box">
+                    <select name="barnd" lay-verify="" class="form-select-edit">
+                        <option value="0" {if (!empty($user.bang_id)==0)} selected {/if}>请选择商家品牌</option>
+                        {volist name="brand" id="bar"}
+                        <option value="{$bar.id}" {if $bar.id==$user.bang_id} selected {/if}>{$bar.name}</option>
+
+                        {/volist}
+                    </select>
+                </div>
+                <p class="desc">选择商家品牌</p>
+            </div>
+            <div class="form-group "><span class="label">权限描述：</span>
+                <div class="box"><textarea class="input hd-input " name="text" tabindex="0"
+                                           style="height: 100px"
+                                           type="text">{$user.text}</textarea></div>
+                <p class="desc">权限描述</p></div>
+            <div class="author-wrapper padding">
+                <div class="aut-all layout clearfix"><label>
+                    <div class="aut-all layout clearfix"><label><input id="check-aut-all"  name=""
+                                                                       type="checkbox">设置权限</label></div>
+                </label></div>
+                <dl class="aut-line clearfix">
+                    {volist name="memu" id="mu"}
+                    <dt style="clear: both;"><label><input class="aut-input aut-left-input rules{$mu.id} qx"
+                                                           name="rules[]" value="{$mu.id}" type="checkbox"><b>{$mu.memuname}</b></label>
+                    </dt>
+                    {volist name="mu.child" id="ch"}
+                    <dd>
+                        <label><input class="aut-input rules{$ch.id} qx" name="rules[]" value="{$ch.id}"
+                                      type="checkbox">{$ch.memuname}</label>
+                    </dd>
+                    {/volist}
+                </dl>
+                {/volist}
+            </div>
+        </div>
+        <div class="padding">
+            <input class="button bg-main" value="保存" type="submit">
+            <a href="/index.php?m=admin&amp;c=admin_user&amp;a=index&amp;formhash=jllLjJ"
+               class="button margin-left bg-gray">返回</a>
+        </div>
+    </form>
+</div>
+<script>
+    $(function () {
+        var bang_id = "{$user.jurisdiction_id}";
+        var bang = bang_id.split(',');
+        if (bang) {
+            for (var i = 0; i < bang.length; i++) {
+                var f = '.rules' + bang[i]
+                $(f).attr("checked", "checked")
+            }
+        }
+    })
+    $('#check-aut-all').click(function () {
+        if ($('.qx').attr("checked") == 'checked') {
+            $('.qx').attr("checked", false)
+        } else {
+            $('.qx').attr("checked", 'checked')
+
+        }
+    })
+
+
+</script>
+
+
+{/block}

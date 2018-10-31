@@ -1,0 +1,284 @@
+{extend name="Template/template"/}
+{block name="title"}{/block}
+
+
+{block name="css"}
+
+<style>
+
+    .tnerruc{background: #fdfdfd;padding: 10px 10px 0 10px;}
+    .tnerruc .sent{padding: 0 10px;margin: 0 15px 10px 0;border: 1px solid #CCCCCC;color: #636363;line-height: 28px;float: left;}
+    .sent .kong{margin-right: 5px;}
+    .tnerruc .root{color: #636363;border:1px solid #004a73;background-color: #eff7fe;}
+
+</style>
+{/block}
+{block name="js"}
+
+{/block}
+
+{block name="body"}
+<!--background: url("http://devel.mxqqlg.com/statics/admin/img/icon_choose.gif") no-repeat right bottom;-->
+
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">商品类型设置</li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+
+<div class="content padding-big have-fixed-nav">
+    <form action="javascript:" method="" data-reset=false>
+        <div class="padding-lr clearfix">
+            <input type="hidden" value="" name="id">
+            <div class="form-group">
+                <span class="label">属性名称：</span>
+                <div class="box">
+                    <input class="input hd-input" type="text" tabindex="0" value="{if(!empty($vo.typename))}{$vo.typename}{/if}" name="name">
+                    <input value="{if(!empty($vo.id))}{$vo.id}{/if}" name="id" style="display: none;">
+                </div>
+                <p class="desc">请填写常用的商品类型的名称；例如：服装；图书等</p>
+            </div>
+            <!--<div class="form-group">-->
+            <!--<span class="label">属性排序：</span>-->
+            <!--<div class="box">-->
+            <!--<input class="input hd-input" type="text" tabindex="0" value="{if(!empty($vo.typename))}{$vo.typename}{/if}" name="sort">-->
+            <!--</div>-->
+            <!--<p class="desc">请填写自然数，商品类型列表将会根据排序进行由小到大排列显示</p>-->
+            <!--</div>-->
+            <div class="form-group">
+                <span class="label">是否启用：</span>
+                <div class="box">
+                    <label class="select-wrap">
+                        <input class="select-btn" type="radio" {if(empty($vo.status))}checked="checked"{/if} value="0" name="status">关闭
+                    </label>
+                    <label class="select-wrap">
+                        <input class="select-btn" type="radio" {if(!empty($vo.status))}checked="checked"{/if} value="1" name="status">开启
+                    </label>
+                    <br>
+                </div>
+                <p class="desc">请设置属性是否启用</p>
+            </div>
+        </div>
+        <div class="padding-lr margin-top clearfix">
+            <div class="border attr-choose-spec">
+                <div class="table-add-top">
+                    <div class="th layout">
+                        <span class="text-sub text-left">关联规格</span>
+                    </div>
+                </div>
+
+                <div id="pen" class="padding-top padding-left padding-right clearfix tnerruc">
+
+                    {volist name="ban" id="vst"}
+
+                    <label class="sent">
+                        <!--<input type="checkbox" name="text" value="{$vst.id}" checked="checked"{/if} class="kong">{$vst.name}-->
+                        <input type="checkbox" name="text" value="{$vst.id}" checked="checked" class="kong">{$vst.name}
+                    </label>
+                    <input id="" name="spec_id[]" value="{$vst.id}" type="hidden">
+                    {/volist}
+                </div>
+
+            </div>
+        </div>
+        <div class="padding">
+            <div class="table resize-table paging-table check-table border clearfix">
+                <div class="table-add-top">
+                    <div class="th layout">
+                        <span class="text-sub text-left">编辑属性</span>
+                    </div>
+                </div>
+                <div class="tr border-none">
+                    <div class="th check-option" data-resize='flase'>删除</div>
+                    <!--<div class="th" data-width="5" style="width: 5%;">-->
+                    <!--<span class="td-con text-left">排序</span>-->
+                    <!--</div>-->
+                    <div class="th" data-width="25" style="width: 30%;">
+                        <span class="td-con text-left">属性名称</span>
+                    </div>
+                    <div class="th" data-width="15" style="width: 15%;">
+                        <span class="td-con text-left">属性类型</span>
+                    </div>
+                    <div class="th" data-width="35" style="width: 35%;">
+                        <span class="td-con text-left">属性值</span>
+                    </div>
+                    <div class="th" data-width="10" style="width: 10%;">
+                        <span class="td-con">是否筛选</span>
+                    </div>
+                    <div class="th" data-width="10" style="width: 10%;">
+                        <span class="td-con">操作</span>
+                    </div>
+                </div>
+
+                <div class="cliadd">
+                    <div idid="id1" class="tr" style="visibility: visible;">
+                        <div class="td check-option">
+                            <input style="margin-top: 15px" type="checkbox"/>
+                        </div>
+                        <!--<div class="td w5">-->
+                        <!--<input class="input" type="text" name="attr_sort[]" value="100" />-->
+                        <!--</div>-->
+                        <div class="td w30">
+                            <div class="td-con">
+                                <input class="input fl" style="width: 80px" type="text" name="typeson[name]" value="" />
+                                <input class="input f1" style="display: none;" type="text" name="typeson[id]" value=""/>
+
+                                <a class="fl margin-left dinra newzhi" id="dis1" href="javascript:setAttr(1);">编辑属性值</a>
+                                <span id="popinput1" class="fl margin-left putin hidden">输入框无需编辑</span>
+
+                            </div>
+                        </div>
+                        <div class="td w15">
+                            <div class="td-con">
+                                <select class="layout fl kuang" data-id="1" name="typeson[type]"  style="height: 26px; margin-top: 7px;">
+                                    <option class="dan" value="0" {if !empty($vo.status)}checked="checked"{/if}>单选框</option>
+                                    <option class="dan" value="1">复选框</option>
+                                    <option class="shuru" value="2">输入框</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="td w35">
+                            <div class="td-con text-left strings" id="attr1"></div>
+                            <input type="hidden" id="attrhidden1" class="strings" name="typeson[value]" value=""/>
+                        </div>
+                        <div class="td w10">
+                            <span class="td-con">
+                                <a class="ico_up_rack" href="javascript:;" title="点击取消"></a>
+                                <input type="hidden" class="search" name="typeson[is_screen]" value="1">
+                            </span>
+                        </div>
+                        <div class="td w10">
+                            <a href="javascript:;" class="shan" id="delete" >删除</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="spec-add-button">
+                    <a href="javascript:;" id="addbut"><em class="ico_add margin-right"></em>添加一个属性</a>
+                </div>
+            </div>
+        </div>
+        <div class="padding submit-data">
+            <input id="submit" type="submit" class="button bg-main" name="dosubmit" value="确定" />
+            <input type="button" class="button margin-left bg-gray" onclick="javascript:history.back(-1);" value="返回" />
+        </div>
+    </form>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#addbut').click(function () {
+            var list=[];//声明一个集合
+            function addTag(){
+                var userName=document.getElementById("userName").value;
+                var money=document.getElementById("money").value;
+                var obj=new Object();
+                obj.name=userName;
+                obj.money=money;
+                list.push(obj);   //对象放入集合
+                var info = document.getElementById("id1");
+                var inner="";
+                //动态添加元素
+                for(i=0;i<list.length;i++){
+                    inner+="<tr>";
+                    inner+='<td align=\"center\">'+list[i].name+'</td><td align=\"center\">'+list[i].money+
+                        '</td><td align=\"center\"><a name=\"'+i+'\" onclick=\"functiondel(this)\">'+"删除"+'</a></td>';
+                    inner+="</tr>";
+                }
+                info.innerHTML=inner;
+            }
+        });
+    })
+
+</script>
+<script>
+
+
+    function delet(date) {
+        remove($(date).parent.parent("div"));
+    }
+    $(document).ready(function () {
+        var options=$(".kuang option:selected").val();
+
+
+        $(".dan").click(function () {
+            $(".putin").addClass("hidden");
+            $(".dinra").removeClass("hidden");
+        });
+        $(".shuru").click(function () {
+            $(".dinra").addClass("hidden");
+            $(".putin").removeClass("hidden");
+            $(".strings").html('');
+        });
+
+        // $(document).on("click",".shan ",function(){
+        //     $(this).parents('.td-con').remove();
+        // });
+
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        $('.shan').click(function () {
+            function delRow(o){
+                //获取父元素
+                var info = document.getElementById("delete");
+                //根据节点获取当前行
+                var rowIndex = o.parentNode.parentNode.rowIndex;
+                //删除一行
+                info.deleteRow(rowIndex-1);
+            }
+        })
+    })
+
+</script>
+<script>
+
+
+
+</script>
+<script>
+
+</script>
+<script>
+
+
+</script>
+<!--<script>-->
+
+
+<!--function ifset(id) {-->
+<!--console.log($(id).index());-->
+<!--layer.open({-->
+<!--type:2,-->
+<!--title: '回复',-->
+<!--//shadeClose: true,-->
+<!--skin: 'layui-layer-lan',-->
+<!--shade: 0.7,-->
+<!--area: ['681px', '430px'],-->
+<!--fixed: false, //不固定-->
+<!--maxmin: true,-->
+<!--content: 'http://api.mxqqlg.com/index.php?s=admin/Commoditytypetck/index',-->
+<!--success: function(layero, index){-->
+<!--var body = layer.getChildFrame('body', index);-->
+<!--var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();-->
+
+<!--body.find('.playdis').val();-->
+<!--//console.log(ids);-->
+<!--//console.log(iframeWin);-->
+
+<!--}-->
+<!--});-->
+<!--}-->
+
+<!--</script>-->
+
+
+{/block}
+
+{block name="script"}
+
+{load href="__STATIC__/admin/js/comsetting.js" / }
+{/block}

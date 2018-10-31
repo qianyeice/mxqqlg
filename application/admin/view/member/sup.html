@@ -1,0 +1,90 @@
+{extend name="Template/template"}
+
+{block name="css"}
+
+{/block}
+
+{block name="js"}
+
+
+{/block}
+
+{block name='body'}
+
+<div action="" method="post" name="member_update_parent">
+    <input type="hidden" name="id" value="2993">
+    <input type="hidden" id="uid" name="uid" value="2993">
+    <input type="hidden" name="formhash" value="IIXedK">
+    <div class="edit-user-info">
+        <div class="table layout border-none clearfix">
+            <div class="tr top-tr">
+                <div class="layout bg-white padding-left"><b>会员上级用户 : {$name}</b></div>
+            </div>
+            <div class="tr">
+                <div class="th w22">
+                    选择上级用户
+                </div>
+                <div class="td w60">
+                    <input class="input" type="text" name="mobile" value="" placeholder="请输入用户手机号搜索,如137********"  datatype="*" />
+                </div>
+                <div class="td 125">
+                    <a class="button bg-sub bg-search" style="line-height: 15px; margin-left: 10px;" href="javascript:;">搜索</a>
+                </div>
+            </div>
+            <div class="tr show_user padding" style="height: 92px;">
+                <select name="parent_id" id="parents" style="display:none; padding:3px 5px;"></select>
+            </div>
+        </div>
+    </div>
+
+    <div class="padding text-right ui-dialog-footer">
+        <input type="submit" name="dosubmit" value="确定" class="button bg-main"/>
+        <input type="button" name="button" value="取消" class="button margin-left bg-gray" data-back="false"/>
+    </div>
+    <input id="upid" type="hidden" value="{$id}">
+</div>
+
+{/block}
+{block name='script'}
+
+<script type="text/javascript">
+    $(function(){
+        $(".bg-gray").live('click',function(){
+            history.go(-1);
+        });
+        // $("#parents").change(function(){
+        //     var $val = $("#parents").val();
+        //     $("#uid").val($val);
+        // });
+        $("a.bg-search").click(function(){
+            var mobile = $("input[name='mobile']").val().trim();
+            if(!mobile){
+                alert('请输入手机号搜索用户');
+                return false;
+            }
+            $.post("/?s=admin/member/upquery",{'mobile':mobile},function(data){
+                var htmlStr = '<option>--请选择--</option>';
+                window.all=data.id;
+                if(typeof data == 'object'){
+                    htmlStr += '<option id="onid" value="'+ data.id+'">'+ data.username+'['+ data.mobile+']</option>';
+                }else{
+                    alert('无符合条件的用户信息');
+                }
+                $("#parents").html(htmlStr).show();
+            },'json');
+        });
+        //
+        $('.bg-main').click(function () {
+            var id =$('#upid').val();
+            $.post('/?s=admin/member/updata',{'id':id,'supid':window.all},function (data) {
+                if (data['type'] == '1'){
+                    parent.window.location.href='/?s=admin/succeed/index&c=member&a=lists'
+                } else {
+                    parent.window.location.href = '/?s=admin/succeed/index&c=member&a=lists&type=1'
+                }
+            })
+        })
+
+    })
+</script>
+{/block}

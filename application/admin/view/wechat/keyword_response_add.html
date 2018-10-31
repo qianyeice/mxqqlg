@@ -1,0 +1,189 @@
+<style>
+    .field > .input {
+        float: left;
+        width: auto;
+    }
+</style>
+<div class="content  padding-big have-fixed-nav">
+    <form action="" method="POST" data-reset="" data-valcontent_idate="true" name="form" onsubmit="return false">
+        <div class="content-tabs">
+            <div class="form-box clearfix">
+                <div class="form-group " style="z-index: 2;"><span class="label">选择{if is_null($Think.get.id)}添加{else/}编辑{/if}关键词回复内容</span>
+                    {include file="wechat/material" /}
+                </div>
+                <div class="form-group">
+                    <span class="label">关键词</span>
+                    <div class="field">
+                        <div class="add-keyword">
+                            <a class="button bg-main" href="javascript:;">添加关键词规则</a>
+                        </div>
+                    </div>
+                </div>
+                {if is_null($Think.get.id)}
+                <div class="key-item" style="width: 100%">
+                    <div class="form-group">
+                        <div class="label"></div>
+                        <div class="field">
+                            <select class="input" name="rule">
+                                <option value="1">等于</option>
+                                <option value="2">包含</option>
+                            </select>
+                            <input type="text" class="input" name="keyword" size="20" value="" placeholder="请输入关键词"
+                                   datatype="s" required>
+                            <input type="hidden" class="input" name="key_id" value="">
+                            <div class="input-note"></div>
+                        </div>
+                    </div>
+                </div>
+                {else/}
+                <div class="key-item" style="width: 100%">
+                    {volist name="mydata" id="vo" key="key"}
+                    <div class="form-group">
+                        <div class="label"></div>
+                        <div class="field" style="width: 100%">
+                            <select class="input" name="rule">
+                                {if $vo['eqin']==1}
+                                <option value="1">等于</option>
+                                <option value="2">包含</option>
+                                {else/}
+                                <option value="2">包含</option>
+                                <option value="1">等于</option>
+                                {/if}
+                            </select>
+                            <input type="text" class="input" name="keyword" size="20" value="{$vo['word']}"
+                                   placeholder="请输入关键词"
+                                   datatype="s" required>
+                            <input type="hidden" class="input" name="key_id" value="{$vo['keyid']}">
+                            <a class="button button-small icon-trash-o js-del choose_hidden " href="javascript:;"
+                               title="删除">删除</a>
+                            <div class="input-note"></div>
+                        </div>
+                    </div>
+                    {/volist}
+                </div>
+
+                {/if}
+            </div>
+        </div>
+        <div class="hide-flag item-html" style="width: 100%">
+            <div class="form-group">
+                <div class="label"></div>
+                <div class="field">
+                    <select class="input" name="rule[]">
+                        <option value="1">等于</option>
+                        <option value="2">包含</option>
+                    </select>
+                    <input type="text" class="input" name="keyword" size="20" value="" placeholder="请输入关键词"
+                           datatype="s">
+                    <input type="hidden" class="input" name="key_id" value="">
+                    <a class="button button-small icon-trash-o js-del choose_hidden" href="javascript:;"
+                       title="删除">删除</a>
+                    <div class="input-note"></div>
+                </div>
+            </div>
+        </div>
+        <div class="padding">
+            <input type="submit" class="button bg-main" value="保存">
+        </div>
+        <input type="hidden" name="formhash" value="fKRHLh">
+    </form>
+</div>
+<script type="text/javascript">
+    $(function () {
+        hidden();
+        $('div.add-keyword a.button').click(function () {
+            var item = $('div.item-html').html();
+            $("div.key-item").append(item);
+            hidden()
+        });
+        $(document).on('click', '.form-group a.js-del', function () {
+            if (confirm('确定删除左侧关键词规则？')) {
+                $(this).parents('div.form-group').remove();
+            }
+            hidden()
+        });
+        $('input[type="submit"]').click(function () {
+            if ($('input[readonly="readonly"]').val() == '') {
+                layer.msg('请选择回复素材!');
+            } else {
+                var length = $('select').length;
+                var error = 0;
+                for (var i = 0; i < length - 1; i++) {
+                    var val = $('select').eq(i).next().val();
+                    if (val == '') {
+                        error++
+                    }
+                }
+                if (error > 0) {
+                    layer.confirm('关键词不能为空!', {
+                        btn: ['继续', '退出'] //按钮
+                    }, function () {
+                        layer.msg('继续编辑!!');
+                    }, function () {
+                        layer.msg('退出中!', {
+                            icon: 2,
+                            time: 500,
+                            end: function () {
+                                window.history.go(-1)
+                            }
+                        });
+                    })
+                } else {
+                    var select = [];
+                    var value = [];
+                    for (var i = 0; i < length - 1; i++) {
+                        var val = $('select').eq(i).next().val();
+                        var eqin = $('select').eq(i).val();
+                        value['value'] = val;
+                        value['eqin'] = eqin;
+                        if ($('select').eq(i).next().next().val() != '') {
+                            value['id'] = $('select').eq(i).next().next().val();
+                        }
+                        if (select.length != 0) {
+                            if (select[select.length - 1]['value'] == value['value']) {
+                                continue;
+                            }
+                        }
+                        select.push(value);
+                    }
+                    var souceid = $('input[name="material_id"]').val();
+                    var jsdata = '[';
+                    for (var i = 0; i < select.length; i++) {
+                        if (select[i]['id']) {
+                            jsdata += '{"value":"' + select[i]['value'] + '","eqin":"' + select[i]['eqin'] + '","id":"' + select[i]['id'] + '"},';
+                        } else {
+                            jsdata += '{"value":"' + select[i]['value'] + '","eqin":"' + select[i]['eqin'] + '"},';
+                        }
+
+                    }
+                    jsdata = jsdata.substring(0, (jsdata.lastIndexOf(',')));
+                    jsdata += ']';
+                    $.post(href('post_KeyWord'), {'souceid': souceid, 'data': jsdata}, function (data) {
+                        layer.confirm(data['data'], {
+                            btn: ['继续', '退出'] //按钮
+                        }, function () {
+                            layer.msg('继续编辑!!');
+                        }, function () {
+                            layer.msg('退出中!', {
+                                icon: 2,
+                                time: 500,
+                                end: function () {
+                                    window.history.go(-1)
+                                }
+                            });
+                        })
+                    });
+                }
+            }
+        });
+
+        function hidden() {
+            var obj = $('div.key-item>.form-group');
+            if (obj.length > 1) {
+                obj.eq(-1).children('div:last').children('a').removeClass('choose_hidden');
+                obj.eq(-1).siblings().children('div:last').children('a').addClass('choose_hidden');
+                obj.children('div:last').children('input:first').attr('required', true)
+            }
+        }
+    })
+</script>

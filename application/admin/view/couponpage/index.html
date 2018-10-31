@@ -1,0 +1,161 @@
+{extend name="Template/template" /}
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">优惠券管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li>
+            <a class="current" href="javascript:;"></a>
+        </li>
+    </ul>
+    <div class="hr-gray">
+    </div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="hr-gray">
+    </div>
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a href="?s=admin/couponpage/edit"><i class="ico_add"></i>添加</a>
+            <div class="spacer-gray">
+            </div>
+            <a href="?s=admin/couponpage/alldelete" data-ajax='id' data-message="是否删除所选优惠券？">
+                <i class="ico_delete"></i>批量删除
+            </a>
+            <div class="spacer-gray">
+            </div>
+        </div>
+    </div>
+    <div class="table resize-table paging-table check-table border clearfix">
+        <div class="tr">
+			<span class="th check-option" data-resize="false">
+				<span>
+					<input id="check-all" type="checkbox"/>
+				</span>
+			</span>
+            <span class="th" data-width="30" style="width: 16%;">
+				<span class="td-con"> 优惠券名称</span>
+			</span>
+            <span class="th" data-width="10" style="width: 20%;">
+				<span class="td-con"> 优惠券获取途径</span>
+			</span>
+            <span class="th" data-width="10" style="width: 12%;">
+				<span class="td-con"> 优惠券类型</span>
+			</span>
+            <span class="th" data-width="10" style="width: 16%;">
+				<span class="td-con"> 优惠券图标</span>
+			</span>
+            <span class="th" data-width="20" style="width: 16%;">
+				<span class="td-con"> 优惠券有效期</span>
+			</span>
+            <span class="th" data-width="10" style="width: 10%;">
+				<span class="td-con">状态</span>
+			</span>
+            <span class="th" data-width="10" style="width: 10%;">
+				<span class="td-con">操作</span>
+			</span>
+        </div>
+        {foreach $data as $key=>$vo }
+        <div class="tr">
+            <span class="td check-option">
+                <input type="checkbox" name="id" id="a" value="{$vo.id}"/>
+            </span>
+            <span class="td" style="width: 16%;">
+						<span class="td-con">{$vo["couponname"]}</span>
+					</span>
+            <span class="td" style="width: 20%;">
+						<span class="td-con">{$vo["couponfor"]}</span>
+					</span>
+            <span class="td" style="width: 12%;">
+						<span class="td-con">{$vo["coupontype"]}</span>
+					</span>
+            <span class="td" style="width: 16%;">
+			<span class="pic">
+				<img src='{$vo["couponicon"]}' style="max-width: 30px; max-height: 30px;" title=""/>
+			</span>
+			</span>
+            <span class="td" style="width: 16%;">
+						<span class="td-con">{$vo["endtime"]}</span>
+					</span>
+            <span class="td" style="width: 10%;">
+						<span class="td-con">{$vo["is_display"]}</span>
+					</span>
+            <span class="td" style="width: 10%;">
+						<span class="td-con">
+							<a href="?s=admin/couponpage/edit&id={$vo['id']}" style="margin-right: 5px">编辑</a>
+							<a data-dj="{$vo.id}" class="adelete" data-confirm="是否确认删除？" href="?s=admin/couponpage/adelete&id={$vo['id']}">删除</a>
+						</span>
+			</span>
+        </div>
+        {/foreach}
+        {include file="/Template/listPage"}
+    </div>
+</div>
+
+{/block}
+
+{block name='script'}
+<script type="text/javascript">
+    $(function () {
+        var array = [];
+        //all单选框
+        $('#check-all').live('click', function () {
+            var judge = document.getElementById("check-all").checked;
+            if (judge) {
+                for (var i = 1; i < $(':checkbox').length; i++) {
+                    $(':checkbox')[i].checked = true;
+                    array[i] = $(':checkbox').eq(i).val();
+                }
+            } else {
+                for (var i = 1; i < $(':checkbox').length; i++) {
+                    $(':checkbox')[i].checked = false;
+                }
+            }
+        });
+
+        //all删除
+        $('[data-message]').on('click', function () {
+            var judge = document.getElementById("a").checked;
+            if (!judge) {
+                alert('请选择您要操作的数据', {
+                    icon: 3,
+                    skin: 'layer-ext-moon'
+                });
+            } else {
+                var cyan = confirm($(this).attr('data-message'));
+                if (cyan) {
+                    $.post('?s=admin/couponpage/alldelete', {array: array}, function (data) {
+                        if (data) {
+                            if (data['type'] == '1' && data['explain'] == '添加成功') {
+                                location.href = '?s=admin/succeed/index&c=couponpage&a=index';
+                            } else if (data['type'] == '0' && data['explain'] == '添加失败') {
+                                location.href = '?s=admin/succeed/index&c=couponpage&a=index&type=1'
+                            }
+                        }
+                    })
+                }
+            }
+        });
+
+        //单选删除
+        for (var i = 0; i < $('.adelete').length; i++) {
+            $('.adelete').eq(i).click(function () {
+                var id = $(this).attr('data-dj');
+                var cyan = confirm($(this).attr('data-confirm'));
+                if (cyan) {
+                    $.post('?s=admin/couponpage/adelete', {id: id}, function (data) {
+                        if (data) {
+                            if (data['type'] == '1' && data['explain'] == '添加成功') {
+                                location.href = '?s=admin/succeed/index&c=couponpage&a=index';
+                            } else if (data['type'] == '0' && data['explain'] == '添加失败') {
+                                location.href = '?s=admin/succeed/index&c=couponpage&a=index&type=1'
+                            }
+                        }
+                    })
+                }
+            })
+        }
+    })
+</script>
+
+{/block}

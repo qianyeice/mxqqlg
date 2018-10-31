@@ -1,0 +1,190 @@
+{extend name="Template:template" /}
+
+{block name="css"}
+{load href="__STATIC__/admin/css/ui-dialog.css" /}
+<!--{load href="__STATIC__/admin/css/validate.css" /}-->
+{load href="__STATIC__/admin/css/orderexpresssingle.css" /}
+{/block}
+
+{block name="js"}
+
+{/block}
+
+{block name='body'}
+
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">商品规格设置</li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+
+        <div class="form-box clearfix" id="form">
+            <input type="hidden" name="id" value="">
+            <div class="form-group "><span class="label">规格名称：</span>
+                <div class="box">
+                    <input class="input hd-input" type="text" name="name" value="{if(!empty($vo.name))}{$vo.name}{/if}" tabindex="0" required="required"/>
+                </div>
+                <p class="desc">请填写常用的商品规格的名称；例如：颜色；尺寸等</p>
+            </div>
+
+            <div class="form-group "><span class="label">是否启用：</span>
+                <div class="box">
+
+                    <label class="select-wrap"><input class="select-btn" type="radio" name="status" value="1" {if(!empty($vo.status))}checked{/if} id="redio1"/>开启</label>
+                    <label class="select-wrap"><input class="select-btn" type="radio" name="status" value="0" {if(empty($vo.status))}checked{/if} id="radio2"/>关闭</label>
+
+                </div>
+                <p class="desc">请设置规格是否启用</p></div>
+        </div>
+        <div class="padding">
+            <div class="table check-table paging-table border clearfix">
+                <div class="tr padding-none border-none" onclick="">
+                    <div class="th layout text-left">
+                        <span class="padding-left text-normal text-sub">添加属性</span>
+                    </div>
+                </div>
+                <div class="tr border-none">
+                    <div class="th bg-none bg-white check-option"><b>删除</b></div>
+                    <div class="th bg-none bg-white text-left padding-lr w85"><b>属性名称</b></div>
+                    <div class="th bg-none bg-white w15"><b>操作</b></div>
+                </div>
+                <div class="topbut">
+                    <div class="tr delst">
+                        <div class="td check-option">
+                            <input type="checkbox" style="height:40px;line-height: 40px;"/>
+                        </div>
+                        <div class="td padding-lr w85">
+                            <input class="input w25" id="zhi" type="text" name="values" value=""/>
+                        </div>
+                        <div class="td w15">
+                            <a href="javascript:;" class="stdele" id="_close" >删除</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="spec-add-button">
+                    <a href="javascript:;" id="addbutton"><em class="ico_add margin-right"></em>添加一个属性</a>
+                </div>
+            </div>
+        </div>
+        <div class="padding">
+            <input type="button" class="button bg-main dda" value="确定"/><!--name="dosubmit"-->
+            <input type="button" class="button margin-left bg-gray" value="返回" href="?s=admin/Productspecifications/index"/>
+        </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var index=$(".topbut").html();
+        $("#addbutton").click(function () {
+            $(".topbut").append(index);
+//            $("#_close").click(function(){
+//                //$(".topbut :last").remove();
+//                $index.remove();//事先存好了对象就方便删除了
+////            $(this).parent(".delst").parent(".topbut").remove();
+//            });
+        });
+
+
+    });
+
+</script>
+<script>
+    var aa = "{if(!empty($vo.value))}{$vo.value}{/if}";
+    console.log(aa);
+    $(document).ready(function () {
+        var son=[];
+        var eulav = aa;
+
+        var valarr = eulav.split(",");
+        var leng = valarr.length;
+
+        var texts = document.getElementsByName("values");
+        var xia = $(".topbut").html();
+
+        for(var x=0;x<leng-1;x++){
+           $(".topbut").append(xia);
+        }
+
+        for (var rr = 0; rr < valarr.length; rr++) {
+            texts[rr].value=valarr[rr];
+        }
+
+        $(document).on("click",".stdele ",function(){
+            $(this).parents('.delst').remove();
+        })
+
+    })
+</script>
+
+<!--<script>-->
+    <!--$(document).ready(function () {-->
+        <!--var yourson = [];-->
+
+        <!--$("#addbutton").click(function () {-->
+            <!--var txte = document.getElementsByName("values");-->
+            <!--for (var i = 0; i < txte.length; i++) {-->
+                <!--var lans = txte[i].value;-->
+                <!--yourson.push(lans);-->
+                <!--console.log(lans);-->
+            <!--}-->
+            <!--var a = yourson;-->
+<!--//            var a = $('.topbut').nextAll('.tr.delst');-->
+<!--//            console.log(a);-->
+            <!--$.each(yourson,function (index,value) {-->
+                <!--alert(index+':'+value);-->
+            <!--});-->
+<!--//            $.each(a,function (index,value) {-->
+<!--//                $(this).click(function () {-->
+<!--//                    alert(index+':'+value);-->
+<!--//                })-->
+<!--//            });-->
+        <!--});-->
+    <!--});-->
+<!--</script>-->
+<script>
+    $(document).ready(function getTextByJs() {
+        var son = [];
+        //根据name获取所有元素
+        $(".dda").click(function () {
+            var txts = document.getElementsByName("values");
+            var name = $("input[name='name']").val();
+            var status = $("input[name='status']:checked").val();
+
+            for (var i = 0; i < txts.length; i++) {
+                var lan = txts[i].value;
+                son.push(lan);
+//                console.log(lan);
+            }
+            var zfces = son;
+            $(".stdele").live("click",function () {console.log("2")});
+
+            var zfc = zfces.join(",");
+
+            var id = "{if(!empty($vo.id))}{$vo.id}{/if}";
+            $.ajax({
+                url:"?s=admin/Producteditor/sean_ajax",
+                type:"post",
+                data:{id:id,value:zfc,name:name,status:status},
+                success:function (data) {
+                    alert("添加成功");
+                   window.location.href="?s=admin/Productspecifications/index";
+                },
+                error:function (data) {
+                    console.log("添加失败");
+                }
+            });
+        });
+    });
+</script>
+{/block}
+
+{block name='script'}
+
+{/block}

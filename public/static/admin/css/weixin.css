@@ -1,0 +1,331 @@
+/*素材管理*/
+ul, ol, li {
+    list-style-type: none;
+}
+
+.area_content {
+    max-width: 1000px;
+    overflow: hidden;
+}
+
+#rightCon {
+    background: #f3f3f3;
+}
+
+.title {
+    padding: 10px 0;
+}
+
+.title span {
+    font-size: 14px;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.title input {
+    width: 500px;
+    height: 24px;
+    padding: 5px;
+    border: 1px solid #e7e7e7;
+    background: #fff;
+    outline: none;
+}
+
+.page-button {
+    padding-top: 20px;
+    margin-left: 750px;
+}
+
+.preview_area {
+    width: 320px;
+    float: left;
+    margin-right: 15px;
+    border: 1px solid #e7e7eb;
+    background: #fff;
+    border-radius: 5px;
+}
+
+.preview_area #msg-content {
+}
+
+.preview_area ul {
+    padding: 0;
+}
+
+.preview_area #msgadd {
+    padding: 10px;
+}
+
+.preview_area #msgadd a {
+    display: block;
+    height: 50px;
+    text-align: center;
+    text-decoration: none;
+    color: #ccc;
+    border: 1px dotted #ccc;
+    line-height: 50px;
+    font-size: 30px;
+}
+
+.preview_area #msgadd a:hover {
+    color: #aaa;
+    border: 1px dotted #aaa;
+}
+
+.preview_area .msg-item {
+    padding: 10px;
+    border-top: 1px solid #f5f5f5;
+    position: relative;
+    overflow: hidden;
+}
+
+.preview_area .msg-item .msg-img {
+    width: 60px;
+    height: 60px;
+    float: right;
+    margin-left: 5px;
+    position: relative;
+}
+
+.preview_area .msg-item .msg-img .msg-img-bg {
+    width: 100%;
+    height: 100%;
+    background: #ececec;
+    text-align: center;
+    font-style: normal;
+    display: block;
+    color: #c0c0c0;
+    line-height: 60px;
+}
+
+.preview_area .msg-item .msg-img img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.preview_area .msg-item .msg-title {
+    display: block;
+    margin-right: 65px;
+    line-height: 26px;
+    font-size: 14px;
+}
+
+.preview_area .msg-item.first-item {
+    border-top: none;
+    padding: 0;
+    margin: 10px;
+}
+
+.preview_area .msg-item.first-item .msg-img {
+    height: 160px;
+    width: 100%;
+}
+
+.preview_area .msg-item.first-item .msg-img .msg-img-bg {
+    line-height: 160px;
+}
+
+.preview_area .msg-item.first-item .msg-title {
+    position: absolute;
+    bottom: 0px;
+    padding: 0 10px;
+    margin: 0;
+    background: rgba(0, 0, 0, .6);
+    color: #fff;
+    width: 298px;
+}
+
+.preview_area .msg-handle {
+    display: none;
+}
+
+.preview_area .msg-handle a {
+    color: #666;
+    text-decoration: none;
+    padding-left: 16px;
+    margin: 0 5px;
+}
+
+.preview_area .msg-handle a:hover {
+    color: #333;
+}
+
+.preview_area .item-active .msg-handle {
+    display: block;
+    background: rgba(229, 229, 229, .8);
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+    position: absolute;
+    left: 0;
+    top: 0;
+    text-align: center;
+    line-height: 80px;
+}
+
+.preview_area .item-active.first-item .msg-handle {
+    line-height: 160px;
+}
+
+.edit_area {
+    display: table-cell;
+    width: auto;
+    float: none;
+    vertical-align: top;
+}
+
+.edit_area .edit_wrap {
+    background: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.edit_area .edit_wrap .left-pit {
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    position: absolute;
+    left: -7px;
+    top: 40px;
+    -webkit-transform: rotate(45deg);
+}
+
+.edit_area:after {
+    content: " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ";
+    visibility: hidden;
+    clear: both;
+    height: 0 !important;
+    display: block;
+    line-height: 0;
+}
+
+.edit_area .editor-content {
+    background: #f8f8f8;
+    padding: 10px;
+}
+
+.edit_area .editor-item {
+    padding-bottom: 15px;
+}
+
+.edit_area .editor-item label {
+    display: block;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.edit_area .editor-item .input-box {
+    display: block;
+    position: relative;
+    padding: 0 50px 0 0;
+}
+
+/*.edit_area .editor-item .input-box input{ width:100%; display:block; line-height:22px; padding:4px 0; border:none; background: none; outline:none;}
+.edit_area .editor-item .input-box .counter{ position:absolute; right:10px; top:8px; color:#888;font-style:normal; font-size:14px;}
+.edit_area .editor-item .button{}
+.edit_area .editor-item .button a{ text-decoration:none; color:#555; display:block;}
+.edit_area .editor-item .button a:hover{ color:#333;}
+.edit_area .editor-item .textarea{ display:block; border:1px solid #e7e7e7; background:#fff; padding:5px;}
+.edit_area .editor-item .textarea textarea{ padding:0; margin:0; display:block; width:100%; height:80px; border:none; outline:none; resize:none; overflow-y:auto;}
+.edit_area .editor-item #pic img{ margin-top:10px;}
+*/
+.text_content {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    position: relative;
+}
+
+.text_content #msg-text {
+    border: none;
+    border-radius: 3px 3px 0px 0px;
+    border-bottom: 1px solid #ccc;
+}
+
+.emotion {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url(../images/emotion.png) 0 0 no-repeat;
+    margin: 10px 0 0 10px;
+    cursor: pointer;
+}
+
+.emotion:hover {
+    background: url(../images/emotion.png) 0 -24px no-repeat;
+}
+
+.emotionBox {
+    position: absolute;
+    width: 361px;
+    display: none;
+}
+
+.emotionBox .emotions {
+    overflow: hidden;
+    border-top: 1px solid #c0bfc5;
+    border-right: 1px solid #c0bfc5;
+    background-color: #e7e7eb;
+}
+
+.emotionBox .emotions .emotions_item {
+    float: left;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 0;
+    text-align: center;
+    border-bottom: 1px solid #c0bfc5;
+    border-left: 1px solid #c0bfc5;
+    background-color: #fff;
+}
+
+.emotionBox .emotions .emotions_item span {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    display: inline-block;
+    background: transparent url(../images/icon_emotion_panel.2x37e205.png) no-repeat 0 0;
+    -webkit-background-size: 20px auto;
+    background-size: 20px auto;
+}
+
+ul.tab {
+    height: 60px;
+    overflow: hidden;
+    background: #e5e5e5;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+ul.tab li {
+    float: left;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 20px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+ul.tab li.active {
+    background: #fff;
+}
+
+#msg-text {
+    width: 500px;
+    resize: none;
+    height: 200px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    outline: none;
+    padding: 10px;
+}
+
+
+
+

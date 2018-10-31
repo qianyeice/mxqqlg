@@ -1,0 +1,350 @@
+{extend name="Template/template"/}
+{block name="title"}{/block}
+{block name="css"}
+{/block}
+{block name="js"}
+{/block}
+{block name="body"}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">订单详情</li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <!--订单概况-->
+    <table cellpadding="0" cellspacing="0" class="border bg-white layout margin-top">
+        <tbody>
+        <tr class="bg-gray-white line-height-40 border-bottom">
+            <th class="text-left padding-big-left">
+                订单概况
+                <div class="order-edit-btn fr">
+                    <!-- 确认付款(仅在线支付) -->
+                    {if $val.data[0]['pay_status']==0 && $is_qx==0 && $val.data[0]['hd_type']!=1}
+                    <button class="bg-main" id="confirm_payment">确认付款</button>
+                    {else /}
+                    <button class="bg-gray">确认付款</button>
+                    {/if}
+                    <!-- 确认订单 -->
+                    {if $val.data[0]['pay_status']==1&&$val.data[0]['confirm_status']==0&&$val.data[0]['finish_status']==0&&$val.data[0]['dist']==0}
+                    <button class="bg-main" id="confirm_order">确认订单</button>
+                    {else /}
+                    <button class="bg-gray">确认订单</button>
+                    {/if}
+                    <!-- 确认发货 -->
+                    {if $val.data[0]['pay_status']==1&&$val.data[0]['confirm_status']==2&&$val.data[0]['finish_status']==0&&$val.data[0]['dist']!=2}
+                    <button class="bg-main" id="confirm_goods">确认发货</button>
+                    {else /}
+                    <button class="bg-gray">确认发货</button>
+                    {/if}
+                    <!-- 确认完成 -->
+                    {if $val.data[0]['pay_status']==1&&$val.data[0]['confirm_status']==2&&$val.data[0]['finish_status']==0&&$val.data[0]['dist']==2&&$is_qx==0}
+                    <button class="bg-main" id="confirm_complete">确认完成</button>
+                    {else /}
+                    <button class="bg-gray">确认完成</button>
+                    {/if}
+                    <!-- 取消订单 -->
+                    {if $val.data[0]['pay_status']==0&&$is_qx==0||$val.data[0]['pay_status']==1&&$val.data[0]['dist']==0&&$is_qx==0}
+                    <button class="bg-main" id="payment_one">取消订单</button>
+                    {else /}
+                    <button class="bg-gray">取消订单</button>
+                    {/if}
+                    <!-- 作废 -->
+                    {if $val.data[0]['hd_type']==1&&$is_qx==0}
+                    <button class="bg-main"id="to_void">作废</button>
+                    {else /}
+                    <button class="bg-gray">作废</button>
+                    {/if}
+                </div>
+            </th>
+        </tr>
+        <tr class="border">
+            <td class="padding-big-left padding-big-right">
+                <table cellpadding="0" cellspacing="0" class="layout">
+                    <tbody>
+                    <tr class="line-height-40">
+                        <th class="text-left">
+                            订单号：{$val.data[0]['sn']}
+                            <i class="ico_order"></i>
+                        </th>
+
+                        <th class="text-left">支付方式：
+                            {if $val.data[0]['pay_type']==1}在线支付
+                            {else /}货到付款
+                            {/if}
+                        </th>
+                        <th class="text-left" id="order_finish">订单状态：
+                            {if $val.data[0]['pay_status']==1&&$val.data[0]['confirm_status']==0&&$val.data[0]['finish_status']==0} 已付款
+                            {elseif $val.data[0]['pay_status']==1&&$val.data[0]['dist']==0&&$val.data[0]['finish_status']==0/}已确认
+                            {elseif $val.data[0]['pay_status']==1&&$val.data[0]['confirm_status']==2&&$val.data[0]['finish_status']==0&&$val.data[0]['dist']==2/}已发货
+                            {elseif $val.data[0]['pay_status']==1&&$val.data[0]['confirm_status']==2&&$val.data[0]['finish_status']==0&&$val.data[0]['dist']==1/}部分发货
+                            {elseif $val.data[0]['pay_status']==1&&$val.data[0]['confirm_status']==2&&$val.data[0]['finish_status']==2&&$val.data[0]['dist']==2/}已完成
+                            {elseif $val.data[0]['hd_type']==1/}已取消
+                            {elseif $val.data[0]['hd_type']==3/}已回收
+                            {else /}创建订单
+                            {/if}
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!--订单详情-->
+    <table cellpadding="0" cellspacing="0" class="border bg-white layout margin-top">
+        <tbody>
+        <tr class="bg-gray-white line-height-40 border-bottom">
+            <th class="text-left padding-big-left">订单详情</th>
+        </tr>
+        <tr class="border">
+            <td class="padding-big-left padding-big-right">
+                <table cellpadding="0" cellspacing="0" class="layout">
+                    <tbody>
+                    <tr class="line-height-40">
+                        <td class="text-left">会员账号：{$val.data[0]['username']}</td>
+                        <td class="text-left">支付类型：
+                            {if $val.data[0]['pay_method']==0}余额支付
+                            {else /}微信支付
+                            {/if}
+                        </td>
+                        <td class="text-left">下单时间：{$val.data[0]['order_time']}</td>
+                        <td class="text-left">支付流水号：--</td>
+                    </tr>
+                    <tr class="line-height-40">
+                        <td class="text-left">支付时间：{$val.data[0]['pay_time']}</td>
+                        <td class="text-left">发货时间：{$val.data[0]['delivery_time']}</td>
+                        <td class="text-left">完成时间：{$val.data[0]['receive_time']}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr class="border">
+            <td class="padding-big-left padding-big-right">
+                <table cellpadding="0" cellspacing="0" class="layout">
+                    <tbody>
+                    <tr class="line-height-40">
+                        <th class="text-left" colspan="3">
+                            应付订单总额：￥{$val.data[0]['real_amount']}
+                            <!-- （商品退货总额：￥） -->
+                            {if $val.data[0]['status']==4}
+                            <a class="text-main" id="modify_money" href="javascript:;">修改订单应付总额</a>
+                            {else /}
+                            {/if}
+                        </th>
+                    </tr>
+                    <tr class="line-height-40">
+                        <td class="text-left">商品总额：￥{$val.data[0]['real_amount']}</td>
+                        <td class="text-left">配送费用：￥{$val.data[0]['delivery_amount']}</td>
+                        <td class="text-left">发票税额：￥{$val.data[0]['invoice_tax']}</td>
+                    </tr>
+                    <tr class="line-height-40">
+                        <td class="text-left">梦想币：￥{$val.data[0]['use_coin']}</td>
+                        <td class="text-left">
+                        </td>
+                    </tr>
+                    <tr class="line-height-40">
+                        <td class="text-left">优惠券减免：￥{$val.data[0]['promot_amount']}</td>
+                        <td class="text-left"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr class="border">
+            <td class="padding-big-left padding-big-right line-height-40">
+                <span class="text-main">订单留言：</span>--
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!--收货人信息-->
+    <table cellpadding="0" cellspacing="0" class="border bg-white layout margin-top">
+        <tbody>
+        <tr class="bg-gray-white line-height-40 border-bottom">
+            <th class="text-left padding-big-left">收货人信息</th>
+            <th class="text-right padding-big-right">
+                <a id="edit_receiving_address" class="bg-gray-edit"data-iframe="true" data-iframe-width="680">编辑</a>
+                <!--{if $val.data[0]['status']==2||$val.data[0]['finish_status']==2}-->
+                <!--{else /}-->
+                <!--{/if}-->
+            </th>
+        </tr>
+        <tr class="border">
+            <td class="padding-big-left padding-big-right">
+                <table cellpadding="0" cellspacing="0" class="layout">
+                    <tbody>
+                    <tr class="line-height-40">
+                        <td class="text-left w25">收货人姓名：{$val.data[0]['address_name']}</td>
+                        <td class="text-left w25">电话号码：{$val.data[0]['address_mobile']}</td>
+                        <td class="text-left w50">详细地址：{$val.data[0]['addre_detail']}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- 商品信息 -->
+    <table cellpadding="0" cellspacing="0" class="border bg-white layout margin-top">
+        <tbody>
+        <tr class="bg-gray-white line-height-40 border-bottom">
+            <th class="text-left padding-big-left">商品信息</th>
+        </tr>
+        <tr class="border">
+            <td>
+                <div class="table resize-table high-table clearfix">
+                    <div class="tr">
+								<span class="th" style="width:40% ">
+									<span class="td-con">商品信息</span>
+								</span>
+                        <span class="th" style="width:10% ">
+									<span class="td-con">单价</span>
+								</span>
+                        <span class="th" style="width:10% ">
+									<span class="td-con">实付金额</span>
+								</span>
+                        <span class="th" style="width:10% ">
+									<span class="td-con">购买数量</span>
+								</span>
+                        <span class="th" style="width:15%;">
+									<span class="td-con">运费模板名称</span>
+								</span>
+                        <!--<span class="th" style="width:15%;">-->
+									<!--<span class="td-con">物流状态</span>-->
+								<!--</span>-->
+                    </div>
+                    <div class="order-detail-merge layout">
+                        {volist name="val.data" id="vo"}
+                        <div class="tr">
+                            <div class="td" style="width:40% ">
+                                <div class="td-con td-pic text-left">
+                                    <span class="pic"><img src="__STATIC__{$vo.img}"></span>
+                                    <span class="title text-ellipsis txt margin-none padding-small-top"><a
+                                            target="_blank">{$vo.sku_name}</a></span>
+                                    <span class="icon">
+										<em class="text-main">商品规格：</em>{$vo.spec}<br/>
+									</span>
+                                </div>
+                            </div>
+                            <div class="td" style="width:10% "><span class="td-con">￥{if $vo.number==0}0{else/}{$vo.sku_amount/$vo.number}{/if}</span>
+                            </div>
+                            <div class="td" style="width:10% ">
+                                <span class="td-con">￥{$vo.sku_amount}</span>
+                            </div>
+                            <div class="td" style="width:10% "><span class="td-con">{$vo.number}</span></div>
+                            <div class="td" style="width:15% "><span class="td-con">免邮</span></div>
+                            <div class="td detail-logistics" style="width:15%;position:static;">
+                                <div class="order-edit-btn fr">
+                                    {if $vo.status==2/}
+                                    <button class="bg-main look-log bg-sub" id="look_logistics">查看物流</button>
+                                    <button class="bg-main" id="editr_goods_address">修改物流信息</button>
+                                    {elseif $vo.finish_status==2/}
+                                    <button class="bg-main look-log bg-sub"id="look_logistics_one"style="margin: 20px 40px">查看物流</button>
+                                    {else /}
+                                    <a class=" bg-gray text-ellipsis button" style="position:unset;margin:20px 45px;"href="javascript:;">暂未发货</a>
+                                    {/if}
+                                </div>
+                            </div>
+                        </div>
+                        {/volist}
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- 订单日志 -->
+    <table cellpadding="0" cellspacing="0" class="border bg-white layout margin-top">
+        <tbody>
+        <tr class="bg-gray-white line-height-40 border-bottom">
+            <th class="text-left padding-big-left">订单日志</th>
+        </tr>
+        <tr class="border">
+            <td class="padding-big-left padding-big-right">
+                <table cellpadding="0" cellspacing="0" class="layout">
+                    <tbody>
+                    {volist name="log" id="vo"}
+                    <tr class="line-height-40">
+                        <td class="text-left">
+                            {if $vo.operator_type==0}
+                                系统
+                            {else $vo.operator_type==1 /}
+                                   商家
+                            {/if}
+                          {$vo.operator_name}
+                            于
+                            <?php echo date('Y-m-d H:i:s',$vo['system_time']) ?>
+                             确认{$vo.action}
+                                                 订单详情:{$vo.msg}
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="padding-tb">
+        <input class="button margin-left bg-gray border-none" type="button" value="返回"/>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script src="__STATIC__/admin/js/handle.js"></script>
+<script src="<%=basePath%>/static/js/tableExport.js" type="text/javascript"></script>
+<script type="text/javascript">
+    /**
+     *确认付款
+     */
+    wicket('confirm_payment', '?s=admin/Confirmpayment/index&id={$val.data[0][\'id\']}', 280, 550)
+    /**
+     * 没付款取消订单
+     */
+    wicket('no_payment', '?s=admin/cancelnopayment/index&id={$val.data[0][\'id\']}', 280, 280)
+    /**
+     * 确认订单
+     */
+    wicket('confirm_order', '?s=admin/Confirmorder/index&id={$val.data[0][\'id\']}', 280, 240)
+    /**
+     * 付款取消订单
+     */
+    wicket('payment', '?s=admin/Cancelpayment/index&id={$val.data[0][\'id\']}', 280, 350)
+    /**
+     * 付款取消订单
+     */
+    wicket('payment_one', '?s=admin/Cancelpayment/index&id={$val.data[0][\'id\']}', 280, 350)
+    /**
+     * 确认发货
+     */
+    wicket('confirm_goods', '?s=admin/confirmdelivergoods/index&id={$val.data[0][\'id\']}', 920, 480)
+    /**
+     * 确认完成
+     */
+    wicket('confirm_complete', '?s=admin/confirmcomplete/index&id={$val.data[0][\'id\']}', 280, 240)
+    /**
+     * 取消订单作废
+     */
+    wicket('to_void', '?s=admin/ordertovoid/index&id={$val.data[0][\'id\']}', 280, 240)
+    /**
+     * 查看物流
+     */
+    wicket('look_logistics', '?s=admin/lookatthelogistics/index&id={$val.data[0][\'id\']}', 680, 380)
+    wicket('look_logistics_one', '?s=admin/lookatthelogistics/index&id={$val.data[0][\'id\']}', 680, 380)
+    /**
+     * 修改应付总金额
+     */
+    wicket('modify_money', '?s=admin/modifymoney/index&id={$val.data[0][\'id\']}', 580, 240)
+    /**
+     * 编辑收件人地址
+     */
+    wicket('edit_receiving_address', '?s=admin/Editreceivingaddress/index&id={$val.data[0][\'id\']}',520,420)
+    /**
+     * 修改发货地址
+     */
+    wicket('editr_goods_address', '?s=admin/confirmdelivergoods/index&id={$val.data[0][\'id\']}', 920, 480)
+</script>
+{/block}

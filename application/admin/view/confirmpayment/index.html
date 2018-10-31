@@ -1,0 +1,84 @@
+{extend name="Template/template"/}
+{block name="css"}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+    <div class="form-box border-bottom-none order-eidt-popup clearfix">
+        <div class="form-group "><span class="label">付款时间：</span>
+            <div class="box">
+                <input id="payment_time" class="input laydate-icon hd-input" type="text" name="pay_status"
+                       value="" placeholder="默认时间" tabindex="0"
+                                    format="YYYY-MM-DD hh:mm:ss" datatype="*"
+                                    onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss' })">
+                <script type="text/javascript" src="__STATIC__/admin/laydate/laydate.js"></script>
+                <script type="text/javascript">laydate.skin('danlan');</script>
+                <span class="validform_checktip validform_right"><i></i></span>
+            </div>
+        </div>
+        <div class="form-group "><span class="label">付款金额：</span>
+            <div class="box">
+                <input id="payment_money"class="input hd-input" type="text" name="paid_amount" value="{$val.data[0]['real_amount']}" tabindex="0"datatype="price">
+                <span class="validform_checktip"></span>
+            </div>
+            <p class="desc">请填写付款金额（必填）</p>
+        </div>
+        <div class="form-group " style="z-index: 2;"><span class="label">付款方式：</span>
+            <div class="box">
+                <div class="form-select-edit ">
+                    <div class="form-buttonedit-popup">
+                        <select id="payment_mode"style="width: 100%;height: 26px">
+                            <option value="0">余额支付</option>
+                            <option value="1">微信支付</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group "><span class="label">支付交易号：</span>
+            <div class="box">
+                <input class="input hd-input " type="text"id="third_party"name="pay_sn" value="" tabindex="0"placeholder="请输入第三方交易凭证号（其它时选填）" datatype="*">
+                <span class="validform_checktip"></span>
+            </div>
+        </div>
+        <div class="form-group "><span class="label">确认付款备注：</span>
+            <div class="box"><textarea class="textarea hd-input" id="remarks" name="msg" placeholder="线下付款或其它支付方式建议填写"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="padding text-right ui-dialog-footer">
+        <input type="submit" class="button bg-main" id="okbtn"  value="确定" name="dosubmit" data-reset="false">
+        <input type="button" class="button margin-left bg-gray" id="closebtn" value="取消" data-reset="false">
+    </div>
+    <input type="hidden" id="order_id" value="{$val.data[0]['id']}">
+     <input type="hidden" id="order_sn" value="{$val.data[0]['sn']}">
+{/block}
+{block name='script'}
+<script src="__STATIC__/admin/js/handle.js"></script>
+<script type="text/javascript">
+    var index=parent.layer.getFrameIndex(window.name)
+    $('#okbtn').click(function () {
+        if($("#payment_money").val()==""){
+            layer.msg("付款金额不能为空！")
+        }else{
+        $.post('?s=admin/Confirmpayment/ajax_payment',{
+            'id': $('#order_id').val(),
+            'sn': $('#order_sn').val(),
+            'time': $('#payment_time').val(),
+            'money': $('#payment_money').val(),
+            'mode': $('#payment_mode').val(),
+            'third': $('#third_party').val(),
+            'remarks': $('#remarks').val()
+        },function (data) {
+            if(data.type==1){
+                layer.alert(data.lang, {icon: 5, title: "提示"});
+                refresh(index)
+            }else {
+                layer.alert(data.lang);
+                refresh(index)
+            }
+        })
+        }
+    })
+</script>
+{/block}

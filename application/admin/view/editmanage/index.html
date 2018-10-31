@@ -1,0 +1,128 @@
+{extend name="Template/template" /}
+{block name='title'}{/block}
+{block name="css"}
+
+{/block}
+{block name="body"}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">分销角色管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="tips margin-tb">
+        <div class="tips-info border">
+            <h6>温馨提示</h6>
+            <a id="show-tip" data-open="true" href="javascript:;">关闭操作提示</a>
+        </div>
+        <div class="tips-txt padding-small-top layout">
+            <p>- 通过分销角色管理，可以制定不同的角色拥有不同的佣金比例。</p>
+        </div>
+    </div>
+
+    <div class="table-wrap member-info-table">
+        <div class="table resize-table check-table paging-table border clearfix" style="width: 100%;">
+            <div class="tr resize-th" style="visibility: visible;padding-left: 0;">
+
+                <span class="th" data-width="10" style="width:16%;float: left;padding-left: 0;">
+						<span class="td-con">名称</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+                <span class="th" data-width="20" style="width:16%;">
+						<span class="td-con">直接销售佣金比例</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+                <span class="th" data-width="20" style="width:16%;">
+						<span class="td-con">间接销售佣金比例</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+                <span class="th" data-width="15" style="width: 16%;">
+						<span class="td-con">直接管理佣金比例</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+                <span class="th" data-width="15" style="width: 16%;">
+						<span class="td-con">直接管理佣金比例</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+                <span class="th" data-width="20" style="width: 20%;">
+							<span class="td-con">操作</span>
+						</span>
+            </div>
+            {volist name='data' id='v'}
+            <div class="tr" style="visibility: visible;padding-left: 0;">
+                <span class="td r1" style="width: 16%;">
+							<span class="td-con">{$v.name}</span>
+						</span>
+                <span class="td r2" style="width:16%;">
+                    {if ($v.direct_sale == true)}
+                    <span class="td-con">{$v.direct_sale}</span>
+                    {else /}
+                    <span class="td-con">-</span>
+                    {/if}
+						</span>
+                <span class="td r3" style="width:16%;">
+                    {if ($v.indirect_sale == true)}
+                    <span class="td-con">{$v.indirect_sale}</span>
+                    {else /}
+                    <span class="td-con">-</span>
+                    {/if}
+						</span>
+                <span class="td r4" style="width:16%;">
+                    {if ($v.direct_admin == true)}
+                    <span class="td-con">{$v.direct_admin}</span>
+                    {else /}
+                    <span class="td-con">-</span>
+                    {/if}
+						</span>
+                <span class="td r5" style="width: 16%;">
+                    {if ($v.indirect_admin == true)}
+                    <span class="td-con">{$v.indirect_admin}</span>
+                    {else /}
+                    <span class="td-con">-</span>
+                    {/if}
+						</span>
+                <span class="td r6" style="width: 20%;">
+							<span class="td-con">
+								<a href="?s=admin/editdis/index&id={$v.id}">编辑</a>&nbsp;&nbsp;&nbsp;
+								<a class="delete" href="javascript:;" data-value="{$v.id}" data-confirm="是否确定删除？">删除</a>
+							</span>
+						</span>
+            </div>
+            {/volist}
+            {include file="/Template/listPage"}
+        </div>
+        <div class="layout" id="table-get-width"></div>
+    </div>
+</div>
+<!--<script>-->
+<!--// $(".table").resizableColumns();-->
+<!--// $(".paging-table").fixedPaging();-->
+<!--</script>-->
+{/block}
+{block name='script'}
+<script type="text/javascript">
+    $(function () {
+        $('.delete').click(function () {
+            var cyan = confirm($(this).attr('data-confirm'));
+            if (cyan) {
+                var id = $(this).attr('data-value');
+                if (id) {
+                    $.post('?s=admin/editmanage/eddelete', {id}, function (data) {
+                        if (data['type'] == '1') {
+                            window.location.reload();
+                        }
+                    })
+                }
+            }
+        });
+        $("#show-tip").click(function(){
+            num=$(this).html();
+            if(num=="关闭操作提示"){
+                $(".tips-txt").css("display","none");
+                $(this).html("打开操作提示")
+            }else{
+                $(".tips-txt").css("display","block");
+                $(this).html("关闭操作提示")
+            }
+
+        })
+    })
+</script>
+{/block}

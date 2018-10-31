@@ -1,0 +1,258 @@
+{extend name="Template/template"}
+{block name="css"}
+<link rel="stylesheet" href="static/admin/css/validate.css"/>
+<link rel="stylesheet" href="static/admin/css/ui-dialog.css"/>
+<style>
+    .xuanfu{left: 0;position: fixed;bottom: 0;width: 100%;z-index: 100;}
+    .xuanfu .cent{padding: 7px;border: 1px solid #9de3ff;background: #e9f7fc;text-align: center;}
+    .content{
+        display: none;
+    }
+    .content:nth-child(1){
+        display: block;
+    }
+</style>
+{/block}
+
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">商品设置</li>
+        <li class="spacer-gray"></li>
+        <li class="fixed-nav-tab int"><a class="lan current" href="#">基本信息</a></li>
+        <li class="fixed-nav-tab int"><a class="lan " href="#">商品规格</a></li>
+        <li class="fixed-nav-tab int"><a class="lan " href="#">商品图册</a></li>
+        <li class="fixed-nav-tab int"><a class="lan " href="#">商品类型</a></li>
+        <li class="fixed-nav-tab int"><a class="lan " href="#">详情设置</a></li>
+        <li class="fixed-nav-tab int"><a class="lan " href="#">商品视频</a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<form action="?s=admin/Cominformation/add" method="post" name="release_goods" onsubmit="return fun()" enctype="multipart/form-data">
+<!-- 基本信息开始 -->
+<div class="content padding-big have-fixed-nav ">
+        <input type="hidden" name="idd" value="{$id}">
+
+        <!-- 基本信息开始 -->
+        <div class="content-tabs margin-large-bottom clearfix" style="margin-bottom: 50px;">
+            <!--<script type="text/javascript" src="./statics/js/goods/goods_add.js" ></script>-->
+            <div class="form-box goods-form">
+
+                <div class="form-group">
+                    <span class="label">商品名称：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" name="spu[name]" value="{if(!empty($spu.name))}{$spu.name}{/if}" tabindex="0" datatype="*" nullmsg="商品名称不能为空" />
+                    </div>
+                    <p class="desc">商品标题名称不能为空，最长不能超过200个字符</p>
+                </div>
+                {include file='Template/choose' /}
+                <div class="form-group">
+                    <span class="label">商品分类：</span>
+                    <div class="box ">
+                        <input class="goods-class-text input hd-input input-readonly" id="choosecat" value="{$_GET.catname?$_GET.catname:''}" tabindex="0"  nullmsg="请选择商品分类" datatype="*" readonly="readonly" type="text" placeholder="请选择商品分类" data-reset="false" />
+                        <input class="goods-class-btn" id="choose-class"  type="button" value="选择"  data-reset="false" />
+                        <input type="hidden" name="spu[catid]" value="{$spu.catid?$spu.catid:''}">
+                    </div>
+                    <p class="desc">选择商品所属分类，一个商品只能属于一个分类</p>
+                </div>
+                <!--<div class="form-group ">-->
+                <!--<span class="label">广告语：</span>-->
+                <!--<div class="box">-->
+                <!--<input class="input hd-input " type="text" name="spu[subtitle]" value="" tabindex="0" color="" key="spu[style]" />-->
+                <!--&lt;!&ndash;<input class="color-picker input_cxcolor" type="text" name="spu[style]" value="" style="background-color: ;">&ndash;&gt;-->
+                <!--&lt;!&ndash;<script type="text/javascript" charset="utf-8" src="/statics/admin/js/cxcolor/jquery.cxcolor.min.js"></script>&ndash;&gt;-->
+                <!--&lt;!&ndash;<link type="text/css" href="/statics/admin/css/cxcolor/jquery.cxcolor.css"  rel="stylesheet">&ndash;&gt;-->
+                <!--&lt;!&ndash;<script>$(".input_cxcolor").cxColor();</script>&ndash;&gt;-->
+                <!--</div>-->
+                <!--<p class="desc">商品广告语是用于介绍商品的描述信息</p>-->
+                <!--</div>-->
+                <div class="form-group" style="z-index: 2;">
+                    <span class="label">商品品牌：</span>
+                    <div class="box" style="width: 256px;">
+                        <select name="spu[barnd]" lay-verify="" class="form-select-edit" style="height: 26px;color: #4d4d4d;padding:0 5px;">
+                            <option style="display: none;"></option>
+                            {volist name="brand" id="bar"}
+                            {if $bar.id==$spu.brand_id }
+                            <option value="{$bar.id}" selected>{$bar.name}</option>
+                            {else}
+                            <option value="{$bar.id}">{$bar.name}</option>
+                            {/if}
+                            {/volist}
+                        </select>
+                    </div>
+                    <p class="desc">为商品选择所属品牌，便于用户按照品牌进行查找</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">特殊商品属性：</span>
+                    <div class="box">
+                        <select name="spu[special]" lay-verify="" class="form-select-edit" style="height: 26px;color: #4d4d4d;padding:0 5px;">
+                            <option style="display: none;"></option>
+                            {if(!empty($spu.is_special)==0)}
+                            <option value="0" selected>普通商品</option>
+                            {else}
+                            <option value="0" >普通商品</option>
+                            {/if}
+                            {if(!empty($spu.is_special)==1)}
+                            <option value="1" selected>员工商品</option>
+                            {else}
+                            <option value="1">员工商品</option>
+                            {/if}
+                            {if(!empty($spu.is_special)==2)}
+                            <option value="2" selected>合伙人商品</option>
+                            {else}
+                            <option value="2">合伙人商品</option>
+                            {/if}
+                            {if(!empty($spu.is_special)==3)}
+                            <option value="3" selected>发起人商品</option>
+                            {else}
+                            <option value="3">发起人商品</option>
+                            {/if}
+                        </select>
+                    </div>
+                    <p class="desc">请选择特殊商品属性</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">商品销量：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" id="xnumber" name="spu[sales]" value="{$spu.Sales_volume?$spu.Sales_volume:''}" tabindex="0" datatype="n" errormsg="商品销量只能为数字" />
+                    </div>
+                    <p class="desc">显示销量数据</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">库存警告：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" id="knumber" name="spu[warn_number]" value="{$spu.notice?$spu.notice:'5'}" tabindex="0" datatype="n" errormsg="库存警告只能为数字" />
+                    </div>
+                    <p class="desc">填写商品库存警告数，当库存小于等于警告数，系统就会提醒此商品为库存警告商品，系统默认为5</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">是否上架销售：</span>
+                    <div class="box">
+                        <label class="select-wrap">
+                            <input class="select-btn" type="radio" name="spu[status]" value="1" {if(!empty($spu.status))}checked{/if}/>开启
+                        </label>
+                        <label class="select-wrap">
+                            <input class="select-btn" type="radio" name="spu[status]" value="0" {if(empty($spu.status))}checked{/if}/>关闭
+                        </label>
+                    </div>
+                    <p class="desc">设置当前商品是否上架销售，默认为是，如选择否，将不在前台显示该商品</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">商品排序：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" id="pnumber" name="spu[sort]" value="100" tabindex="0" datatype="n" errormsg="排序只能为数字" />
+                    </div>
+                    <p class="desc">请填写自然数，商品列表将会根据排序进行由小到大排列显示</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">重量：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" id="znumber" name="spu[weight]" value="{$spu.weight?$spu.weight:'0'}" tabindex="0" />
+                    </div>
+                    <p class="desc">请填写每件商品重量，以（kg）为单位</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">体积：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" id="tnumber" name="spu[volume]" value="{$spu.volume?$spu.volume:'0'}" tabindex="0" />
+                    </div>
+                    <p class="desc">请填写每件商品体积，以（m³）为单位</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">运费模板：</span>
+                    <div class="box">
+                        <select name="spu[deli]" lay-verify="" class="form-select-edit" style="height: 26px;color: #4d4d4d;padding:0 5px;">
+                            <option style="display: none;"></option>
+                            {volist name="deli" id="tem"}
+                            {if $tem.id==$spu.delivery_template_id}
+                            <option value="{$tem.id}" selected>{$tem.name}</option>
+                            {else}
+                            <option value="{$tem.id}">{$tem.name}</option>
+                            {/if}
+                            {/volist}
+                        </select>
+                    </div>
+                    <p class="desc">请选择商品将关联的运费模板（必选）</p>
+                </div>
+
+                <div class="form-group ">
+                    <span class="label">商品描述：</span>
+                    <div class="box">
+                        <textarea class="textarea hd-input" name="spu[content]" placeholder="" > {$spu.detail?$spu.detail:''}</textarea>
+                    </div>
+                    <p class="desc">Description出现在页面头部的Meta标签中，用于记录本页面的高腰与描述，建议不超过80个字</p>
+                </div>
+            </div>
+</div>
+</div>
+<!-- 基本信息结束 -->
+<!-- 商品规格开始 -->
+{include file='comspecification/index' /}
+    <!-- 商品规格结束 -->
+    <!-- 商品图册开始 -->
+    {include file='merchandiseatlas/init' /}
+    <!-- 商品图册结束 -->
+    <!-- 商品类型开始 -->
+    {include file='commoditytypetwo/init' /}
+    <!-- 商品类型结束 -->
+    <!-- 详情设置开始 -->
+    {include file='detailsetting/init' /}
+    <!-- 详情设置结束 -->
+    <!-- 商品视频开始 -->
+    {include file='commodityvideo/index' /}
+<!-- 商品视频结束 -->
+
+    <div class="q_d">
+        <div class="app-actions cent" style="z-index:999">
+            <input class="save button bg-main" value="保存" type="submit">
+            <a href="javascript:;">
+                <input class="button margin-left bg-gray" data-reset="false" value="返回" onclick="history.go(-1);" type="button">
+            </a>
+        </div>
+        <input name="formhash" value="mtbr23" type="hidden">
+    </div>
+</form>
+<script>
+    new choose($('#choosecat'),$('input[name="spu[catid]"]'));
+</script>
+<script>
+    function fun(){
+
+        num = /^\d+(\.\d+)?$/;
+        if (!num.test($("#xnumber").val())){
+            layer.tips('销量必须为数字！',$("#xnumber"));
+            return false;
+        }else if(!num.test($("#knumber").val())){
+            layer.tips('库存警告量必须为数字！',$("#knumber"));
+            return false;
+        }else if(!num.test($("#pnumber").val())){
+            layer.tips('排序必须为数字！',$("#pnumber"));
+            return false;
+        }else if(!num.test($("#znumber").val())){
+            layer.tips('重量必须为数字！',$("#znumber"));
+            return false;
+        }else if(!num.test($("#tnumber").val())){
+            layer.tips('体积必须为数字！',$("#tnumber"));
+            return false;
+        }else  if($("input[name='spu[name]']").val()==null){
+            layer.tips('名称不能为空！',$("input[name='spu[name]']"));
+            return false;
+        }
+
+    }
+
+    $(document).ready(function () {
+        var nextid = $("input[name='nextid']").val();
+
+    });
+
+    $('.int').click(function () {
+        var index=$(this).index()-2; //获取被按下按钮的索引值，需要注意index是从0开始的
+        $('.lan').eq(index).addClass("current").siblings().removeClass("current"); //切换选中的按钮高亮状态
+        $(".content").eq(index).show().siblings().hide(); //在按钮选中时在下面显示相应的内容，同时隐藏不需要的框架内容
+        $('.q_d').attr('style','display:block')
+    })
+
+</script>
+
+{/block}

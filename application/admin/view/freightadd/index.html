@@ -1,0 +1,25 @@
+{extend name="Template/template"/}
+{block name='body'}
+<div class="tr" data-id="<%=id%>">
+    <div class="td padding-lr w5 district">
+        <input class="input fl" name="template[<%=id%>][first_value]" type="text" value=""/>
+    </div>
+    <div class="td padding-lr w5 district">
+        <input class="input fl" name="template[<%=id%>][first_fee]" type="text" value=""/>
+    </div>
+    <div class="td padding-lr w5 district">
+        <input class="input fl" name="template[<%=id%>][follow_value]" type="text" value=""/>
+    </div>
+    <div class="td padding-lr w5 district">
+        <input class="input fl" name="template[<%=id%>][follow_fee]" type="text" value=""/>
+    </div>
+    <div class="td padding-lr w10 district">
+        <a class="fl margin-left dialog_edit" href="javascript:;">编辑地区</a>
+        <input type="hidden" name="template[<%=id%>][district_ids]" value="" data-type='id'/>
+    </div>
+    <div class="td w60 text-left padding-lr text-ellipsis" data-type='name'></div>
+    <div class="td w10">
+        <a href="javascript:;" class="delete_tr">删除</a>
+    </div>
+</div>
+{/block}

@@ -1,0 +1,21 @@
+<script>
+    function changeSrc(src)
+    {
+//        console.log(src)
+//        document.getElementById("iframe").src="http://api.mxqqlg.com/"+src;
+        document.getElementById("iframe").src=src;
+    }
+</script>
+<div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+            {volist name="data.left" id="vo"}
+            <li class="layui-nav-item layui-nav-itemed">
+                <!--<a id="ccc" onclick="changeSrc('?s={$vo.m}/{$vo.c}/{$vo.a}&id={$vo.id}')">{$vo.memuname}</a>-->
+                <a id="ccc" onclick='changeSrc("<?php echo url('/?s='.$vo['m'].'/'.$vo['c'].'/'.$vo['a'].'&id='.$vo['id'])?>")'>{$vo.memuname}</a>
+            </li>
+            {/volist}
+        </ul>
+    </div>
+</div>

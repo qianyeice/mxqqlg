@@ -1,0 +1,117 @@
+{extend name="Template/template" /}
+{block name="css"}
+<style type="text/css">
+    .data_time {
+        padding: 0 10px;
+        width: 100%;
+        height: 26px;
+        font-size: 12px;
+        color: #4d4d4d;
+        font-family: "微软雅黑";
+        line-height: 24px;
+        border: 1px solid #ccc;
+    }
+
+    .data_time:hover {
+        border-color: #2a95de;
+    }
+</style>
+{/block}
+{block name='body'}
+
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">全球分红<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li><a class="current" href="javascript:;"></a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <table cellpadding="0" cellspacing="0" class="border bg-white layout margin-top">
+        <tbody>
+        <tr class="bg-gray-white line-height-40 border-bottom">
+            <th class="text-left padding-big-left">概览</th>
+        </tr>
+        <tr class="border">
+            <td class="padding-big-left padding-big-right">
+                <table cellpadding="0" cellspacing="0" class="layout">
+                    <tbody>
+                    <tr class="line-height-40">
+                        <td class="text-left allmo">订单总金额：￥{$all}</td>
+                        <td class="text-left">昨日分红池：￥{$red.redpoll}</td>
+                        <td class="text-left">分红剩余金额：￥{$red.redthe}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table cellpadding="0" cellspacing="0" class="border bg-white layout margin-top">
+        <tbody>
+        <tr class="bg-gray-white line-height-40 border-bottom">
+            <th class="text-left padding-left">
+                选择日期查看明细
+                <div class="count-date fl margin-right">
+                    <input type="date" id="time" value="" min="1900-01-01" max="3000-12-30" class="data_time"/>
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <td class="padding">
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="table-wrap member-info-table">
+        <div class="table resize-table check-table border paging-table clearfix">
+            <div class="member  tr">
+                <span class="th" data-width="30" style="width: 33.3%">
+                    <span class="td-con">等级名称</span>
+                </span>
+                <span class="th" data-width="30" style="width: 33.3%">
+                    <span class="td-con">分红金额&分红比例</span>
+                </span>
+                <span class="th" data-width="20" style="width: 33.3%">
+                    <span class="td-con">操作</span>
+                </span>
+            </div>
+            {volist name="etc" id="v"}
+            <div class="member tr">
+                <span class="td" style="width: 33.3%">
+                    <span class="td-con">{$v.name}</span>
+                </span>
+                <span class="td" style="width: 33.3%">
+                    <span class="td-con changee">{$v.red}({$v.share_ratio}%)</span>
+                </span>
+                <span class="td" style="width: 33.3%">
+                    <span class="td-con">
+                        <a href="?s=admin/global_bonus_pool/lists&mgid={$v.id}">用户分红数据</a>
+                    </span>
+                </span>
+            </div>
+            {/volist}
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name='script'}
+<script type="text/javascript">
+    $(function () {
+        $('#time').change(function () {
+            var date = $('#time').val();
+            $.post('/?s=admin/Global_Bonus_Pool/dateoff', {date: date}, function (data) {
+                if (data) {
+                    $('.allmo').html('订单总金额：￥' + data['allmo']);
+                    for (var i = 0; i < data['amount'].length; i++) {
+                        $('.changee').eq(i).html(data['amount'][i]['red'] + '(' + data['amount'][i]['share_ratio'] + '%' + ')');
+                    }
+                }
+            })
+        })
+    })
+</script>
+
+{/block}

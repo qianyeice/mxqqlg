@@ -1,0 +1,83 @@
+{extend name="Template/template"/}
+{block name="css"}
+{load href="__STATIC__/admin/css/validate.css" /}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<!--标题-->
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">支付平台设置<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<!--主体-->
+<div class="content padding-big have-fixed-nav">
+    <div class="hr-gray"></div>
+    <div class="table-wrap margin-top">
+        <div class="table resize-table high-table border clearfix" style="width: 100%;">
+            <div class="tr resize-th" style="visibility: visible;">
+						<span class="th" data-width="80" style="width: 899px;">
+							<span class="td-con">支付方式</span>
+						<span class="spacer"></span>
+                            <div class="handleMove"></div>
+                            <span class="spacer"></span>
+                        </span>
+                <span class="th" data-width="5" style="width: 56px;">
+                    <span class="td-con">状态</span>
+                    <span class="spacer"></span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span>
+                </span>
+                <span class="th" data-width="15" style="width: 168px;">
+                    <span class="td-con">操作</span>
+                </span>
+            </div>
+            <div class="tr border-none" style="visibility: visible;">
+						<span class="td r0" style="width: 899px;">
+							<div class="td-con td-pic text-left">
+								<span class="pic"><img src="STATIC/admin/img/wechat_js.png"></span>
+								<span class="title txt">微信手机支付</span>
+								<span class="icon">微信手机支付是通过微信端下单并使用微信进行支付的移动支付方式 ，仅支持微信中使用。</span>
+							</div>
+						</span>
+                {if ($up.operation == 0)}
+                <span class="td r1" style="width: 56px;">--</span>
+                <span class="td r2" style="width: 168px;">
+                    <a class="text-sub" href="http://api.mxqqlg.com/?s=admin/paymentadd/index&id={$up.id}&config=1">配置</a>
+					<a class="text-sub" href="http://api.mxqqlg.com/?s=admin/paymentadd/index&id={$up.id}&op={$up.operation}">安装</a>
+                </span>
+                {else /}
+                <span class="td r1" style="width: 56px;color: green;font-weight: 700;font-size: 15px;">√</span>
+                <span class="td r2" style="width: 168px;">
+                    <a class="text-sub" href="http://api.mxqqlg.com/?s=admin/paymentadd/index&id={$up.id}&config=1">配置</a>
+					<a id="uninstall" class="text-sub" href="javascript:;" data-value="{$up.operation}">卸载</a>
+                </span>
+                {/if}
+            </div>
+        </div>
+        <div class="layout" id="table-get-width"></div>
+    </div>
+    <input id="unid" type="hidden" value="{$up.id}">
+</div>
+{/block}
+
+{block name='script'}
+<script type="text/javascript">
+    $(function () {
+        $('#uninstall').on('click', function () {
+            var string = $(this).attr('data-value');
+            var unid = $('#unid').val();
+            $.post('/?s=admin/payment/uninstall', {unid: unid, string: string}, function (data) {
+                if (data['type'] == '1') {
+                    location.href = '/?s=admin/succeed/index&c=payment&a=index'
+                }else if (data['type'] == '0' && data['explain'] == '卸载失败'){
+                    location.href = '/?s=admin/succeed/index&c=payment&a=index&type=1'
+                }
+            })
+        })
+    })
+</script>
+{/block}

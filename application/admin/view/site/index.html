@@ -1,0 +1,134 @@
+{extend name="Template/template"/}
+{block name="css"}
+{load href="__STATIC__/admin/css/validate.css" /}
+{load href="__STATIC__/admin/css/orderexpresssingle.css" /}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">站点设置<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li class="fixed-nav-tab"><a class="current" href="?s=admin/site/index">站点信息</a></li>
+        <li class="fixed-nav-tab"><a href="?s=admin/tddsin/index">首页通知</a></li>
+        <li class="fixed-nav-tab"><a href="?s=admin/basicsetup/index">基本设置</a></li>
+        <li class="fixed-nav-tab"><a href="?s=admin/shopsetup/index">购物设置</a></li>
+        <li class="fixed-nav-tab"><a href="?s=admin/dreammoneysetup/index">梦想币设置</a></li>
+        <li class="fixed-nav-tab"><a href="?s=admin/integralsetup/index">积分设置</a></li>
+        <li class="fixed-nav-tab"><a href="?s=admin/bonussetup/index">分红设置</a></li>
+        <li class="fixed-nav-tab"><a href="?s=admin/returngoodssetup/index">退货设置</a></li>
+        <li class="fixed-nav-tab"><a href="?s=admin/expresssetup/index">快递设置</a></li>
+        <li class="fixed-nav-tab"><a href="?s=admin/logisticscostsetup/index">物流费用设置</a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div action="" method="POST" enctype="multipart/form-data">
+    <div class="content padding-big have-fixed-nav">
+        <div class="content-tabs">
+            <div class="form-box clearfix">
+                <div class="form-group ">
+                    <span class="label">站点名称：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" name="site_name" value="{$inf.sitename}"
+                               tabindex="0"/></div>
+                    <p class="desc">站点名称，将显示在浏览器窗口标题等位置</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">公司名称：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" name="com_name" value="{$inf.firmname}"
+                               tabindex="0"/>
+                    </div>
+                    <p class="desc">网站名称，将显示在页面底部的联系方式处</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">商城URL：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" name="site_url" value="{$inf.mallurl}" tabindex="0"/>
+                    </div>
+                    <p class="desc">网站 URL，将作为链接显示在页面底部，请以http://开头</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">商城备案信息代码：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" name="icp" value="{$inf.mallcode}" tabindex="0"/>
+                    </div>
+                    <p class="desc">页面底部可以显示 ICP 备案信息，如果网站已备案，在此输入您的备案号，它将显示在页面底部，如果没有请留空</p></div>
+                <div class="form-group ">
+                    <span class="label">商城运营状态：</span>
+                    <div class="box">
+                        {if ($inf.malltype == 1)}
+                        <label class="select-wrap">
+                            <input class="select-btn" type="radio" name="site_isclosed" value="1" checked/>开启
+                        </label>
+                        <label class="select-wrap">
+                            <input class="select-btn" type="radio" name="site_isclosed" value="0"/>关闭
+                        </label><br/>
+                        {else /}
+                        <label class="select-wrap">
+                            <input class="select-btn" type="radio" name="site_isclosed" value="1" />开启
+                        </label>
+                        <label class="select-wrap">
+                            <input class="select-btn" type="radio" name="site_isclosed" value="0" checked />关闭
+                        </label><br/>
+                        {/if}
+                    </div>
+                    <p class="desc">暂时将站点关闭，其他人无法访问，但不影响管理员访问</p>
+                </div>
+                {if ($inf.malltype == 1)}
+                <div id="hidden" hidden class="form-group ">
+                    <span class="label">请填写站点关闭原因，将在前台显示</span>
+                    <div class="box">
+                        <textarea class="textarea hd-input" name="site_closedreason"
+                                  placeholder="">{$inf.typewhy}</textarea>
+                    </div>
+                </div>
+                {else /}
+                <div id="hidden" class="form-group ">
+                    <span class="label">请填写站点关闭原因，将在前台显示</span>
+                    <div class="box">
+                        <textarea class="textarea hd-input" name="site_closedreason"
+                                  placeholder="">{$inf.typewhy}</textarea>
+                    </div>
+                </div>
+                {/if}
+            </div>
+        </div>
+        <div class="padding">
+            <input type="submit" class="button bg-main" value="保存"/>
+        </div>
+    </div>
+    <input type="hidden" class="hd-input" value="{$inf.id}">
+</div>
+{/block}
+{block name='script'}
+<script type="text/javascript">
+    $(function () {
+        // type;
+        //网站开关选项
+        $('.select-btn').on('click', function () {
+            if ($(this).val() != 1) {
+                $('#hidden').slideDown('fast')
+            } else {
+                $('#hidden').slideUp('fast')
+            }
+        });
+        //保存
+        $('div .button').on('click', function () {
+            var array = [];
+            for (var i = 0; i < $('div .hd-input').length; i++) {
+                array[i] = $('div .hd-input').eq(i).val();
+            }
+            array.unshift($(':checked').val());
+            $.post('/?s=admin/site/siteupdata',{array:array},function (data) {
+                if (data['type'] == '1'){
+                    location.href='/?s=admin/succeed/index&c=site&a=index'
+                }else if (data['type'] == '0' && data['explain'] == '更新失败'){
+                    location.href = '/?s=admin/succeed/index&c=site&a=index&type=1'
+                }
+            })
+        })
+    })
+</script>
+{/block}

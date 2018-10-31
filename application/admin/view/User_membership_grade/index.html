@@ -1,0 +1,124 @@
+{extend name="Template/template" /}
+{block name='title'}编辑会员等级{/block}
+{block name="css"}{/block}
+{block name="js"}
+<script type="text/javascript">
+    $(function() {
+        $(".remove-tr").live('click',function(){
+            if(confirm("是否确认删除？")){
+                $(this).parents(".tr").remove();
+            }
+            return false;
+        });
+        $('div.add-keyword a.button').click(function(){
+            var item = $('div.item-html').html();
+            var num = $("div.key-item div.sku_lists").size();
+            re = new RegExp('_num_', "g");
+            var new_item  = item.replace(re, num);
+            $("div.key-item").append(new_item);
+        });
+        var $val=$("input[type=text]").first().val();
+        $("input[type=text]").first().focus().val($val);
+    })
+    $.post('?s=admin/User_membership_grade/load',{id:"{$id}"},function (data) {
+        $array=eval(data);
+        if ($array==undefined){
+
+        }else {
+            for (var i=0;i<$array.length;i++){
+                var new_item='  <div class="item-html">'+
+                    '<div class="tr sku_lists " style="visibility: visible" data-skuid="">'+
+                    '<div class="td w40">'+
+                    '<div class="td-con">'+
+                    '<div class="padding-top padding-small-bottom"></div>'+
+                    '<input name="add['+i+'][day]" datatype="n" class="input double-click-edit text-center" type="text" value="'+$array[i]['day']+'" placeholder="请输入连续签到时长天数"/>'+
+                    '</div>'+
+                    '</div>'+
+                    '<div class="td w40">'+
+                    '<div class="td-con">'+
+                    '<div class="padding-top padding-small-bottom"></div>'+
+                    '<input name="add['+i+'][amount]" datatype="n"  class="input double-click-edit text-center" type="text" value="'+$array[i]['amount']+'" placeholder="请输入连续签到赠送积分数量"/>'+
+                    '</div>'+
+                    '</div>'+
+                    '<div class="td w20">'+
+                    '<div class="td-con"><a class="remove-tr" href="">移除</a></div>'+
+                    '</div>'+
+                    '</div>'+
+                    '</div>'
+                $("div.key-item").append(new_item);
+            }
+        }
+    })
+</script>
+{/block}
+{block name="body"}
+<div class="hide-flag">
+    <div class="item-html">
+        <div class="tr sku_lists " style="visibility: visible" data-skuid="">
+            <div class="td w40">
+                <div class="td-con">
+                    <div class="padding-top padding-small-bottom"></div>
+                    <input name="add[_num_][day]" datatype="n" class="input double-click-edit text-center" type="text" value="" placeholder="请输入连续签到时长天数"/>
+                </div>
+            </div>
+            <div class="td w40">
+                <div class="td-con">
+                    <div class="padding-top padding-small-bottom"></div>
+                    <input name="add[_num_][amount]" datatype="n"  class="input double-click-edit text-center" type="text" value="" placeholder="请输入连续签到赠送积分数量"/>
+                </div>
+            </div>
+            <div class="td w20">
+                <div class="td-con"><a class="remove-tr" href="">移除</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+<form action="?s=admin/User_membership_grade/init" method="POST" name="form-validate">
+    <input type="hidden" name="id" value="{$id}">
+    <div class="fixed-nav layout">
+        <ul>
+            <li class="first">编辑会员等级</li>
+            <li class="spacer-gray"></li>
+        </ul>
+        <div class="hr-gray"></div>
+    </div>
+    <div class="content padding-big have-fixed-nav">
+        <div class="form-box clearfix">
+            <div class="form-group "><span class="label">每日签到赠送积分：</span><div class="box">
+                <input class="input hd-input " type="text" name="day_sign" value="{$array.day_sign}" tabindex="0" datatype="n" />
+            </div><p class="desc">设置会员等级每日签到赠送积分</p></div>		<div class="form-group ">
+            <span class="label">周期任务完成赠送积分：</span><div class="box">
+            <input class="input hd-input " type="text" name="finish_sign" value="{$array.finish_sign}" tabindex="0" datatype="n" />
+        </div><p class="desc">设置以下连续签到所有任务完成额外到赠送积分</p>
+        </div>
+        </div>
+        <div class="padding">
+            <div class="table-work border margin-tb">
+                <div class="border border-white tw-wrap">
+                    <a class="choose-goods" href="javascript:;">连续签到赠送积分配置</a>
+                    <div class="add-keyword spacer-gray">
+                        <a class="button" href="javascript:;"><i class="ico_add"></i> <span>添加配置</span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="table resize-table border high-table clearfix key-item atlas-wrap">
+                <div class="tr border-none">
+                    <div class="th" style="width: 40%">
+                        <span class="td-con">连续签到时长(请填写天数)</span>
+                    </div>
+                    <div class="th" style="width: 40%">
+                        <span class="td-con">额外获得积分</span>
+                    </div>
+                    <div class="th" style="width: 20%">
+                        <span class="td-con">操作</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="padding">
+            <input type="submit"  class="button bg-main" value="确定" />
+            <input type="reset" name="back" class="button margin-left bg-gray " onclick="javascript :history.back(-1)" value="返回" />
+        </div>
+    </div>
+</form>
+{/block}

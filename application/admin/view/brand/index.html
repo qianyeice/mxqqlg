@@ -1,0 +1,118 @@
+{extend name="Template/template"}
+{block name='title'}商品品牌{/block}
+{block name="css"}
+<link rel="stylesheet" href="static/admin/css/validate.css"/>
+<link rel="stylesheet" href="static/admin/css/ui-dialog.css"/>
+<style>
+    .cursor{
+        cursor: pointer;
+    }
+</style>
+{/block}
+{block name="js"}
+<script src="__STATIC__/admin/js/jquery-1.8.2.min.js"></script>
+<script src="__STATIC__/layer/layer.js"></script>
+<script src="__STATIC__/admin/js/brand.js"></script>
+{/block}
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">品牌列表<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+
+<div class="content padding-big have-fixed-nav">
+    <div class="tips margin-tb">
+        <div class="tips-info border">
+            <h6>温馨提示</h6>
+            <a id="show-tip" data-open="true" href="javascript:;">关闭操作提示</a>
+        </div>
+        <div class="tips-txt padding-small-top layout">
+            <p>- 设置商品品牌，可方便用户通过前台安装品牌进行筛选</p>
+        </div>
+    </div>
+    <div class="hr-gray"></div>
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a href="?s=admin/setbrand/index"><i class="ico_add"></i>添加</a>
+            <div class="spacer-gray"></div>
+            <a title="是否确定删除所选？" id="delet" class="cursor" data-ajax='id'><i class="ico_delete"></i>删除</a>
+            <div class="spacer-gray"></div>
+        </div>
+    </div>
+    <div class="table resize-table paging-table check-table clearfix">
+        <div class="tr">
+					<span class="th check-option" data-resize="false">
+						<span><input id="check-all" type="checkbox" /></span>
+					</span>
+            <span class="th" data-width="20" style="width: 20%">
+						<span class="td-con">品牌名称</span>
+					</span>
+            <span class="th" data-width="50" style="width: 50%">
+						<span class="td-con">品牌描述</span>
+					</span>
+            <span class="th" data-width="10" style="width: 10%">
+						<span class="td-con">排序</span>
+					</span>
+            <span class="th" data-width="10" style="width: 10%">
+						<span class="td-con">推荐</span>
+					</span>
+            <span class="th" data-width="10" style="width: 10%">
+						<span class="td-con">操作</span>
+					</span>
+        </div>
+
+        {volist name="data" id="vo"}
+            <div class="tr">
+                <span class="td check-option"><input name="id" value="{$vo.id}" type="checkbox"></span>
+                <span class="td" style="width: 10%;">
+                     <img src="{$vo.logo}" style="width:30%;height:30%;float:right;margin-top:5%;"/>
+                </span>
+                <span class="td" style="width:10%;float: left;">
+						<div class="td-con">
+							<div class="double-click">
+								<a class="double-click-button margin-none padding-none" title="双击可编辑" href="javascript:;"></a>
+								<input class="input double-click-edit text-ellipsis text-center" name="sn" data-id="26" value="{$vo.name}" type="text" >
+							</div>
+						</div>
+					</span>
+
+                <span class="td" style="width: 50%">
+						<span class="td-con">{$vo.descript}</span>
+					</span>
+                <span class="td" style="width: 10%">
+						<div class="td-con">
+							<div class="double-click">
+								<a class="double-click-button margin-none padding-none" title="双击可编辑" href="javascript:;"></a>
+								<input class="input double-click-edit text-ellipsis text-center" name="sort" data-id="26" value="{$vo.sort}" type="text">
+							</div>
+						</div>
+					</span>
+                <span class="td" style="width: 10%">
+						<a class="ico_up_rack spu_status " href="javascript:;" data-id="26" title="点击取消推荐"></a>
+					</span>
+                <span class="td" style="width: 10%">
+						<div class="td-con double-row">
+                            <!--<a class="look-attr" target="_blank" data-id="26" href="{$vo.url}">展开</a><br />-->
+                            <a href="?s=admin/setbrand/index&id={$vo.id}">编辑</a>&nbsp;&nbsp;&nbsp;
+                            <a data-confirm="是否确认删除？" class="cursor" onclick="cut('{$vo.id}')">删除</a>
+                        </div>
+					</span>
+            </div>
+            <div class="goods-list-box" data-id="26">
+            </div>
+
+        {/volist}
+    </div>
+
+    {include file="/Template/listPage"}
+</div>
+
+<script type="application/javascript">
+
+
+</script>
+
+{/block}

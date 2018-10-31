@@ -1,0 +1,58 @@
+<div class="box">
+    <div class="form-select-edit ">
+        <div class="form-buttonedit-popup">
+           {if $array['replay']!=null}
+            <input class="input" type="text" data="{$array['replay']['id']}" value="{$array['replay']['name']}"
+                   readonly="readonly">
+            {else/}
+            <input class="input" type="text" data="" value=""
+                   readonly="readonly">
+            {/if}
+            <span class="ico_buttonedit"></span>
+        </div>
+        <div class="listbox-items" style="display: none;">
+            {volist name="array.data" id="vo"}
+            <span class="listbox-item " data-val="{$vo.id}">{$vo.name}</span>
+            {/volist}
+        </div>
+        <input class="form-select-name" type="hidden" name="material_id" value="{$array['replay']['id']}"></div>
+</div>
+<script type="text/javascript">
+    $('.ico_buttonedit').blur(function () {
+        $('.listbox-items').attr('style', 'display: none;');
+    });
+    $('.listbox-item').mouseover(function () {
+        $(this).addClass('blue');
+        if ($(this).siblings().hasClass('blue')) {
+            $(this).siblings().removeClass('blue')
+        }
+    });
+    $('.listbox-item').click(function () {
+        $('input[readonly="readonly"]').attr('value', $(this).html());
+        $('input[name="material_id"]').attr('value', $(this).attr('data-val'));
+        $('.listbox-items').attr('style', 'display: none;');
+    });
+    function block_none() {
+        var obj = $('.listbox-items');
+        if (obj.attr('style') == 'display: none;') {
+            obj.attr('style', 'display: block;');
+        } else {
+            obj.attr('style', 'display: none;');
+        }
+    }
+    document.onclick = function (ev) {
+        var e = ev || event;
+        var obj = $('.form-select-edit').eq(0);
+        var top = obj.offset().top;
+        var left = obj.offset().left;
+        var height = obj.height();
+        var width = obj.width();
+        if (e.clientX >= left && e.clientX <= (left + width) && (e.clientY >= top && e.clientY <= top + height)) {
+            block_none()
+        } else if ($('.listbox-items').attr('style') == 'display: block;') {
+            if (e.clientX < left || e.clientX > (left + width) || e.clientY < top || e.clientY > top + height) {
+                $('.listbox-items').attr('style', 'display: none;')
+            }
+        }
+    };
+</script>

@@ -1,0 +1,165 @@
+{extend name="Template/template"/}
+
+{block name="js"}
+
+{/block}
+
+
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">编辑奖项配置</li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+
+<div class="content padding-big have-fixed-nav">
+    <form action="" method="POST" data-reset="" data-validate='true' name="form" enctype="multipart/form-data">
+        <div class="form-box clearfix">
+            <input type="hidden" name="prize_id" value="6" />
+            <div class="form-group ">
+                <span class="label">奖项名称：<!--{$array.lang}--></span>
+                <div class="box">
+                    <input class="input hd-input " placeholder="请输入奖项名称" type="text" name="name" value="{if(!empty($lists.name))}{$lists.name}{/if}" tabindex="0" />
+                </div>
+                <p class="desc">配置奖项名称</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">奖项图片：</span>
+
+                <div class="box"><div class="input hd-input file-box clearfix" onchange="$('.file-txt').attr('value', $('.file-view').val())">
+                    <input type="text" class="file-txt" value="{if(!empty($lists.img))}{$lists.img}{/if}" tabindex="0"/>
+                    <input type="button" class="file-btn" value="浏览" />
+                    <input type="file" class="file file-view" name="site_logo" value=""/>
+                </div>
+                </div>
+                <p class="desc">请上传奖项图片，要求尺寸100*100px透明背景png格式</p>
+            </div>
+
+            <div class="form-group">
+                <label class="label">奖项类型:</label>
+                <div class="box">
+                    <div class="form-select-edit ">
+                        <div class="form-buttonedit-popup">
+                            <select name="type" style="width: 100%;height: 24px;">{if(!empty($lists.type == '0'))}
+                                <option value="0" {if(empty($lists.type))} {elseif($lists.type=='0')}selected{/if}>未中奖</option>
+                                <option value="1" {if(empty($lists.type))} {elseif($lists.type=='1')}selected{/if}>梦想币</option>
+                                <option value="2" {if(empty($lists.type))} {elseif($lists.type=='2')}selected{/if}>优惠券</option>
+                                <option value="3" {if(empty($lists.type))} {elseif($lists.type=='3')}selected{/if}>积分</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <p class="desc">选择奖项类型</p>
+            </div>
+
+            <!--<div class="extraBox hide">
+            <div class="form-group ">
+                <span class="label">选择优惠券：</span>
+                <div class="box">
+                    <div class="form-select-edit ">
+                        <div class="form-buttonedit-popup">
+                            <input class="input" type="text" value="8折优惠券" readonly="readonly">
+                            <span class="ico_buttonedit"></span>
+                        </div>
+                        <div class="listbox-items" style="display: none;z-index: -2000">
+                            <span class="listbox-item listbox-item-selected" data-val="20">8折优惠券</span>
+                            <span class="listbox-item" data-val="19">5折优惠券</span>
+                            <span class="listbox-item" data-val="19">7折优惠券</span>
+                            <span class="listbox-item" data-val="19">85折优惠券</span>
+                        </div>
+                        <input class="form-select-name" type="hidden" name="extra_id" value="20">
+                    </div>
+                </div>
+                <p class="desc">请选择优惠券</p>
+            </div>
+            </div>-->
+            <div class="form-group ">
+                <span class="label">奖项数值：</span><div class="box">
+                <input class="input hd-input " placeholder="请输入数量"  type="text" name="number" value="{if(!empty($lists.number))}{$lists.number}{/if}" tabindex="0" />
+            </div><p class="desc">虚拟币填写虚拟价值，优惠券填写每次中奖赠送的优惠券数量</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">中奖概率：</span>
+                <div class="box">
+                    <input class="input hd-input " placeholder="请输入0-100之间的浮点数"  type="text" name="probability" value="{if(!empty($lists.probability))}{$lists.probability}{/if}" tabindex="0" />
+                </div>
+                <p class="desc">实际中奖概率等于当前项在所有奖项总和中所占比例</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">奖项描述：</span>
+                <div class="box">
+                    <textarea class="textarea hd-input" placeholder="请输入内容"  name="remarks" placeholder="" >{if(!empty($lists.remarks))}{$lists.remarks}{/if}</textarea>
+                </div>
+                <p class="desc">奖项备注信息</p>
+            </div>
+           <!-- <div class="form-group ">
+                <span class="label">奖项排序：</span>
+                <div class="box">
+                    <input class="input hd-input " type="text" name="" value="" tabindex="0" datatype="n" errormsg="排序只能为数字" />
+                </div>
+                <p class="desc">请填写自然数，奖项列表将会根据排序进行由小到大排列显示</p>
+            </div>-->
+            <div class="form-group ">
+                <span class="label">是否需要审核：</span>
+                <div class="box">
+                    <label class="select-wrap">
+                        <input class="select-btn" type="radio" name="is_examine" value="0"{if(empty($lists.is_examine))} checked {/if}/>不审核</label>
+                    <label class="select-wrap">
+                        <input class="select-btn" type="radio" name="is_examine" value="1"{if(!empty($lists.is_examine))} checked {/if}/>审核</label><br/>
+                </div>
+                <p class="desc">需要审核的奖品，用户抽中后，需管理员在后台中奖列表中审核通过才可以发放</p>
+            </div>
+        </div>
+        <div class="padding-top fl">
+            <input id="bottom" type="submit" class="button bg-main" value="保存" />
+           <!-- <a class="button margin-left bg-gray" href="/index.php?s=admin/Lottery_prize_lists/lists"/>返回</a>-->
+            <a class="button margin-left bg-gray"  href="javascript:;" onclick="javascript:history.back(-1);"/>返回</a>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+
+    $("#bottom").click(function(){
+        var name        = $('input[name=name]').val();
+        // var img      = $('input[name=img]').val();
+        var number      = $('input[name=number]').val();
+        var probability = $('input[name=probability]').val();
+        //var remarks     = $('input[name=remarks]').val();
+        var is_examine  = $('input[name=is_examine]:checked').val();
+
+        if(!name){
+            layer.msg('请输入名称', {icon: 5,time:1500}); return false;
+        }
+        /* if(empty(img)){
+             layer.msg('请选择上传图片',{icon: 5,time:1500}); return false;
+         }*/
+        if(!number){
+            layer.msg('请输入奖项数值',{icon: 5,time:1500}); return false;
+        }
+        if(isNaN(number)){
+            layer.msg('奖项数值：请输入数字',{icon: 5,time:1500}); return false;
+        }
+       /* if(!probability){
+            layer.msg('请输入中奖概率',{icon: 5,time:1500}); return false;
+        }*/
+        var te = /^\d+(\.\d+)?$/;
+        if(!te.test(probability) || probability <= 0 || probability >= 100){
+            layer.msg('中奖概率：请输入大于0小于100的浮点数',{icon: 5,time:1500}); return false;
+        }
+        /*if(!remarks){
+            layer.msg('请输入奖项描述',{icon: 5,time:1500}); return false;
+        }*/
+
+        if(!is_examine){
+            layer.msg('请选择显示状态',{icon: 5,time:1500}); return false;
+        }
+    });
+
+
+</script>
+
+{/block}

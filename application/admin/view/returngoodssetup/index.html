@@ -1,0 +1,127 @@
+{extend name="Template/template"/}
+{block name="css"}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<!--标题-->
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">站点设置<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/site/index">站点信息</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/basicsetup/index">基本设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/shopsetup/index">购物设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/dreammoneysetup/index">梦想币设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/integralsetup/index">积分设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/bonussetup/index">分红设置</a></li>
+        <li class="fixed-nav-tab"><a class="current" href="http://api.mxqqlg.com/?s=admin/returngoodssetup/index">退货设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/expresssetup/index">快递设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/logisticscostsetup/index">物流费用设置</a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<!--主体-->
+<div action="" method="POST" enctype="multipart/form-data">
+    <div class="content padding-big have-fixed-nav">
+        <div class="content-tabs">
+            <div class="form-box clearfix">
+                <div class="form-group " style="z-index: 2;">
+                    <span class="label">设置退货时间：</span>
+                    <div class="box">
+                        <!--<div id="poi" class="form-select-edit ">-->
+                        <!--<div class="form-buttonedit-popup">-->
+                        <!--<input class="input" type="text" value="发货后可申请退换货" readonly="readonly">-->
+                        <!--<span class="ico_buttonedit"></span>-->
+                        <!--</div>-->
+                        <!--<div class="listbox-items" style="display: none;">-->
+                        <!--<span class="listbox-item listbox-item-selected" data-val="1">发货后可申请退换货</span>-->
+                        <!--<span class="listbox-item" data-val="2">确认收货后可申请退换货</span>-->
+                        <!--</div>-->
+                        <!--<input class="form-select-name" type="hidden" name="return_time" value="1">-->
+                        <!--</div>-->
+                        {if ($ret.returntime == 1)}
+                        <select name="city" lay-verify="" class="form-select-edit "
+                                style="height: 26px; color: #4d4d4d;padding-left: 5px;">
+                            <option value="1" selected>发货后可申请退换货</option>
+                            <option value="0">确认收货后可申请退换货</option>
+                        </select>
+                        {else /}
+                        <select name="city" lay-verify="" class="form-select-edit "
+                                style="height: 26px; color: #4d4d4d;padding-left: 5px;">
+                            <option value="1">发货后可申请退换货</option>
+                            <option value="0" selected>确认收货后可申请退换货</option>
+                        </select>
+                        {/if}
+                    </div>
+                    <p class="desc">设置退货时间</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">收件地址：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" name="seller_address" value="{$ret.receiptaddress}"
+                               tabindex="0">
+                    </div>
+                    <p class="desc">商家地址，将显示在买家填写退货物流位置</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">收件人：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" name="seller_name" value="{$ret.receiptname}"
+                               tabindex="0">
+                    </div>
+                    <p class="desc">商家名字，将显示在买家填写退货物流位置</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">联系电话：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" name="seller_mobile" value="{$ret.phone}"
+                               tabindex="0">
+                    </div>
+                    <p class="desc">商家电话，将显示在买家填写退货物流位置</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">邮编：</span>
+                    <div class="box">
+                        <input class="input hd-input " type="text" name="seller_zipcode" value="{$ret.zipcode}"
+                               tabindex="0">
+                    </div>
+                    <p class="desc">商家邮编，将显示在买家填写退货物流位置</p>
+                </div>
+            </div>
+        </div>
+        <div class="padding">
+            <input type="submit" class="button bg-main" value="保存">
+        </div>
+    </div>
+    <input class="hd-input" type="hidden" name="formhash" value="{$ret.id}">
+</div>
+{/block}
+{block name='script'}
+<script type="text/javascript">
+    $(function () {
+        $('div .bg-main').on('click', function () {
+            var selected = $(':selected').val();
+            var array = [];
+            for (var i = 0; i < $('.hd-input').length; i++) {
+                array[i] = $('.hd-input').eq(i).val();
+            }
+            var phoneReg = /(^1[3|4|5|7|8]\d{9}$)|(^09\d{8}$)/;
+            if (!phoneReg.test(array[2])) {
+                layer.tips('手机号码格式错误！', $('.hd-input').eq(2));
+                $('.hd-input').eq(2).css('border', 'solid 1px red');
+            } else {
+                $.post('/?s=admin/returngoodssetup/siteupdata', {selected: selected, array: array}, function (data) {
+                    if (data['type'] == '1' && data['explain'] == '更新成功') {
+                        location.href = '/?s=admin/succeed/index&c=returngoodssetup&a=index'
+                    } else if (data['type'] == '0' && data['explain'] == '手机号码格式错误！') {
+                        $('.hd-input').eq(2).css('border', 'solid 1px red');
+                    }else if (data['type'] == '0' && data['explain'] == '更新失败'){
+                        location.href = '/?s=admin/succeed/index&c=returngoodssetup&a=index&type=1'
+                    }
+                })
+            }
+        })
+    })
+</script>
+{/block}

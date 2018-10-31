@@ -1,0 +1,125 @@
+{extend name="Template/template" /}
+{block name='title'}{/block}
+{block name="css"}{/block}
+{block name="body"}
+<div action="" method="POST" name="form-validate">
+    <div class="fixed-nav layout">
+        <ul>
+            <li class="first">编辑分销角色<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+            <li class="spacer-gray"></li>
+        </ul>
+        <div class="hr-gray"></div>
+    </div>
+    <div class="content padding-big have-fixed-nav">
+        <div class="form-box clearfix">
+            <div class="form-group ">
+                <span class="label">角色名称：</span>
+                <div class="box">
+                    <input class="input hd-input" name="name" value="{$id.name}" tabindex="0" datatype="*"
+                           nullmsg="请填写信息！" type="text">
+                    <!--<span class="validform_checktip validation-tips"><i></i>请填写信息！</span>-->
+                </div>
+                <p class="desc">设置角色名称</p></div>
+            <div class="form-group ">
+                <span class="label">直接销售佣金比例：</span>
+                <div class="box">
+                    {if ($id.direct_sale == true)}
+                    <input class="input hd-input" name="min_integral" value="{$id.direct_sale}" tabindex="0"
+                           datatype="n" type="text">
+                    {else /}
+                    <input class="input hd-input" name="min_integral" value="0" tabindex="0" datatype="n" type="text">
+                    {/if}
+                    <span class="validform_checktip"></span>
+                </div>
+                <p class="desc">比例单位为%，如输入10，表示比例为10%</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">间接销售佣金比例：</span>
+                <div class="box">
+                    {if ($id.indirect_sale == true)}
+                    <input class="input hd-input" name="max_integral" value="{$id.indirect_sale}" tabindex="0"
+                           datatype="n" type="text">
+                    {else /}
+                    <input class="input hd-input" name="max_integral" value="0" tabindex="0" datatype="n" type="text">
+                    {/if}
+                    <span class="validform_checktip"></span>
+                </div>
+                <p class="desc">比例单位为%，如输入10，表示比例为10%</p></div>
+            <div class="form-group ">
+                <span class="label">直接管理佣金比例：</span>
+                <div class="box">
+                    {if ($id.direct_admin == true)}
+                    <input class="input hd-input" name="share_ratio" value="{$id.direct_admin}" tabindex="0"
+                           datatype="n" type="text">
+                    {else /}
+                    <input class="input hd-input" name="share_ratio" value="0" tabindex="0" datatype="n" type="text">
+                    {/if}
+                    <span class="validform_checktip"></span>
+                </div>
+                <p class="desc">比例单位为%，如输入10，表示比例为10%</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">间接管理佣金比例：</span>
+                <div class="box">
+                    {if ($id.indirect_admin == true)}
+                    <input class="input hd-input" name="wear_ratio" value="{$id.indirect_admin}" tabindex="0"
+                           datatype="n" type="text">
+                    {else /}
+                    <input class="input hd-input" name="wear_ratio" value="0" tabindex="0" datatype="n" type="text">
+                    {/if}
+                    <span class="validform_checktip"></span>
+                </div>
+                <p class="desc">比例单位为%，如输入10，表示比例为10%</p>
+            </div>
+        </div>
+        <input class="hd-input" name="hidden" value="{$id.id}" type="hidden">
+        <div class="padding">
+            <input name="dosubmit" class="button bg-main" value="确定" type="submit">
+            <input name="back" class="button margin-left bg-gray" value="返回" type="reset">
+        </div>
+    </div>
+    <input name="formhash" value="BS42SV" type="hidden">
+</div>
+
+{/block}
+{block name='script'}
+<script type="text/javascript">
+    $(function () {
+        // 返回上一页
+        $('div .bg-gray').click(function () {
+            history.go(-1)
+        });
+        //确定
+        $('div .bg-main').click(function () {
+            var array = [];
+            for (var i = 0; i < $('div .hd-input').length; i++) {
+                array[i] = $('div .hd-input').eq(i).val();
+                $('.hd-input').eq(i).css('border', 'solid 1px #ccc');
+            }
+
+            var reg = new RegExp("^(\\d|[1-9]\\d|100)$");
+
+            if (reg.test(array[1]) && reg.test(array[2]) && reg.test(array[3]) && reg.test(array[4])) {
+                $.post('?s=admin/editdis/ofvalues', {array}, function (data) {
+                    if (data['type'] == '1') {
+                        location.href = '?s=admin/succeed/index&c=editmanage&a=index'
+                    }
+                })
+            }else if (!reg.test(array[1])) {
+                nonull(1);
+            }else if (!reg.test(array[2])) {
+                nonull(2);
+            }else if (!reg.test(array[3])) {
+                nonull(3);
+            }else if (!reg.test(array[4])) {
+                nonull(4);
+            }else {
+            }
+            function nonull(num) {
+                layer.tips('请输入0-100的整数并且不能为空！', $('.hd-input').eq(num));
+                $('.hd-input').eq(num).css('border', 'solid 1px red');
+            }
+        })
+    })
+</script>
+{/block}

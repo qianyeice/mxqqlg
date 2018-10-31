@@ -1,0 +1,55 @@
+#clearfix{
+    position: absolute;
+    right: 20%;
+}
+.top_all{
+    padding-top:10px;
+}
+.clearfix{
+    height: 50px;
+}
+.shuzhi_data{
+    width: 130px;
+    height: 26px;
+    padding: 0 10px;
+    font-size: 12px;
+    color: #4d4d4d;
+    font-family: "微软雅黑";
+    line-height: 24px;
+}
+.Evaluationprojectileall{
+    top: 20%;
+    left: 30%;
+    width: 320px;
+    height: 248px;
+    overflow: hidden;
+    position: absolute;
+    background: #417eb7;
+    border-radius:10px;
+    border: 1px solid #417eb7;
+}
+.Evaluationprojectileall_top{
+    padding: 10px 15px;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    cursor: default;
+    color: #fff;
+}
+#cancel,#ok{
+    border-radius:5px;
+    float: right;
+    color: #ffffff;
+    background-color: #2a95de;
+    border-color: #285e8e;
+    display: inline-block;
+    padding: 6px 20px;
+    cursor: pointer;
+}
+
+#vv{
+    width: 320px;
+    height: 34px;
+    padding: 10px 10px;
+    border-top: 1px solid #ddd;
+    background-color: #f1f1f1;
+}

@@ -1,0 +1,27 @@
+{extend name="Template/template"/}
+{block name="css"}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<div class="form-box border-bottom-none order-eidt-popup clearfix">
+    <div class="form-group "><span class="label">是否确认订单：</span>
+        <div class="box">
+            <textarea class="textarea hd-input" id="msgg"  placeholder="请填写订单操作日志（选填）">  </textarea>
+        </div>
+    </div>
+</div>
+<div class="padding text-right ui-dialog-footer">
+    <input type="submit" class="button bg-main" id="okbtn" value="确定" data-name="dosubmit" data-reset="false">
+    <input type="button" class="button margin-left bg-gray" id="closebtn" value="取消" data-reset="false">
+</div>
+<input type="hidden" id="order_id" value="{$val.data[0]['id']}">
+<input type="hidden" id="order_sn" value="{$val.data[0]['sn']}">
+{/block}
+{block name='script'}
+<script src="__STATIC__/admin/js/handle.js"></script>
+<script>
+    var index=parent.layer.getFrameIndex(window.name)
+    confirm({'id':$('#order_id').val(),'order_sn':$('#order_sn').val()},'?s=admin/Confirmorder/ajax_confirm_order')
+</script>
+{/block}

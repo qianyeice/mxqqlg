@@ -1,0 +1,186 @@
+{extend name="Template/template"/}
+{block name="title"}团购管理{/block}
+{block name="css"}
+{load href="__STATIC__/admin/css/orderexpresssingle.css" /}
+{/block}
+{block name="body"}
+    <style type="text/css">
+        .shoudongjiesu:hover{
+            cursor: pointer;
+            color: #42739b;
+        }
+        /*#currents:hover{*/
+            /*color: #464646 !important;*/
+            /*background-color:#f1f1f1 !important;*/
+        /*}*/
+    </style>
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">团购管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li><a id="currents" style="" class="currents" href="?s=admin/Group_Purchase_Management/index&id=42&pd=0">全部</a></li>
+        <li><a id="jinxing" style="" href="?s=admin/Group_Purchase_Management/index&id=42&pd=1">进行中</a></li>
+        <li><a id="jiesu" href="?s=admin/Group_Purchase_Management/index&id=42&pd=2">已结束</a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+
+<div class="content padding-big have-fixed-nav">
+    <div class="table-wrap member-info-table">
+        <div class="table resize-table paging-table high-table border clearfix">
+            <div class="tr">
+                <!--				<span class="th check-option" data-resize="false"><span><input id="check-all" type="checkbox" /></span></span>-->
+                <span class="th width25" data-width="20">
+						<span class="td-con">用户</span>
+					</span>
+                <span class="th width20" data-width="20">
+						<span class="td-con">商品名称</span>
+					</span>
+                <span class="th width10" data-width="10">
+						<span class="td-con">参团/满员</span>
+					</span>
+                <span class="th width13" data-width="10">
+						<span class="td-con">开团时间</span>
+					</span>
+                <span class="th width13" data-width="10">
+						<span class="td-con">到期时间</span>
+					</span>
+                <span class="th width10" data-width="10">
+						<span class="td-con">团购状态</span>
+					</span>
+                <span class="th width9" data-width="10" style="width: 183px;">
+                    <span class="td-con">操作</span>
+                </span>
+            </div>
+            {foreach name="sql" item="vo" key="k"}
+            <div class="tr">
+                <!--					<span class="td check-option"><input type="checkbox" name="id" value="-->
+                <!--" /></span>-->
+                <span class="td width25" style="min-height: 1px">
+                    <div class="td-con td-pic text-left over-initial" style="width: 408px; white-space:nowrap;overflow: hidden;text-overflow:ellipsis;" >
+
+                        <span class="pic" >
+                            {foreach name="sl" item="img" key="s"}
+
+                             <?php for($i=0;$i<count($img);$i++){ if($k==$img[$i]['mgb_groupbuy']){?>
+                                <img src="{$img[$i]['mem_img']}" alt="{$img[$i]['mem_username']}" style="width: 28px;height: 28px; -webkit-border-radius: 50%;-moz-border-radius: 50%;border-radius: 50%;"/>
+                            <?php }}?>
+                            {/foreach}
+                        </span>
+                    </div>
+                </span>
+                <span class="td width20" style="min-height: 1px">
+                    <span class="td-con" >{$vo.0.gsku_name}</span>
+                </span>
+                <span class="td width10" style="min-height: 1px">
+                     {foreach name="sl" item="img" key="s"}
+                    <?php  if($k==$img[0]['mgb_groupbuy']){?>
+                    <span class="td-con ">{$img|count}  / {$vo.0.pgb_maxnum}</span>
+                    <?php }?>
+                      {/foreach}
+                </span>
+                <span class="td width13" style="min-height: 1px">
+                    <span class="td-con">{$vo.0.mgb_jointime}</span>
+                </span>
+                <span class="td width13" style="min-height: 1px">
+                    <span class="td-con">{$vo.0.gbuy_endtime}</span>
+                </span>
+                <span class="td width10" style="min-height: 1px">
+                    {if condition="($vo.0.zhuangtai == 1)"}
+                        <span class="td-con ">进行中</span>
+                    {else /}
+                        <span class="td-con ">已结束</span>
+                    {/if}
+
+                </span>
+                <span class="td width9" style="min-height: 1px">
+                    {if condition="($vo.0.zhuangtai == 1)"}
+                        <span class="td-con shoudongjiesu" zdy="{$k}">手动结束</span>
+                    {else /}
+                        <span class="td-con"></span>
+                    {/if}
+				</span>
+            </div>
+            {/foreach}
+
+            <div class="paging padding-tb body-bg clearfix">
+                <div class="clear"></div>
+            </div>
+        </div>
+        {include file="/Template/listPage"}
+    </div>
+</div>
+
+
+{/block}
+{block name="js"}
+<script type="text/javascript">
+    $(function () {
+        for (var i=0;i<$('.shoudongjiesu').length;i++){
+            $('.shoudongjiesu').eq(i).click(function () {
+                var id=$(this).attr('zdy');
+                layer.confirm('是否结束当前团购？', {
+                    btn: ['确定','取消'] //按钮
+                }, function() {
+                    $.post('?s=admin/Group_Purchase_Management/JieShu', {id: id}, function (evet) {
+                        console.log(evet);
+                        if (evet['type'] = 1) {
+                            layer.alert(evet['tishi'], {
+                                icon: 1
+                            }, function () {
+                                window.location.reload();
+                            })
+                        } else {
+                            layer.alert(evet['tishi'], {
+                                icon: 2
+                            })
+                        }
+                    })
+                })
+            })
+        }
+
+        /*
+            js获取url栏的自定属性
+         */
+        (function ($) {
+            $.getUrlParam = function (name) {
+                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                var r = window.location.search.substr(1).match(reg);
+                if (r != null) return unescape(r[2]); return null;
+            }
+        })(jQuery);
+        if ($.getUrlParam('pd')==0){
+            $('#currents').attr('style','color: #fff !important;background-color:#2D689F !important');
+            $('#jinxing').css({
+                'color':' #464646;',
+                'background-color': 'none'
+            });
+            $('#jiesu').css({
+                'color':' #464646;',
+                'background-color': 'none'
+            })
+        }else if ($.getUrlParam('pd')==1){
+            $('#jinxing').css({
+                'color':' #fff',
+                'background-color': '#2D689F'
+            });
+            $('#jiesu').css({
+                'color':' #464646;',
+                'background-color': 'none'
+            });
+            $('#currents').attr('style','color: #464646 !important;background-color:#f1f1f1 !important');
+        }else if ($.getUrlParam('pd')==2){
+            $('#jiesu').css({
+                'color':' #fff',
+                'background-color': '#2D689F'
+            });
+            $('#jinxing').css({
+                'color':' #464646;',
+                'background-color': 'none'
+            });
+            $('#currents').attr('style','color: #464646 !important;background-color:#f1f1f1 !important');
+        }
+    })
+</script>
+{/block}

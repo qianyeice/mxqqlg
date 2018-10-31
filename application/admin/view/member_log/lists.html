@@ -1,0 +1,158 @@
+{extend name="Template/template"}
+{block name="css"}
+<style type="text/css">
+    .data_time {
+        padding: 0 10px;
+        width: 100%;
+        height: 26px;
+        font-size: 12px;
+        color: #4d4d4d;
+        font-family: "微软雅黑";
+        line-height: 24px;
+        border: 1px solid #ccc;
+    }
+
+    .data_time:hover {
+        border-color: #2a95de;
+    }
+</style>
+{/block}
+{block name="js"}
+{/block}
+{block name="body"}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">余额管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+        <div class="member-comment-search clearfix">
+            <div class="form-box clearfix border-bottom-none" style="width: 590px;">
+                <div style="z-index: 4;" id="form-group-id1" class="form-group form-layout-rank group1">
+                    <span class="label">操作时间</span>
+                    <div class="box margin-none">
+                        <input type="date"  id="begin_time" value="" min="1900-01-01" max="3000-12-30" class="data_time"/>
+                    </div>
+                </div>
+                <div style="z-index: 3;" id="form-group-id2" class="form-group form-layout-rank group2">
+                    <span class="label">~</span>
+                    <div class="box margin-none">
+                        <input type="date" id="end_time" value="" min="1900-01-01" max="3000-12-30" class="data_time"/>
+                    </div>
+                </div>
+                <div style="z-index: 1;" id="form-group-id4" class="form-group form-layout-rank group4">
+                    <span class="label">搜索</span>
+                    <div class="box margin-none">
+                        <input class="input" id="hui" name="keywords" placeholder="请输入会员名搜索余额信息" tabindex="0" value="" type="text">
+                    </div>
+                </div>
+            </div>
+            <input id="cha" class="button bg-sub fl" value="查询" type="submit">
+        </div>
+        <input name="formhash" value="iem6Rt" type="hidden">
+    <div class="table-wrap member-info-table">
+        <div class="table resize-table check-table border paging-table clearfix" style="width: 100%;">
+            <div class="member  tr resize-th" style="visibility: visible;">
+                <span class="th" data-width="20" style="width: 25%">
+                    <span class="td-con">会员账号</span>
+				<span class="spacer"></span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span>
+                    <span class="spacer"></span>
+                </span>
+                <span class="th" data-width="20" style="width: 25%">
+					<span class="td-con">操作日期</span>
+				<span class="spacer">
+
+                </span>
+                    <div class="handleMove"></div>
+                    <span class="spacer"></span>
+                    <span class="spacer"></span></span>
+                <span class="th" data-width="20" style="width: 25%">
+					<span class="td-con">操作金额</span>
+				<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span><span
+                        class="spacer"></span></span>
+                <span class="th" data-width="40" style="width: 25%">
+					<span class="td-con">日志描述</span>
+				</span>
+            </div>
+            <div id="html">
+            {volist name="data" id="vo"}
+            <div class="member tr" style="visibility: visible;">
+				<span class="td r0" style="width: 25%">
+							<span class="td-con">{$vo.username}</span>
+						</span>
+                <span class="td r1" style="width: 25%">
+							<span class="td-con">{$vo.time}</span>
+						</span>
+                <span class="td r2" style="width: 25%">
+							<span class="td-con">{$vo.value}</span>
+						</span>
+                <span class="td r3" style="width: 25%">
+							<span class="td-con">{$vo.action_type}</span>
+						</span>
+            </div>
+            {/volist}
+            </div>
+            <div class="paging padding-tb body-bg clearfix" style="top: 100%;">
+                <ul class="fr">
+                    <li>共{$count}条数据</li>
+                    <li class="spacer-gray margin-lr"></li>
+                    <li>每页显示<input class="input radius-none" name="limit" value="20" type="text">条</li>
+                    <li class="spacer-gray margin-left"></li>
+                    <li class="default-start"></li>
+                    <li class="default-prev"></li>
+                    <li class="current"><a
+                            href="">1</a>
+                    </li>
+                    <li><a href="">2</a>
+                    </li>
+                    <li><a href="">3</a>
+                    </li>
+                    <li><a href="">4</a>
+                    </li>
+                    <li><a href="">5</a>
+                    </li>
+                    <li class="next"><a
+                            href=""></a>
+                    </li>
+                    <li class="end"><a
+                            href=""></a>
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="layout" id="table-get-width"></div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#cha').click(function () {
+        $end_time=$('#end_time').val();
+        $begin_time=$('#begin_time').val();
+        $hui=$('#hui').val();
+        $.post('?s=admin/member_log/init',{end_time:$end_time,begin_time:$begin_time,hui:$hui},function (data) {
+            $('#html').html('')
+            for (var i=0;i<data.length;i++){
+                $html=' <div class="member tr" style="visibility: visible;">'+
+                    '<span class="td r0" style="width: 25%">'+
+                    '<span class="td-con">'+data[i]['username']+'</span>'+
+                '</span>'+
+                '<span class="td r1" style="width: 25%">'+
+                    '<span class="td-con">'+data[i]['time']+'</span>'+
+                '</span>'+
+                '<span class="td r2" style="width: 25%">'+
+                    '<span class="td-con">'+data[i]['value']+'</span>'+
+                '</span>'+
+                '<span class="td r3" style="width: 25%">'+
+                    '<span class="td-con">'+data[i]['action_type']+'</span>'+
+                '</span>'+
+                '</div>'
+                $('#html').append($html)
+            }
+        })
+    })
+</script>
+{/block}

@@ -1,0 +1,47 @@
+{extend name="Template/template"/}
+{block name="css"}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<!--标题-->
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">管理微信素材、回复
+            <!--和自定义菜单-->
+            <a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li class="fixed-nav-tab"><a class="{if $array.type==1}current{/if}" type="1" href="?s=admin/wechat/index&type=1">微信素材</a>
+        </li>
+        <li class="fixed-nav-tab"><a class="{if $array.type==2}current{/if}" type="2" href="?s=admin/wechat/index&type=2">关注回复</a>
+        </li>
+        <li class="fixed-nav-tab"><a class="{if $array.type==3}current{/if}" type="3" href="?s=admin/wechat/index&type=3">消息自动回复</a>
+        </li>
+        <li class="fixed-nav-tab"><a class="{if $array.type==4 || $array.type==6}current{/if}" type="4" href="?s=admin/wechat/index&type=4">关键词回复</a>
+        </li>
+        <!--<li class="fixed-nav-tab"><a type="5" href="{:url('?s=admin/wechat/index','type=5')}">自定义菜单</a>-->
+        <!--</li>-->
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<!--主体-->
+{switch $array.type}
+{case 1}
+{include file="wechat/sourseMaterial" /}
+{/case}
+{case 2|3}
+{include file="wechat/follow" /}
+{/case}
+{case 4}
+{include file="wechat/keyword_response" /}
+{/case}
+{case 5}
+{include file="wechat/custom" /}
+{/case}
+{case 6}
+{include file="wechat/keyword_response_add" /}
+{/case}
+{default /}
+{include file="wechat/sourseMaterial" /}
+{/switch}
+{/block}

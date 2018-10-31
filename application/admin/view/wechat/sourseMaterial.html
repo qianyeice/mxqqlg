@@ -1,0 +1,91 @@
+<div class="content padding-big have-fixed-nav">
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a href="?s=admin/Materialadd/index"><i class="ico_add"></i>添加</a>
+            <div class="spacer-gray"></div>
+            <a data-message="是否确定删除所选？" href="/index.php?m=admin&amp;c=wechat&amp;a=mdel&amp;formhash=fKRHLh"
+               data-ajax="id"><i class="ico_delete"></i>删除</a>
+            <div class="spacer-gray"></div>
+        </div>
+    </div>
+    <div class="table resize-table check-table border clearfix" style="width: 100%">
+        <div class="tr resize-th" style="visibility: visible;">
+            <div class="th check-option" data-resize="false">
+                <input id="check-all" type="checkbox">
+                <span class="spacer"></span><span class="spacer"></span></div>
+            <span class="th" data-width="20" style="width: 25%">
+						<span class="td-con">素材名称</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+            <span class="th" data-width="50" style="width: 25%">
+						<span class="td-con"> 素材类型</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+            <span class="th" data-width="10" style="width: 25%">
+						<span class="td-con"> 素材创建时间</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+            <span class="th" data-width="15" style="width: 25%">
+						<span class="td-con">操作</span>
+					</span>
+        </div>
+        {volist name="data" id="vo"}
+        <div class="tr" style="visibility: visible;">
+            <div class="td check-option r0">
+                <input type="checkbox" name="id" value="{$vo.id}">
+            </div>
+            <span class="td r1" style="width: 25%">
+						<span class="td-con">{$vo.name}</span>
+					</span>
+            <span class="td r2" style="width: 25%">
+						<span class="td-con">
+                            {if $vo.type==1}
+                            图文消息
+                            {elseif $vo.type==2}
+                            文本消息
+                            {elseif $vo.type==3}
+                            图片消息
+                            {else}
+                            视频消息
+                            {/if}
+                        </span>
+					</span>
+            <span class="td r3" style="width: 25%">
+						<span class="td-con">{$vo.update_time}</span>
+					</span>
+            <span class="td r4" style="width: 25%">
+						<span class="td-con">
+							<a href="?s=admin/Materialadd/index&id={$vo.id}">编辑</a>
+                            &nbsp;&nbsp;&nbsp;
+                            <a data-confirm="是否确定删除？" href="javascript:void(0)" class="delect" delectid="{$vo.id}">删除</a>
+						</span>
+					</span>
+        </div>
+        {/volist}
+    </div>
+    {include file="Template/listPage" /}
+    <div class="layout" id="table-get-width"></div>
+</div>
+<script>
+    //删除
+    $('.delect').click(function () {
+        $id=$(this).attr('delectid')
+        layer.confirm('确定删除？', {
+            btn: ['确定', '取消'] //可以无限个按钮
+        }, function(index, layero){
+            //按钮【按钮一】的回调
+            $.post('?s=admin/Wechat/chatdelect',{id:$id},function (data) {
+                if(data==1){
+                    layer.msg('删除成功',function () {
+                        location.reload();
+                    });
+                }else {
+                    layer.msg('删除失败',function () {
+                        location.reload();
+                    });
+                }
+            })
+
+        }, function(index){
+            //按钮【按钮二】的回调
+        });
+    })
+
+</script>

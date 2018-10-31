@@ -1,0 +1,60 @@
+{extend name="Template/template"}
+
+{block name="css"}
+
+{/block}
+
+{block name="js"}
+
+
+{/block}
+
+{block name='body'}
+{if ($address == true)}
+<div class="rece-address-manage clearfix">
+    <table class="address-table text-left">
+        <tr>
+            <th class="w15">收货人</th>
+            <th class="w15">手机</th>
+            <th class="w10">邮编</th>
+            <th class="w60">地址</th>
+        </tr>
+        <tr>
+            <td class="text-ellipsis w15">{$address.name}</td>
+            <td class="text-ellipsis w15">{$address.mobile}</td>
+            <td class="text-ellipsis w10">{$address.name}</td>
+            <td class="text-ellipsis w60" title="北京 北京 昌平xdddfff">{$address.detailed}</td>
+        </tr>
+    </table>
+    <div class="paging padding-tb body-bg clearfix">
+        <ul class="fr">
+            <li>共1条数据</li>
+            <li class="spacer-gray margin-lr"></li>
+            <li>每页显示<input class="input radius-none" type="text" name="limit" value="5"/>条</li>
+            <li class="spacer-gray margin-left"></li>
+            <li class="default-start"></li>
+            <li class="default-prev"></li>
+            <li class="current"><a
+                    href="/index.php?m=member&c=member&a=address&mid=3014&has_address=1&formhash=Agmzpb&page=1">1</a>
+            </li>
+            <li class="default-next"></li>
+            <li class="default-end"></li>
+        </ul>
+        <div class="clear"></div>
+    </div>
+</div>
+{else /}
+<div class="padding-large layout bg-white text-center"><div class="padding-big"><span>该用户没有添加收货地址！</span></div></div>
+{/if}
+<!--<div class="padding text-right ui-dialog-footer">
+<input type="button" class="button margin-left bg-gray" id="closebtn" value="关闭" />
+</div>-->
+{/block}
+{block name='script'}
+
+<script type="text/javascript">
+    $(function () {
+
+    })
+</script>
+{/block}

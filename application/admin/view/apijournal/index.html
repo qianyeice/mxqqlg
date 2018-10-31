@@ -1,0 +1,124 @@
+{extend name="Template/template"}
+
+{block name="css"}
+
+{/block}
+{block name="js"}
+{load href='__STATIC__/layui/layui.js'}
+{/block}
+
+{block name="body"}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">接口调用日志<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <!--<form method="post" action="?s=admin/Apijournal/search">-->
+    <div class="member-comment-search clearfix">
+        <div class="form-box clearfix border-bottom-none" style="width: 590px;">
+            <div style="z-index: 4;" id="form-group-id1" class="form-group form-layout-rank group1">
+                <span class="label">操作时间</span>
+                <div class="box margin-none">
+                    <input id="first" placeholder="YYYY-MM-DD" class="input hd-input " type="text" name="integral_ratio" value="" tabindex="0">
+                </div>
+            </div>
+            <div style="z-index: 3;" id="form-group-id2" class="form-group form-layout-rank group2">
+                <span class="label">~</span>
+                <div class="box margin-none">
+                    <input id="first2" placeholder="YYYY-MM-DD" class="input hd-input " type="text" name="integral_ratio2" value="" tabindex="0">
+                </div>
+            </div>
+            <input class="button bg-sub fl" value="查询" type="submit">
+        </div>
+    </div>
+    <!--</form>-->
+    <div class="table-wrap member-info-table">
+        <div class="table resize-table check-table border paging-table clearfix" style="width: 100%;">
+            <div class="member  tr resize-th" style="visibility: visible;">
+                <span class="th" data-width="20" style="width: 25%;">
+					<span class="td-con">调用路径</span>
+				<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span><span class="spacer"></span></span>
+                <span class="th" data-width="20" style="width: 25%;">
+					<span class="td-con">调用时间</span>
+				<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span><span class="spacer"></span></span>
+                <span class="th" data-width="20" style="width: 25%;">
+					<span class="td-con">传入参数</span>
+				<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span><span class="spacer"></span></span>
+                <span class="th" data-width="20" style="width: 25%;">
+					<span class="td-con">返回参数</span>
+				<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span><span class="spacer"></span></span>
+            </div>
+
+            {volist name='journal' id='journal'}
+            <div class="member tr uuuuuuuu" style="visibility: visible;">
+                <span class="td r0" style="width: 25%;">
+							<span class="td-con">{$journal.url}</span>
+						</span>
+                <span class="td r1" style="width: 25%;">
+							<span class="td-con"><?php echo date('Y-m-d H:i:s',$journal['time']) ?></span>
+						</span>
+                <span class="td r2" style="width: 25%;">
+							<span class="td-con">{$journal.data}</span>
+						</span>
+                <span class="td r3" style="width: 25%;">
+							<span class="td-con">{$journal.parameter}</span>
+						</span>
+            </div>
+            {/volist}
+            <div class="paging padding-tb body-bg clearfix" style="top: 100%;">
+                <ul class="fr"><li>共5923条数据</li><li class="spacer-gray margin-lr"></li><li>每页显示<input class="input radius-none" name="limit" value="20" type="text">条</li><li class="spacer-gray margin-left"></li><li class="default-start"></li><li class="default-prev"></li><li class="current"><a href="/index.php?m=member&amp;c=member_log&amp;a=index&amp;formhash=iem6Rt&amp;page=1">1</a></li><li><a href="/index.php?m=member&amp;c=member_log&amp;a=index&amp;formhash=iem6Rt&amp;page=2">2</a></li><li><a href="/index.php?m=member&amp;c=member_log&amp;a=index&amp;formhash=iem6Rt&amp;page=3">3</a></li><li><a href="/index.php?m=member&amp;c=member_log&amp;a=index&amp;formhash=iem6Rt&amp;page=4">4</a></li><li><a href="/index.php?m=member&amp;c=member_log&amp;a=index&amp;formhash=iem6Rt&amp;page=5">5</a></li><li class="next"><a href="/index.php?m=member&amp;c=member_log&amp;a=index&amp;formhash=iem6Rt&amp;page=2"></a></li><li class="end"><a href="/index.php?m=member&amp;c=member_log&amp;a=index&amp;formhash=iem6Rt&amp;page=297"></a></li></ul>				<div class="clear"></div>
+            </div>
+        </div><div class="layout" id="table-get-width"></div>
+    </div>
+</div>
+<script>
+    $('.button').click(function () {
+        var first=$('#first').val();
+        var first2=$('#first2').val();
+        if(first !='' && first2!=''){
+            $.post('?s=admin/Apijournal/search',{integral_ratio:first,integral_ratio2:first2},function (data) {
+                $(".uuuuuuuu").html('');
+                $(data).each(function(i,item){
+//                    console.log(item);
+                        $(".uuuuuuuu").eq(i).append('<span class="td r0" style="width: 25%;"><span class="td-con">'+item.url+'</span></span>');
+                        $(".uuuuuuuu").eq(i).append('<span class="td r1" style="width: 25%;"><span class="td-con">'+timestampToTime(item.time)+'</span></span>');
+                        $(".uuuuuuuu").eq(i).append('<span class="td r2" style="width: 25%;"><span class="td-con">'+item.data+'</span></span>');
+                        $(".uuuuuuuu").eq(i).append('<span class="td r3" style="width: 25%;"><span class="td-con">'+item.parameter+'</span></span>');
+                });
+            },'json')
+        }else {
+            layer.msg('请输入完整');
+        }
+    });
+    function timestampToTime(timestamp) {
+        var date = new Date(timestamp * 1000);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        Y = date.getFullYear() + '-';
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        D = date.getDate() + ' ';
+        h = date.getHours() + ':';
+        m = date.getMinutes() + ':';
+        s = date.getSeconds();
+        return Y+M+D+h+m+s;
+    }
+
+
+
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#first' //指定元素
+        });
+    });
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#first2' //指定元素
+        });
+    });
+</script>
+{/block}

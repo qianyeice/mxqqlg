@@ -1,0 +1,152 @@
+{extend name="Template/template"/}
+{block name='title'}订单退货详情{/block}
+{block name="css"}
+<link type="text/css" rel="stylesheet" href="__STATIC__/admin/css/Detailsoforderreturn.css"/>
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">订单退货详情</li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <!--订单概况-->
+    <table cellpadding="0" cellspacing="0" class="border bg-white layout margin-top">
+        <tbody>
+        <tr class="bg-gray-white line-height-40 border-bottom">
+            <th class="text-left padding-big-left">
+                退货信息
+                <div class="order-edit-btn fr">
+                    {if $val.data.type==0} <a class="button margin-small bg-main" id="handle" title="点此进行处理">处理退货</a>
+                    {else  $val.data.type==1/}<a class="button margin-small bg-gray" >已处理</a>
+                    {/if}
+                </div>
+            </th>
+        </tr>
+        <tr class="border">
+            <td class="padding-big-left padding-big-right">
+                <table cellpadding="0" cellspacing="0" class="layout">
+                    <tbody>
+                    <tr class="line-height-40">
+                        <td class="text-left">主订单号：{$val.data.sn}</td>
+                        <td class="text-left">订单号：{$val.data.sn}</td>
+                    </tr>
+                    <tr class="line-height-40">
+                        {if $val.data.type==0}  <td class="text-left">状态：未退货</td>
+                        {else  $val.data.type==1/} <td class="text-left">状态：已退货</td>
+                        {/if}
+                        <td class="text-left">物流公司：{$val.data.return_logistics}</td>
+                        <td class="text-left">物流单号：{$val.data.return_number}</td>
+                    </tr>
+                    <tr class="line-height-40 border-bottom">
+                        <td class="text-left">申请人：{$val.data.username}</td>
+                        <td class="text-left">联系电话：{$val.data.mobile}</td>
+                        <td class="text-left">申请时间：{$val.data.refund_time}</td>
+                    </tr>
+                    <tr class="line-height-40">
+                        <td class="text-left" colspan="3">申请理由：{$val.data.return_reason}</td>
+                    </tr>
+                    <tr class="line-height-40">
+                        <td class="text-left" colspan="3">退货描述：{$val.data.return_describe}</td>
+                    </tr>
+                    <tr class="line-height-40">
+                        <td class="text-left" colspan="3">
+                            <div class="return-goods-wrap">
+                                <div class="pic">无图</div>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!--商品信息-->
+    <table cellpadding="0" cellspacing="0" class="border bg-white layout margin-top">
+        <tbody>
+        <tr class="bg-gray-white line-height-40 border-bottom">
+            <th class="text-left padding-big-left">退货商品</th>
+        </tr>
+        <tr class="border">
+            <td>
+                <div class="table resize-table high-table clearfix">
+                    <div class="tr">
+									<span class="th" style="width: 70%">
+										<span class="td-con">商品信息</span>
+									</span>
+                        <span class="th" style="width: 15%">
+										<span class="td-con">退货数量</span>
+									</span>
+                        <span class="th" style="width: 15%">
+										<span class="td-con">退货金额</span>
+									</span>
+                    </div>
+                    <div class="tr">
+                        <div class="td" style="width: 70%">
+                            <div class="td-con td-pic text-left">
+                                <span class="pic"><img src="__STATIC__{$val.data.goods_url}" /></span>
+                                <span class="title text-ellipsis txt"><a href="" target="_blank">{$val.data.goods_name}</a></span>
+                                <span class="icon">
+									<em class="text-main">商品规格：</em>{$val.data.spec}&nbsp;
+								</span>
+                                <!-- <i class="return-ico"><img src="statics/images/ico_returning.png" height="60"></i> -->
+                            </div>
+                        </div>
+                        <div class="td"style="width: 15%"><span class="td-con">{$val.data.return_num}</span></div>
+                        <div class="td"style="width: 15%"><span class="td-con">￥{$val.data.real_amount}</span></div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!--订单日志-->
+    <table cellpadding="0" cellspacing="0" class="border bg-white layout margin-top">
+        <tbody>
+        <tr class="bg-gray-white line-height-40 border-bottom">
+            <th class="text-left padding-big-left">退货日志</th>
+        </tr>
+        <tr class="border">
+            <td class="padding-big-left padding-big-right">
+                <table cellpadding="0" cellspacing="0" class="layout">
+                    <tbody>
+                    <tr class="line-height-40">
+                        <td class="text-left">
+                            后台管理员&emsp;
+                            admin&emsp;于&emsp;
+                            2017-11-22 15:05:18&emsp;
+                            「处理退货」&emsp;&emsp;备注：
+                            管理员处理退货单为通过
+                        </td>
+                    </tr>
+                    <tr class="line-height-40">
+                        <td class="text-left">
+                            会员&emsp;
+                            YTREASUREM&emsp;于&emsp;
+                            2017-11-22 15:05:04&emsp;
+                            「申请退货并退款」&emsp;&emsp;备注：
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="padding-tb">
+        <a href="javascript:history.go(-1)" class="button bg-gray border-none">返回</a>
+    </div>
+</div>
+{/block}
+{block name='script'}
+<script src="__STATIC__/admin/js/handle.js"></script>
+<script type="text/javascript">
+    wicket('handle','?s=admin/retreating/index&id={$val.data.id}',280,350)
+</script>
+{/block}

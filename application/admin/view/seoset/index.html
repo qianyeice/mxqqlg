@@ -1,0 +1,91 @@
+{extend name="Template/template" /}
+{block name='title'}{/block}
+{block name="css"}{/block}
+{block name="body"}
+<div action="" method="POST" name="form-validate">
+    <div class="fixed-nav layout">
+        <ul>
+            <li class="first">优化配置<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+            <li class="spacer-gray"></li>
+        </ul>
+        <div class="hr-gray"></div>
+    </div>
+    <div class="content padding-big have-fixed-nav">
+        <div class="form-box clearfix">
+            <div class="form-group ">
+                <span class="label">标题附加字：</span>
+                <div class="box">
+                    <input class="input hd-input" name="name" value="{$sed.captionsuffix}" tabindex="0" datatype="*" nullmsg="请填写信息！" type="text">
+                    <!--<span class="validform_checktip validation-tips"><i></i>请填写信息！</span>-->
+                </div>
+                <p class="desc">网页标题通常是搜索引擎关注的重点，本附加字设置出现在标题中商城名称后，如有关键字，建议用分隔符分隔</p></div>
+            <div class="form-group ">
+                <span class="label">商城关键词：</span>
+                <div class="box">
+                    <input class="input hd-input" name="min_integral" value="{$sed.keywordsofmall}" tabindex="0" datatype="n" type="text">
+                    <span class="validform_checktip"></span>
+                </div>
+                <p class="desc">Keywords项出现在页面头部的标签中，用于记录本页面的关键字，多个关键字请用分隔符分隔</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">关键词描述：</span>
+                <div class="box">
+                    <input class="input hd-input" name="max_integral" value="{$sed.keyworddescription}" tabindex="0"
+                           datatype="n" type="text">
+                    <span class="validform_checktip"></span>
+                </div>
+                <p class="desc">Description出现在页面头部的Meta标签中，用于记录本页面的摘要与描述，建议不超过80个字</p></div>
+
+            <div class="form-group ">
+                <span class="label">其他页头信息：</span>
+                <div class="box">
+                    <textarea class="textarea hd-input" name="description" placeholder="">{$sed.otherheader}</textarea>
+                </div>
+                <p class="desc">如需在中添加其他的HTML代码，可以使用本设置，否则请留空</p>
+            </div>
+        </div>
+        <div class="padding">
+            <input name="dosubmit" class="button bg-main" value="确定" type="submit">
+        </div>
+    </div>
+    <input class="hd-input" name="formhash" value="{$sed.id}" type="hidden">
+</div>
+
+{/block}
+{block name='script'}
+<script type="text/javascript">
+    $(function () {
+        $('div .bg-main').on('click', function () {
+            var array = [];
+            var reg = /\S/;
+            for (var y = 0; y < $('.hd-input').length; y++) {
+                array[y] = $('.hd-input').eq(y).val();
+                $('.hd-input').eq(y).css('border', 'solid 1px #ccc');
+            }
+            if (reg.test(array[0]) && reg.test(array[1]) && reg.test(array[2]) && reg.test(array[3])) {
+                $.post('/?s=admin/seoset/sedupdata', {array: array}, function (data) {
+                    if (data['type'] == '1') {
+                        location.href = '/?s=admin/succeed/index&c=seoset&a=index'
+                    }else if (data['type'] == '0' && data['explain'] == '更新失败'){
+                        location.href = '/?s=admin/succeed/index&c=seoset&a=index&type=1'
+                    }
+                })
+            }else if (!reg.test(array[0])) {
+                nonull(0);
+            }else if (!reg.test(array[1])) {
+                nonull(1);
+            }else if (!reg.test(array[2])) {
+                nonull(2);
+            }else if (!reg.test(array[3])) {
+                nonull(3);
+            }else {
+            }
+
+            function nonull(num) {
+                layer.tips('不能为空！', $('.hd-input').eq(num));
+                $('.hd-input').eq(num).css('border', 'solid 1px red');
+            }
+        })
+    })
+</script>
+{/block}

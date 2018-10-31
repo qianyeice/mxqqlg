@@ -1,0 +1,250 @@
+{extend name="Template/template"/}
+{block name="title"}{/block}
+{block name="css"}
+<link rel="stylesheet" href="__STATIC__/admin/css/Orderdetails.css">
+<link rel="stylesheet" href="__STATIC__/admin/css/Orderdetail.css">
+<link rel="stylesheet" href="__STATIC__/admin/css/Orderdetai.css">
+<link rel="stylesheet" href="__STATIC__/admin/css/Orderdeta.css">
+{/block}
+{block name="js"}
+{/block}
+{block name="body"}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">订单管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li><a class="jump" class="current" href="?s=admin/Orderdetails/init">全部订单</a></li>
+        <li><a class="jump" href="?s=admin/Orderdetails/init&type=1">待付款</a></li>
+        <li><a class="jump" href="?s=admin/Orderdetails/init&type=2">待确认</a></li>
+        <li><a class="jump" href="?s=admin/Orderdetails/init&type=3">待发货</a></li>
+        <li><a class="jump" href="?s=admin/Orderdetails/init&type=4">已发货</a></li>
+        <li><a class="jump" href="?s=admin/Orderdetails/init&type=5">已完成</a></li>
+        <li><a class="jump" href="?s=admin/Orderdetails/init&type=6">已取消</a></li>
+        <li><a class="jump" href="?s=admin/Orderdetails/init&type=7">已回收</a></li>
+        <li><a class="jump" href="?s=admin/Orderdetails/init&type=8">昨日确认收货订单</a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="tips margin-tb">
+        <div class="tips-info border">
+            <h6>温馨提示</h6>
+            <a id="show-tip" data-open="true" href="javascript:;">关闭操作提示</a>
+        </div>
+        <div class="tips-txt padding-small-top layout">
+            <p>- 每一个订单均需要经过确认操作才能进行发货货到付款订单须有商家在后台确认订单完成</p>
+        </div>
+    </div>
+    <div class="hr-gray"></div>
+    <div class="clearfix">
+        <form method="get">
+            <div class="form-group form-layout-rank border-none" style="width: 300px;">
+                <span class="label" style="width: auto;">搜索</span>
+                <div class="box " style="margin-right: 10px">
+                    <div class="field margin-none">
+                        <input id="input_search"class="input" type="text" name="keyword" value="" placeholder="订单号/收货人姓名/收货人手机号/会员帐号"tabindex="1">
+                    </div>
+                </div>
+            </div>
+            <input id="search" class="button bg-sub margin-top fl" style="height: 26px; line-height: 14px;"value="查询">
+        </form>
+        <a class="button bg-sub margin-top fl" style="line-height: 15px; margin-left: 10px;" onclick="method5('tableExcel')">订单导出</a>
+    </div>
+    <div class="table-wrap">
+        <div class="table resize-table paging-table border clearfix"id="tableId">
+            <div class="tr">
+				<span class="th" data-width="15" style="width: 13%">
+						<span class="td-con">订单号</span>
+					</span>
+                <span class="th" data-width="9" style="width: 9%">
+						<span class="td-con">会员帐号</span>
+					</span>
+                <span class="th" data-width="10" style="width: 10%">
+						<span class="td-con">收货人</span>
+					</span>
+                <span class="th" data-width="10" style="width: 10%">
+						<span class="td-con">收货电话</span>
+					</span>
+                <span class="th" data-width="12" style="width: 12%">
+						<span class="td-con">下单时间</span>
+					</span>
+                <span class="th" data-width="8" style="width: 8%">
+						<span class="td-con">订单金额</span>
+					</span>
+                <span class="th" data-width="6" style="width: 6%">
+						<span class="td-con">支付方式</span>
+					</span>
+                <span class="th" data-width="10" style="width: 10%">
+						<span class="td-con">第三方支付流水号</span>
+					</span>
+                <span class="th" data-width="8" style="width: 8%">
+						<span class="td-con">购买类型</span>
+					</span>
+                <span class="th" data-width="8" style="width: 8%">
+						<span class="td-con">订单状态</span>
+					</span>
+                <span class="th" data-width="6" style="width: 6%">
+						<span class="td-con">操作</span>
+					</span>
+            </div>
+            <div class="order-list">
+                <div class="main-order">
+                    {volist name="val.data" id="vo"}
+                    <div class="tr">
+						<span class="td" style="width: 13%;">
+									<span class="td-con">{$vo.sn}</span>
+								</span>
+                        <span class="td" style="width: 9%;">
+									<span class="td-con">{$vo.username}</span>
+								</span>
+                        <span class="td" style="width: 10%">
+									<span class="td-con">{$vo.address_name}</span>
+								</span>
+                        <span class="td" style="width: 10%">
+									<span class="td-con">{$vo.address_mobile}</span>
+								</span>
+                        <span class="td" style="width: 12%">
+									<span class="td-con">{$vo.order_time}</span>
+								</span>
+                        <span class="td" style="width: 8%">
+									<span class="td-con">{$vo.paid_amount}</span>
+                        </span>
+                        <span class="td" style="width: 6%">
+                              {if $vo.pay_type==1}<span class="td-con">在线支付</span>
+                            {else /}<span class="td-con">货到付款</span>
+                           {/if}
+						</span>
+                        <span class="td" style="width: 10%">
+								<span class="td-con">{$vo.pay_sn}</span>
+						</span>
+                        <span class="td" style="width: 8%">
+                            {if $vo.groupbuy_id>0}<span class="td-con">团购购买</span>
+                          {else /}<span class="td-con">普通购买</span>
+                           {/if}
+						</span>
+                        <span class="td" style="width: 8%">
+                            <span class="td-con">
+                             {if $type==1}创建订单
+                            {elseif $type==2/}已付款
+                             {elseif $type==3/}已确认
+                             {elseif $type==4/}已发货 部分发货
+                             {elseif $type==5/}已完成
+                              {elseif $type==6/}已取消
+                              {elseif $type==7/}已回收
+                            {elseif $type==8 /}已完成
+                            {/if}
+                            </span>
+						</span>
+                        <span class="td" style="width: 6%">
+							<span class="td-con">
+								<a href="?s=admin/Orderinformation/index&id={$vo.id}">查看</a>
+							</span>
+						</span>
+                    </div>
+                    {/volist}
+                </div>
+            </div>
+        </div>
+        <!-- 分页 -->
+        {include file="Template/listPage" /}
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script src="__STATIC__/admin/js/tab_url.js"></script>
+<script src="__STATIC__/tableExport.jquery.plugin-master/tableExport.js"></script>
+<Script language="javascript">
+    $(function () {
+        GetRequest()
+    })
+//    function exportExcelWithJS(){
+//        //获取要导出Excel的表格对象并设置tableExport方法，设置导出类型type为excel
+//        $('#tableId').tableExport({
+//            type:'excel'
+//        });
+//    }
+    /**
+     * 点击搜索
+     */
+    $('#search').click(function () {
+        $(window).attr('location','?s=admin/orderdetails/init&val='+$('#input_search').val());
+    })
+</Script>
+
+<script>
+    var idTmr;
+    function  getExplorer() {
+        var explorer = window.navigator.userAgent ;
+        //ie
+        if (explorer.indexOf("MSIE") >= 0) {
+            return 'ie';
+        }
+        //firefox
+        else if (explorer.indexOf("Firefox") >= 0) {
+            return 'Firefox';
+        }
+        //Chrome
+        else if(explorer.indexOf("Chrome") >= 0){
+            return 'Chrome';
+        }
+        //Opera
+        else if(explorer.indexOf("Opera") >= 0){
+            return 'Opera';
+        }
+        //Safari
+        else if(explorer.indexOf("Safari") >= 0){
+            return 'Safari';
+        }
+    }
+    function method5(tableid) {
+        if(getExplorer()=='ie')
+        {
+            var curTbl = document.getElementById(tableid);
+            var oXL = new ActiveXObject("Excel.Application");
+            var oWB = oXL.Workbooks.Add();
+            var xlsheet = oWB.Worksheets(1);
+            var sel = document.body.createTextRange();
+            sel.moveToElementText(curTbl);
+            sel.select();
+            sel.execCommand("Copy");
+            xlsheet.Paste();
+            oXL.Visible = true;
+
+            try {
+                var fname = oXL.Application.GetSaveAsFilename("Excel.xls", "Excel Spreadsheets (*.xls), *.xls");
+            } catch (e) {
+                print("Nested catch caught " + e);
+            } finally {
+                oWB.SaveAs(fname);
+                oWB.Close(savechanges = false);
+                oXL.Quit();
+                oXL = null;
+                idTmr = window.setInterval("Cleanup();", 1);
+            }
+
+        }
+        else
+        {
+            tableToExcel(tableid)
+        }
+    }
+    function Cleanup() {
+        window.clearInterval(idTmr);
+        CollectGarbage();
+    }
+    var tableToExcel = (function() {
+        var uri = 'data:application/vnd.ms-excel;base64,',
+                template = '<html><head><meta charset="UTF-8"></head><body><table>{table}</table></body></html>',
+                base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) },
+                format = function(s, c) {
+                    return s.replace(/{(\w+)}/g,
+                            function(m, p) { return c[p]; }) }
+        return function(table, name) {
+            if (!table.nodeType) table = document.getElementById(table)
+            var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+            window.location.href = uri + base64(format(template, ctx))
+        }
+    })()
+
+</script>
+{/block}

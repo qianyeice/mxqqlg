@@ -1,0 +1,43 @@
+{extend name="Template/template"/}
+{block name="css"}
+{load href="__STATIC__/admin/css/initiator_update.css" /}
+{/block}
+{block name="js"}
+{load href="__STATIC__/admin/js/initiator_update.js" / }
+{/block}
+{block name='body'}
+        <table   >
+
+            <tr>
+                <td i="body" class="ui-dialog-body">
+                    <div i="content" class="ui-dialog-content" style="width: 100%; height: 100%;">
+
+                        <div class="biao"><span> 请选择等级:</span><select
+                                class="dengji">
+                            <option value="3">
+                                发起人
+                            </option>
+                            <option value="2">
+                                合伙人
+                            </option>
+                            <option value="1">
+                                员工
+                            </option>
+                        </select></div>
+
+                        <div class="padding text-right ui-dialog-footer">
+                            <input name="dosubmit" value="确定" class="button bg-main" type="submit" id="{$id}">
+                            <input name="button" value="取消" class="button  bg-gray" data-back="false"
+                                   type="button">
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+
+        </table>
+
+<script type="text/javascript">
+
+</script>
+{/block}

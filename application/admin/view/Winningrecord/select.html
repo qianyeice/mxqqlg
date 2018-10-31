@@ -1,0 +1,252 @@
+{extend name="Template/template" /}
+
+{block name="css"}
+<style>
+    .fang:hover{
+        color:blue;
+        cursor:pointer;
+    }
+</style>
+{/block}
+
+{block name="js"}
+<script>
+
+$(document).on("click",".fang",function () {
+
+    $.ajax({
+        type:"post",
+        dataType:"json",
+        url:"?s=admin/Winningrecord/delet",
+        data:{
+            id:$(this).attr("id")
+        },
+        success:function(){
+            window.location.reload();
+        },
+        error:function(){
+            alert("操作失败，请重试！")
+            window.location.reload();
+        }
+    })
+})
+
+</script>
+{/block}
+{block name="body"}
+<script type="text/javascript">
+    var formhash = "MM0aKI";
+    var SYS_MODULE_NAME = "promotion";
+    var SYS_CONTROL_NAME = "lottery";
+    var SYS_METHOD_NAME = "wins";
+    var menuaddurl = "/index.php?m=admin&c=public&a=ajax_menu_add&formhash=MM0aKI";
+    var menurefreshurl = "/index.php?m=admin&c=public&a=ajax_menu_refresh&formhash=MM0aKI";
+    var menudelurl = '/index.php?m=admin&c=public&a=ajax_diymenu_del&formhash=MM0aKI';
+    var site = {
+        root:'/',
+        app:'/index.php',
+        domain:'/index.php?m=promotion&c=lottery&a=wins&id=1'
+    };
+
+    $(function(){
+
+        $('form').each(function(i, n) {
+            $(this).append('<input type="hidden" name="formhash" value="'+ formhash +'"/>');
+        })
+
+        $("a").each(function() {
+            var _this = $(this);
+            var href = _this.attr('href');
+            if(href && href.indexOf('javascript:') == -1 && href.indexOf('formhash') == -1 && $(this).attr('rel') != 'nofollow') {
+                if(href.indexOf('?') != -1) {
+                    href += '&formhash='+formhash;
+                } else {
+                    href += '?formhash='+formhash;
+                }
+                $(this).attr('href', href);
+            }
+        })
+
+        $("[data-iframe]").live('click', function() {
+            var href = $(this).data('iframe');
+            if(href == true) {
+                href = $(this).attr('href');
+            }
+            var width = $(this).data('iframe-width') || 500;
+            _iframe(href, width);
+            return false;
+        })
+
+
+        $("[data-confirm]").live('click', function() {
+            var message = $(this).data('confirm') || '您确定执行本操作？';
+            return confirm(message);
+        })
+    });
+
+    function _iframe(url, width) {
+        top.dialog({
+            url: url,
+            title: 'loading...',
+            width: width,
+            onclose:function() {
+                //console.log(this.returnValue);
+            }
+        })
+            .showModal();
+    }
+
+    $("form .bg-gray:not([data-back])").live('click',function(){
+        history.go(-1);
+    })
+
+    window.onload = function(){
+        document.onkeydown = function (e) {
+            var ev = window.event || e;
+            var code = ev.keyCode || ev.which;
+            if (code == 116) {
+                if(ev.preventDefault) {
+                    if(document.getElementById("main_frame")){
+                        document.getElementById("main_frame").contentWindow.location.reload(true)
+                    }else{
+                        window.location.reload();
+                    }
+                    ev.preventDefault();
+                } else {
+                    if(document.getElementById("main_frame")){
+                        document.getElementById("main_frame").contentWindow.location.reload(true)
+                    }else{
+                        window.location.reload();
+                    }
+                    ev.keyCode = 0;
+                    ev.returnValue = false;
+                }
+            }
+        }
+    }
+
+</script>
+<script type="text/javascript" src="./statics/js/goods/goods_list.js"></script>
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">活动抽奖管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li><a href="./index.php?s=admin/luckdrow/index">抽奖活动列表</a></li>
+        <li><a class="current" href="?s=admin/Lottery_prize_lists/lists">中奖记录</a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="hr-gray"></div>
+    <div class="clearfix">
+        <form action="?s=admin/Winningrecord/selec" method="post" >
+            <input type="hidden" name="m" value="promotion" />
+            <input type="hidden" name="c" value="lottery" />
+            <input type="hidden" name="a" value="wins" />
+            <input type="hidden" name="id" value="1" />
+            <div class="form-group form-layout-rank border-none" style="width: 300px;">
+                <div class="box ">
+                    <div class="field margin-none">
+                        <input class="input" type="text" name="username" value="" placeholder="中奖用户昵称" tabindex="1">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group form-layout-rank border-none" style="width: 300px;">
+                <div class="box ">
+                    <div class="field margin-none">
+                        <input class="input" type="text" name="mobile" value="" placeholder="手机号" tabindex="1">
+                    </div>
+                </div>
+            </div>
+            <input type="submit" class="button bg-sub margin-top fl" style="height: 26px; line-height: 14px;" value="查询">
+        </form>
+    </div>
+    <div class="table-work border margin-tb">
+    </div>
+    <div class="table resize-table paging-table border clearfix">
+        <div class="tr">
+			<span class="th" data-width="25" style="width: 10%;">
+				<span class="td-con">奖品名称</span>
+			</span>
+            <span class="th" data-width="10" style="width:10%;">
+				<span class="td-con">奖品类型</span>
+			</span>
+            <span class="th" data-width="15" style="width: 10%;">
+				<span class="td-con">中奖用户</span>
+			</span>
+            <span class="th" data-width="10" style="width: 20%;">
+				<span class="td-con">手机号</span>
+			</span>
+            <span class="th" data-width="20" style="width: 20%;">
+				<span class="td-con">中奖时间</span>
+			</span>
+            <span class="th" data-width="10" style="width: 10%;">
+				<span class="td-con">发放状态</span>
+			</span>
+            <span class="th" data-width="10" style="width: 20%;">
+						<span class="td-con">操作</span>
+					</span>
+        </div>
+        {volist name="data" id="vo"}
+        <div class="tr">
+            <span class="td" style="width: 10%;">
+						<span class="td-con">{$vo.name}</span>
+					</span>
+            <span class="td" style="width: 10%;">
+						<span class="td-con">{$vo.prize_type}</span>
+					</span>
+            <span class="td" style="width: 10%;">
+						<span class="td-con">{$vo.username}</span>
+					</span>
+            <span class="td" style="width:20%;">
+						<span class="td-con">{$vo.mobile}</span>
+					</span>
+            <span class="td" style="width: 20%;">
+						<span class="td-con">{$vo.time}</span>
+					</span>
+            <span class="td" style="width: 10%;">
+						<span class="td-con">
+                             {if $vo.grant_type==1}已发放
+
+                              </span>
+					</span>
+             <span class="td" style="width:20%;">
+						<span class="td-con"></span>
+			</span>
+                   {else /} 未发放
+
+            </span>
+            </span>
+            <span class="td" style="width:20%;">
+						<span class="fang td-con" id="{$vo.member_id}">发放</span>
+			</span>
+                {/if}
+
+
+        </div>
+        {/volist}
+
+
+    </div>
+</div>
+<script>
+    var ajax_name = "/index.php?m=promotion&c=lottery&a=ajax_name";
+    $(".table").resizableColumns();
+    $(".table").fixedPaging();
+    $("a.send_prize").click(function() {
+        top.dialog({
+            url: $(this).attr("data-url"),
+            title: '奖品发放',
+            width: 460,
+            onclose:function() {
+                if(this.returnValue) {
+                    window.location.href = this.returnValue.referer;
+                }
+            }
+        })
+            .showModal();
+    });
+
+</script>
+
+{/block}

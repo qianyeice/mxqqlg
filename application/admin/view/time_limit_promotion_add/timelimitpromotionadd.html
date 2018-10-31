@@ -1,0 +1,532 @@
+{extend name="Template/template" /}
+{block name='body'}
+<style type="text/css">
+    .float {
+        float: left;
+        width: 200px;
+        height: 200px;
+        overflow: hidden;
+        border: 1px solid #CCCCCC;
+        border-radius: 10px;
+        padding: 5px;
+        margin: 5px;
+    }
+
+    img {
+        position: relative;
+    }
+
+    .result {
+        width: 200px;
+        height: 200px;
+        text-align: center;
+        box-sizing: border-box;
+
+    }
+
+    .container {
+        float: left;
+    }
+
+    #file_input {
+        display: none;
+    }
+
+    .delete {
+        width: 200px;
+        height: 200px;
+        position: absolute;
+        text-align: center;
+        line-height: 200px;
+        z-index: 10;
+        font-size: 30px;
+        background-color: rgba(255, 255, 255, 0.8);
+        color: #777;
+        opacity: 0;
+        transition-duration: 0.7s;
+        -webkit-transition-duration: 0.7s;
+    }
+
+    .delete:hover {
+        cursor: pointer;
+        opacity: 1;
+    }
+
+
+</style>
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">限时促销管理<!--添加--><a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li><a class="current" href="javascript:;"></a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+
+<div class="content have-fixed-nav padding-big ">
+
+    <div class="form-box clearfix">
+        <input type="hidden" name="id" value=""/>
+        <div class="form-group "><span class="label">促销名称：</span>
+            <div class="box">
+                <input class="input hd-input promotion_name" type="text" name="name" value="" tabindex="0"/>
+            </div>
+            <p class="desc">请输入促销名称</p></div>
+
+        <div class="form-group "><span class="label">开始时间：</span>
+            <div class="box">
+                <input class="input laydate-icon hd-input promotion_start_time" type="text" name="start_time"
+                       id="start_time" value="" placeholder="YYYY-MM-DD hh:mm:ss" tabindex="0">
+
+            </div>
+            <p class="desc">促销开始时间</p></div>
+        <div class="form-group "><span class="label">结束时间：</span>
+            <div class="box">
+                <input class="input laydate-icon hd-input promotion_end_time" type="text" name="end_time" id="end_time"
+                       value="" placeholder="YYYY-MM-DD hh:mm:ss" tabindex="0">
+
+            </div>
+            <p class="desc">促销结束时间</p></div>
+
+        <div class="form-group "><span class="label">限购数量：</span>
+            <div class="box"><input class="input hd-input " type="text" name="limit_num" value="0" tabindex="0"/></div>
+            <p class="desc">活动限购数量</p></div>
+        <div class="form-group "><span class="label">剩余库存：</span>
+            <div class="box"><input class="input hd-input " type="text" name="remain_sku_num" value="0" tabindex="0"/>
+            </div>
+            <p class="desc">活动剩余商品库存</p></div>
+        <div class="form-group "><span class="label">前台显示分类：</span>
+            <div class="box"><input class="input laydate-icon hd-input promotion_start_time" type="text" name="fname"
+                                    value="" placeholder="保健产品,家用产品"/></div>
+            <p class="desc">前台显示分类与图片对应 “，”隔开</p>
+        </div>
+        <div class="form-group "><span class="label">前台显示名称：</span>
+            <div class="box"><input class="input laydate-icon hd-input promotion_start_time" type="text" name="xname"
+                                    value="" placeholder="桃胶,面膜"/></div>
+            <p class="desc">前台显示名称与图片对应 “，”隔开</p>
+        </div>
+        <div class="container">
+            <label>请选择一个图像文件：</label>
+            <button id="select">(重新)选择图片</button>
+            <button id="add">(追加)图片</button>
+            <input type="file" id="file_input" multiple/> <!--用input标签并选择type=file，记得带上multiple，不然就只能单选图片了-->
+        </div>
+        <div id="contu">
+
+        </div>
+        <div class="form-group "><span class="label">是否在前台显示：</span>
+            <div class="box"><label class="select-wrap"><input class="select-btn" type="radio" name="if_show" value="0"
+                                                               checked/>不显示</label><label class="select-wrap"><input
+                    class="select-btn" type="radio" name="if_show" value="1"/>显示</label><br/></div>
+            <p class="desc">再添加阶段避免被前台看到</p>
+        </div>
+
+    </div>
+    <div class="padding">
+        <div class="table-work border margin-tb">
+            <div class="border border-white tw-wrap">
+                <a class="choose-goods" href="javascript:;" onclick="Choice()"><i class="ico_add"></i>选择商品</a>
+                <div class="spacer-gray"></div>
+            </div>
+        </div>
+        <div class="table resize-table border high-table clearfix " id="data_frame">
+            <div class="tr border-none">
+                <div class="th" data-width="30" style="width: 30%;">
+                    <span class="td-con">商品名称</span>
+                </div>
+                <div class="th" data-width="20" style="width: 20%;">
+                    <span class="td-con">原价</span>
+                </div>
+                <div class="th" data-width="10" style="width: 10%;">
+                    <span class="td-con">库存</span>
+                </div>
+                <div class="th" data-width="10" style="width: 10%;">
+                    <span class="td-con">活动库存</span>
+                </div>
+                <div class="th" data-width="15" style="width: 15%;">
+                    <span class="td-con">优惠价格</span>
+                </div>
+                <div class="th" data-width="15" style="width: 15%;">
+                    <span class="td-con">操作</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="padding">
+        <input type="submit" class="button bg-main" id="submit" value="保存"/>
+        <a class="button margin-left bg-gray" href="javascript:" onclick="Return_page()">返回</a>
+    </div>
+</div>
+
+<script>
+    var url = new Array();
+    $(".filee").change(function () {
+        var objUrl = getObjectURL(this.files[0]);//临时路径
+        url.push(objUrl);
+        for (var a = 0; a < 1; a++) {
+            var tud = $(this).parents('.loadpic').prev('.boxtop').children('.tu');
+            tud.show();
+            // console.log(tud);
+            tud.append('<div style="float: left" onclick="removediv()" class="divmove"><img  src="' + objUrl + '">' +
+                '<button style="position: relative;width: 20px;right: 10px ;top: -41px;"><h1>X</h1></button></div>')
+        }
+        // console.log(url);
+    });
+    // $(function () {
+    //     $('.divmove').click(function () {
+    //         alert(1);
+    //         $(this).parent().remove();
+    //     });
+    // });
+
+    function removediv() {
+        // console.log($('.removeimg').parents().find('.divmove'));
+        $(this).parent('.divmove').remove();
+        // $(this).remove();
+    }
+
+
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+//        开始时间
+        laydate.render({
+            elem: '#start_time' //指定元素
+            , type: 'datetime'
+        });
+//        结束时间
+        laydate.render({
+            elem: '#end_time' //指定元素
+            , type: 'datetime'
+        });
+    });
+
+</script>
+{load href="__STATIC__/admin/js/merchandise.js" /}
+{/block}
+{block name='script'}
+<script type="text/javascript">
+    $array = {};
+    $(function () {
+        //        图片
+        var input = document.getElementById("file_input");
+        var result;
+        var dataArr = []; // 储存所选图片的结果(文件名和base64数据)
+        var fd;  //FormData方式发送请求
+        var oSelect = document.getElementById("select");
+        var oAdd = document.getElementById("add");
+        var oSubmit = document.getElementById("submit");
+        var oInput = document.getElementById("file_input");
+
+        if (typeof FileReader === 'undefined') {
+            alert("抱歉，你的浏览器不支持 FileReader");
+            input.setAttribute('disabled', 'disabled');
+        } else {
+            input.addEventListener('change', readFile, false);
+        }　　　　　//handler
+
+
+        function readFile() {
+            fd = new FormData();
+            var iLen = this.files.length;
+            var index = 0;
+            for (var i = 0; i < iLen; i++) {
+                if (!input['value'].match(/.jpg|.gif|.png|.jpeg|.bmp/i)) {　　//判断上传文件格式
+                    return alert("上传的图片格式不正确，请重新选择");
+                }
+                var reader = new FileReader();
+                reader.index = i;
+                fd.append(i, this.files[i]);
+                reader.readAsDataURL(this.files[i]);  //转成base64
+                reader.fileName = this.files[i].name;
+
+
+                reader.onload = function (e) {
+                    var imgMsg = {
+                        name: this.fileName,//获取文件名
+                        base64: this.result   //reader.readAsDataURL方法执行完后，base64数据储存在reader.result里
+                    }
+                    dataArr.push(imgMsg);
+                    result = '<div class="delete">删除</div><div class="result"><img src="' + this.result + '" alt=""/></div>';
+                    var div = document.createElement('div');
+                    div.innerHTML = result;
+                    div['className'] = 'float';
+                    div['index'] = index;
+                    document.getElementById('contu').appendChild(div);  　　//插入dom树
+                    var img = div.getElementsByTagName('img')[0];
+                    img.onload = function () {
+                        var nowHeight = ReSizePic(this); //设置图片大小
+                        this.parentNode.style.display = 'block';
+                        var oParent = this.parentNode;
+                        if (nowHeight) {
+                            oParent.style.paddingTop = (oParent.offsetHeight - nowHeight) / 2 + 'px';
+                        }
+                    }
+
+
+                    div.onclick = function () {
+                        this.remove();                  // 在页面中删除该图片元素
+                        delete dataArr[this.index];  // 删除dataArr对应的数据
+
+                    }
+                    index++;
+                }
+            }
+        }
+
+
+        function send() {
+
+
+            submitArr = [];
+            for (var i = 0; i < dataArr.length; i++) {
+                if (dataArr[i]) {
+                    submitArr.push(dataArr[i]);
+//
+                }
+            }
+            // console.log('提交的数据：'+JSON.stringify(submitArr))
+//            $.ajax({
+//                url : 'http://123.206.89.242:9999',
+//                type : 'post',
+//                data : JSON.stringify(submitArr),
+//                dataType: 'json',
+//                //processData: false,   用FormData传fd时需有这两项
+//                //contentType: false,
+//                success : function(data){
+//                    console.log('返回的数据：'+JSON.stringify(data))
+//                }
+//
+//            })
+
+        }
+
+
+        oSelect.onclick = function () {
+            oInput.value = "";   // 先将oInput值清空，否则选择图片与上次相同时change事件不会触发
+            //清空已选图片
+            $('.float').remove();
+            dataArr = [];
+            index = 0;
+            oInput.click();
+        }
+
+
+        oAdd.onclick = function () {
+            oInput.value = "";   // 先将oInput值清空，否则选择图片与上次相同时change事件不会触发
+            oInput.click();
+        }
+
+
+        oSubmit.onclick = function () {
+            if (!dataArr.length) {
+                return alert('请先选择文件');
+            }
+            send();
+        }
+
+        /*
+         用ajax发送fd参数时要告诉jQuery不要去处理发送的数据，
+         不要去设置Content-Type请求头才可以发送成功，否则会报“Illegal invocation”的错误，
+         也就是非法调用，所以要加上“processData: false,contentType: false,”
+         * */
+
+
+        function ReSizePic(ThisPic) {
+            var RePicWidth = 200; //这里修改为您想显示的宽度值
+
+            var TrueWidth = ThisPic.width; //图片实际宽度
+            var TrueHeight = ThisPic.height; //图片实际高度
+
+            if (TrueWidth > TrueHeight) {
+                //宽大于高
+                var reWidth = RePicWidth;
+                ThisPic.width = reWidth;
+                //垂直居中
+                var nowHeight = TrueHeight * (reWidth / TrueWidth);
+                return nowHeight;  //将图片修改后的高度返回，供垂直居中用
+            } else {
+                //宽小于高
+                var reHeight = RePicWidth;
+                ThisPic.height = reHeight;
+            }
+        }
+
+//        结束
+    })
+    function Choice() {
+        layer.open({
+            type: 2,
+            title: '加载中',
+            shadeClose: true,
+            shade: 0.8,
+            area: ['880px', '500px'],
+            content: '?s=admin/time_limit_promotion/choice_spu', //iframe的url
+            end: function () {
+                $array=JSON.parse(localStorage.spuzu);
+                if (typeof localStorage.spuzu == "string") {
+                    for (i = 0; i < $array.length; i++) {
+                        if ($array[i] != null) {
+                            $("#data_frame").append(spu_txt($array[i]))
+                        }
+                    }
+                    $arra={}
+                    $arr = new Array();
+                    $('.Active_inventory').each(function (key, value) {
+                        $arr[key] = $(this).val();
+                    });
+                    $flag = 0;
+                    for ($i = 0; $i < $arr.length; $i++) {
+                        if ($arr[$i] == "") {
+                            $arr[$i] = 0;
+                        }
+                        $flag += parseInt($arr[$i]);
+                    }
+                    $(".promotion_surplus_stock").attr("value", $flag);
+
+                    if ($flag < parseInt($(".promotion_Sales_stock").val())) {
+                        alert("限购数量大于活动剩余商品量，请及时调配！")
+                    }
+
+                    $("#submit").click(function () {
+
+                        $id = [];$num=[];$jiage=[]
+                        $('.-id').each(function (key) {
+
+                            $id[key] = $(this).attr('data-id');
+                            $arra['sku_id'] = $id
+                        })
+
+                        $('input[name="num[]"]').each(function (key) {
+
+                            $num[key] = $(this).val();
+                            $arra['num'] = $num
+                        })
+
+                        $('input[name="jiage[]"]').each(function (key) {
+
+                            $jiage[key] = $(this).val();
+                            $arra['jiage'] = $jiage
+                        })
+                        $name = $(".promotion_name").val()
+                        if (!$name.length > 0) {
+                            layer.msg("请输入促销名");
+                            return false;
+                        }
+                        $arra["name"] = $name;
+                        $fname = $(".input[name=fname]").val()
+                        if (!$fname.length > 0) {
+
+                            return false;
+                        }
+                        $arra["fname"] = $fname;
+                        $xname = $(".input[name=xname]").val()
+                        if (!$xname.length > 0) {
+
+                            return false;
+                        }
+                        $arra["xname"] = $xname;
+                        $promotion_start_time = $(".promotion_start_time").val();
+                        if (!$promotion_start_time.length > 0) {
+                            layer.msg("请输入活动开始时间");
+                            return false;
+                        }
+                        $arra["start_time"] = $promotion_start_time;
+                        $promotion_end_time = $(".promotion_end_time").val();
+                        if (!$promotion_end_time.length > 0) {
+                            layer.msg("请输入活动结束时间");
+                            return false;
+                        }
+                        $arra["end_time"] = $promotion_end_time
+                        $arra["is_display"] = $(".select-btn:checked").val();
+                        $arra["number"] = $("input[name=limit_num]").val();
+                        $arra["remain_sku_num"] = $("input[name=remain_sku_num]").val();
+                        $arra['img']=JSON.stringify(submitArr);
+                        var mmp = $arra;
+                        $.ajax({
+                            url: "?s=admin/time_limit_promotion_add/promotion_Add",
+                            type: "post",
+                            data: {prod: mmp},
+                            success: function (data) {
+                                layer.msg(data['lang'])
+                                setTimeout(function () {
+                                window.location.href="javascript:history.go(-1)";
+                                }, 2000)
+                            },
+                            error: function () {
+                                layer.msg('网络错误,请稍后重试');
+                            }
+                        })
+                    })
+                }
+            }
+        });
+    }
+    function spu_txt(a) {
+        var string = '<div class="tr sku_lists sku_id" style="visibility: visible" data-skuid=' + a["id"] + ' >' +
+            '<div class="td w30" style="width:30%">' +
+            '<div class="td-con td-pic text-left">' +
+            '<div class="pic" style="margin-top: 0px"><img src=' + a["thumb"] + ' /></div>' +
+            '<div class="title">' +
+            '<p class="text-ellipsis padding-small-left">名称:' + a["name"] + '</p>' +
+            '<p >&nbsp商品规格:' + a["sku_name"] + '</p>' +
+            '</div>' +
+            '<div class="icon">' +
+            '<p class="text-ellipsis"><span class="text-sub"></span></p>' +
+            ' </div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="td w20 price" style="width:20%">' +
+            '<div class="td-con -id" data-id=' + a["id"] + ' data-price=' + a["shop_price"] + ' data-number=' + a["spu_number"] + '>' + a["shop_price"] + '  </div>' +
+            '</div>' +
+            '<div class="td w10 " style="width:10%">' +
+            '<div class="td-con">' + a["spu_number"] + '<input name="goods_sku[' + a["id"] + ']" type="hidden" value=' + a["spu_number"] + '/></div>' +
+            ' </div>' +
+            '<div class="td w10" style="width:10%">' +
+            '<div class="td-con">' +
+            '<div class="padding-top padding-small-bottom"></div>' +
+            '<input class="input double-click-edit text-ellipsis text-center Active_inventory" name="num[]"  type="text" value="" data-reset="false" />' +
+            '</div>' +
+            '</div>' +
+            '<div class="td w15" style="width:15%">' +
+            '<div class="td-con">' +
+            '<div class="padding-top padding-small-bottom"></div>' +
+            '<input class="input double-click-edit text-ellipsis text-center Price_modification" name="jiage[]" type="text" value="" data-reset="false" />' +
+            '</div>' +
+            '</div>' +
+            '<div class="td w15" style="width:15%">' +
+            '<div class="td-con"><a class="remove-tr" href="javascript:" onclick="spu_remove(this)">移除</a></div>' +
+            '</div>' +
+            '</div>'
+
+        return string;
+    }
+    function spu_remove(a) {
+//        var promotionID={$_GET["id"]?$_GET["id"]:''};
+        layer.confirm('你确定要删除吗？', {
+            btn: ['是的', '取消'] //按钮
+        }, function () {
+            var sku_id = $(a).parents(".sku_id").attr("data-skuid")
+            $.ajax({
+                url: "?s=admin/time_limit_promotion/remove",
+                type: "post",
+                data: {id: sku_id},
+                success: function (data) {
+                    layer.msg(data["lang"]);
+                    if (data["type"] == 1) {
+                        $(a).parents(".sku_id").remove();
+                    }
+                },
+                error: function () {
+                    layer.msg('网络错误,请稍后重试');
+                }
+            })
+        });
+    }
+
+    function Return_page() {
+        window.location.href = "?s=admin/time_limit_promotion/index"
+    }
+</script>
+{/block}

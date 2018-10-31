@@ -1,0 +1,172 @@
+{extend name="Template/template"/}
+{block name="css"}
+{load href="__STATIC__/admin/css/validate.css" /}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<!--标题-->
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">微信手机支付设置</li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<!--主体-->
+{if ($type == 1)}
+<div class="content padding-big have-fixed-nav">
+    <div name="form" action="" method="POST">
+        <div class="form-box clearfix">
+            <div class="form-group ">
+                <span class="label">APPID</span>
+                <div class="box">
+                    <input class="input hd-input" type="text" name="config[appid]" value="{$all.appID}" tabindex="0"
+                           datatype="*" nullmsg="请填写信息！">
+                    <span class="validform_checktip validation-tips"><i></i>请填写信息！</span>
+                </div>
+                <p class="desc">appid是微信公众账号或开放平台APP的唯一标识</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">微信支付商户号(mch_id)</span>
+                <div class="box">
+                    <input class="input hd-input" type="text" name="config[mch_id]" value="{$all.mch_id}" tabindex="0"
+                           datatype="*">
+                    <span class="validform_checktip"></span>
+                </div>
+                <p class="desc">商户申请微信支付后，由微信支付分配的商户收款账号。</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">API密钥(key)</span>
+                <div class="box">
+                    <input class="input hd-input" type="text" name="config[key]" value="{$all.key}" tabindex="0"
+                           datatype="*">
+                    <span class="validform_checktip"></span>
+                </div>
+                <p class="desc">交易过程生成签名的密钥</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">Appsecret</span>
+                <div class="box">
+                    <input class="input hd-input" type="text" name="config[secret]" value="{$all.Appsecret}"
+                           tabindex="0" datatype="*">
+                    <span class="validform_checktip"></span>
+                </div>
+                <p class="desc">AppSecret是APPID对应的接口密码，用于获取接口调用凭证access_token时使用</p>
+            </div>
+            <input type="hidden" name="pay_code" value="wechat_js">
+            <input type="hidden" name="pay_name" value="微信手机支付">
+            <input type="hidden" name="pay_desc" value="微信手机支付是通过微信端下单并使用微信进行支付的移动支付方式 ，仅支持微信中使用。">
+            <input type="hidden" name="enabled" value="0">
+            <input type="hidden" name="isonline" value="1">
+            <input type="hidden" name="applie" value="wap">
+            <input type="hidden" name="sort" value="6">
+            <input type="hidden" name="version" value="1.0">
+            <input type="hidden" name="pay_install" value="0">
+        </div>
+        <div class="padding">
+            <input type="submit" name="dosubmit" class="button bg-main" value="保存">
+            <a id="returna" href="javascript:;" class="button margin-left bg-gray">返回</a>
+        </div>
+        <input class="hd-input" type="hidden" name="formhash" value="{$all.operation}">
+        <input class="hd-input" type="hidden" name="formhash" value="{$all.id}">
+    </div>
+</div>
+{else /}
+<div class="content padding-big have-fixed-nav">
+    <div name="form" action="" method="POST">
+        <div class="form-box clearfix">
+            <div class="form-group ">
+                <span class="label">APPID</span>
+                <div class="box">
+                    <input class="input hd-input" type="text" name="config[appid]" value="" tabindex="0" datatype="*"
+                           nullmsg="请填写信息！">
+                    <span class="validform_checktip validation-tips"><i></i>请填写信息！</span>
+                </div>
+                <p class="desc">appid是微信公众账号或开放平台APP的唯一标识</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">微信支付商户号(mch_id)</span>
+                <div class="box">
+                    <input class="input hd-input" type="text" name="config[mch_id]" value="" tabindex="0" datatype="*">
+                    <span class="validform_checktip"></span>
+                </div>
+                <p class="desc">商户申请微信支付后，由微信支付分配的商户收款账号。</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">API密钥(key)</span>
+                <div class="box">
+                    <input class="input hd-input" type="text" name="config[key]" value="" tabindex="0" datatype="*">
+                    <span class="validform_checktip"></span>
+                </div>
+                <p class="desc">交易过程生成签名的密钥</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">Appsecret</span>
+                <div class="box">
+                    <input class="input hd-input" type="text" name="config[secret]" value="" tabindex="0" datatype="*">
+                    <span class="validform_checktip"></span>
+                </div>
+                <p class="desc">AppSecret是APPID对应的接口密码，用于获取接口调用凭证access_token时使用</p>
+            </div>
+            <input type="hidden" name="pay_code" value="wechat_js">
+            <input type="hidden" name="pay_name" value="微信手机支付">
+            <input type="hidden" name="pay_desc" value="微信手机支付是通过微信端下单并使用微信进行支付的移动支付方式 ，仅支持微信中使用。">
+            <input type="hidden" name="enabled" value="0">
+            <input type="hidden" name="isonline" value="1">
+            <input type="hidden" name="applie" value="wap">
+            <input type="hidden" name="sort" value="6">
+            <input type="hidden" name="version" value="1.0">
+            <input type="hidden" name="pay_install" value="0">
+        </div>
+        <div class="padding">
+            <input type="submit" name="dosubmit" class="button bg-main" value="保存">
+            <a id="returna" href="javascript:;" class="button margin-left bg-gray">返回</a>
+        </div>
+        <input class="hd-input" type="hidden" name="formhash" value="{$array.op}">
+        <input class="hd-input" type="hidden" name="formhash" value="{$array.id}">
+    </div>
+</div>
+{/if}
+
+{/block}
+{block name='script'}
+<script type="text/javascript">
+    $(function () {
+        $('#returna').click(function () {
+            history.go(-1)
+        });
+        $('.bg-main').on('click', function () {
+            var array = [];
+            var reg = /\S/;
+            for (var y = 0; y < ($('.hd-input').length); y++) {
+                array[y] = $('.hd-input').eq(y).val();
+                $('.hd-input').eq(y).css('border', 'solid 1px #ccc');
+            }
+            if (reg.test(array[0]) && reg.test(array[1]) && reg.test(array[2]) && reg.test(array[3])) {
+                $.post('/?s=admin/paymentadd/upupdata', {array: array}, function (data) {
+                    if (data['type'] == '1') {
+                        location.href = '/?s=admin/succeed/index&c=payment&a=index'
+                    } else if (data['type'] == '0' && data['explain'] == '更新失败') {
+                        location.href = '/?s=admin/succeed/index&c=payment&a=index&type=1'
+                    }
+                })
+            } else if (!reg.test(array[0])) {
+                nonull(0);
+            } else if (!reg.test(array[1])) {
+                nonull(1);
+            } else if (!reg.test(array[2])) {
+                nonull(2);
+            } else if (!reg.test(array[3])) {
+                nonull(3);
+            } else {
+            }
+
+            function nonull(num) {
+                layer.tips('不能为空！', $('.hd-input').eq(num));
+                $('.hd-input').eq(num).css('border', 'solid 1px red');
+            }
+        })
+    })
+</script>
+{/block}

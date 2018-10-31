@@ -1,0 +1,102 @@
+{extend name="Template/template" /}
+{block name='title'}权限管理{/block}
+{block name="css"}{/block}
+{block name="js"}
+{/block}
+{block name="body"}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">权限管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a href="?s=admin/adminmember/add&id=0"><i class="ico_add"></i>添加</a>
+
+
+            <div class="spacer-gray"></div>
+        </div>
+    </div>
+    <div class="table resize-table check-table border clearfix" style="width: 100%;">
+        <div class="tr resize-th" style="visibility: visible;">
+					<span class="th check-option" data-resize="false">
+						<span><input id="check-all" type="checkbox"></span>
+					<span class="spacer"></span><span class="spacer"></span></span>
+            <span class="th" data-width="20" style="width:20%">
+						<span class="td-con">管理员</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+            <span class="th" data-width="50" style="width: 40%">
+						<span class="td-con">权限描述</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+            <span class="th" data-width="10" style="width: 20%">
+						<span class="td-con"> 是否为商家</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span></span>
+            <span class="th" data-width="20" style="width: 20%">
+						<span class="td-con">操作</span>
+					</span>
+        </div>
+        {volist name='da' id='vo'}
+        <div class="tr" style="visibility: visible;">
+            <div class="td check-option r0">
+                -
+            </div>
+            <span class="td r1" style="width:20%">
+						<span class="td-con">{$vo.username}</span>
+					</span>
+            <span class="td r2" style="width: 40%;">
+						<span class="td-con">{$vo.text}</span>
+					</span>
+            <span class="td r3" style="width: 20%">
+				{if ($vo.is_supplier==1)}
+                是
+                {else /}
+                不是
+                {/if}
+													</span>
+            <span class="td r4" style="width:20%">
+                 {if $vo.id!=1}
+                <span class="td-con"><a href="?s=admin/adminmember/add&id={$vo.id}">编辑</a></span>
+                <span class="td-con"><a href="?s=admin/adminmember/upda&id={$vo.id}">删除</a></span>
+                {else /}
+                <span class="td-con">超级管理员不可操作</span>
+                {/if}
+											</span>
+        </div>
+        {/volist}
+    </div>
+    <div class="layout" id="table-get-width"></div>
+</div>
+<script>
+    var status = true;
+    var post_status_url = "/index.php?m=admin&c=admin_group&a=ajax_status";
+    $(".table").resizableColumns();
+    $(window).load(function () {
+        $(".table .ico_up_rack").bind('click', function () {
+            if (ajax_status($(this).attr('data-id')) == 'true') {
+                if (!$(this).hasClass("cancel")) {
+                    $(this).addClass("cancel");
+                } else {
+                    $(this).removeClass("cancel");
+                }
+            }
+        });
+        //改变状态
+        function ajax_status(id) {
+            $.post(post_status_url, {'id': 1, 'formhash': formhash}, function (data) {
+                if (data.status == 1) {
+                    status = true;
+                } else {
+                    status = false;
+                }
+            }, 'json');
+
+            return status;
+        }
+    })
+</script>
+
+
+{/block}

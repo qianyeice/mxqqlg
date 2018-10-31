@@ -1,0 +1,59 @@
+{extend name="Template/template"/}
+{block name="css"}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<div class="form-box border-bottom-none order-eidt-popup clearfix">
+    <div class="form-group "><span class="label"></span>
+        <div class="box">
+            <label class="select-wrap"><input class="select-btn" type="radio" name="isrefund"
+                                              value="1">退款到账户余额</label><br>
+            <label class="select-wrap"><input class="select-btn" type="radio" name="isrefund" value="2" checked="">按支付方式原路退回</label><br>
+        </div>
+    </div>
+    <div class="box margin-small-bottom">
+				<span class="text-mix">
+				温馨提示：
+				原路退回时须退还
+				余额: {$val.data[0]['paid_amount']}
+                </span>
+    </div>
+    <div class="form-group "><span class="label">是否确认取消订单：</span>
+        <div class="box"><textarea class="textarea hd-input" name="msg" placeholder="请填写订单操作日志（选填）"></textarea></div>
+    </div>
+</div>
+<div class="padding text-right ui-dialog-footer">
+    <input type="submit" class="button bg-main" id="okbtn" value="确定" data-name="dosubmit" data-reset="false">
+    <input type="button" class="button margin-left bg-gray" id="closebtn" value="取消" data-reset="false">
+</div>
+<input type="hidden" id="order_id" value="{$val.data[0]['id']}">
+<input type="hidden" id="mid" value="{$val.data[0]['buyer_id']}">
+<input type="hidden" id="sku_name" value="{$val.data[0]['sku_name']}">
+<input type="hidden" id="paid_amount" value="{$val.data[0]['paid_amount']}">
+<input type="hidden" id="spec" value="{$val.data[0]['spec']}">
+<input type="hidden" id="img" value="{$val.data[0]['img']}">
+{/block}
+{block name='script'}
+<script src="__STATIC__/admin/js/handle.js"></script>
+<script>
+    var index = parent.layer.getFrameIndex(window.name)
+    $('#okbtn').click(function () {
+        $.post('?s=admin/Cancelpayment/ajax_cancel_payment',{
+            'id':$('#order_id').val(),
+            'mid':$('#mid').val(),
+            'sku_name':$('#sku_name').val(),
+            'spec':$('#spec').val(),
+            'img':$('#img').val()
+        },function (data) {
+            if(data.type==1){
+                layer.alert(data.lang, {icon: 1, title: "提示"});
+                refresh(index)
+            }else {
+                layer.alert(data.lang,{icon: 0, title: "提示"});
+                refresh(index)
+            }
+        })
+    })
+</script>
+{/block}

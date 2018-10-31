@@ -1,0 +1,91 @@
+{extend name="Template/template"/}
+{block name="css"}
+{load href="__STATIC__/admin/css/initiator.css" /}
+{/block}
+{block name="js"}
+{load href="__STATIC__/admin/js/initiator.js" / }
+{/block}
+{block name='body'}
+
+<script type="text/javascript">
+
+</script>
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">会员管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="member-list-search clearfix">
+
+        <a class="button " href="?s=admin/Partner/index" style="background-color:#1388CA;color:white;">返回上一页</a>
+
+    </div>
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a href="javascript:;" class="yin" bi="1"><i class="ico_add"></i>添加</a>
+            <div class="spacer-gray"></div>
+            <a href="?s=admin/Initiator/impower"><i class="ico_add" ></i>授权</a>
+            <!--<a href=""><i class="ico_out"></i>导出</a>
+            <div class="spacer-gray"></div>-->
+        </div>
+    </div>
+    <div class="table-wrap member-info-table">
+        <div class="table resize-table paging-table check-table high-table border clearfix">
+            <div class="tr">
+                <span class="th check-option" data-resize="false"><span>
+                    <input id="check-all" type="checkbox"/></span></span>
+                <span class="th" data-width="12" style="width: 16%;">
+						<span class="td-con">会员</span>
+					</span>
+                <span class="th" data-width="10" style="width: 16%;">
+						<span class="td-con">等级</span>
+					</span>
+                <span class="th" data-width="15" style="width: 20%;">
+						<span class="td-con">分成金额</span>
+					</span>
+                <span class="th" data-width="25" style="width: 16%;">
+						<span class="td-con">区域</span>
+					</span>
+                <span class="th" data-width="20" style="width: 16%;">
+						<span class="td-con">注册时间</span>
+					</span>
+                <span class="th" data-width="12" style="width: 16%;">
+                    <span class="td-con">操作</span></span>
+            </div>
+
+            {volist name='data' id='v'}
+            <div class="tr" style="visibility: visible;">
+                <span class="td check-option r0"><input name="id" value="2497" type="checkbox"></span>
+                <span class="td r1" style="width: 16%;">
+							<div class="td-con td-pic text-left over-initial">
+                                <span class="pic"><img src="{$v.avatar}"></span>
+                                <span class="title txt">{$v.username}</span>
+							<span class="icon">
+							&nbsp&nbsp	<a class="ico_emial member-info-tip" title="邮箱：{$v.email}"></a>
+								<a class="ico_moblie member-info-tip" title="手机：{$v.mobile}"></a>
+						</span>
+                            </div>
+						</span>
+                <span class="td r2" style="width:16%;">{$v.grade}</span>
+                <span class="td r2" style="width: 20%;">比例：{$v.bili}%&nbsp&nbsp金额：91.45 元</span>
+                <span class="td r3" style="width: 16%;">{$v.address}</span>
+                <span class="td r4" style="width: 16%;">注册时间：{$v.go_time}</span>
+                <span class="td r8" style="width: 16%;">
+					<span class="td-con"><a href="javascript:;" class="member_update xiugai"  idd={$v.member_id}>编辑</a>&nbsp&nbsp&nbsp
+                        <a  href="javascript:;"  class="shanchu" tdd="2">删除</a></span>
+				</span>
+            </div>
+            {/volist}
+
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+</script>
+{/block}

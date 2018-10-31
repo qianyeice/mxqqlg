@@ -1,0 +1,91 @@
+{extend name="Template/template"}
+
+{block name="js"}
+
+{/block}
+
+{block name='body'}
+<div action="" method="post" name="member_update">
+    <input name="id" value="1" type="hidden">
+    <input name="formhash" value="MkzR0e" type="hidden">
+    <div class="edit-user-info">
+        <div class="table layout border-none clearfix">
+            <div class="tr top-tr">
+                <div class="layout bg-white padding-left"><b>会员余额</b></div>
+            </div>
+            <div class="tr">
+                <div class="th w35">
+                    <label><input name="info[money][action]" value="inc" checked="checked" type="radio">增加</label>
+                    <label><input name="info[money][action]" value="dec" type="radio">减少</label>
+                </div>
+                <div class="td w65">
+                    <input class="input amound" name="info[money][num]" value="" placeholder="请输入修改余额，如：10" datatype="/^\d+(\.\d+)?$/" ignore="ignore" type="text">
+                    <span class="validform_checktip"></span></div>
+            </div>
+
+            <div class="tr itop-tr">
+                <div class="layout bg-white padding-left"><b>会员积分</b></div>
+            </div>
+            <div class="tr">
+                <div class="th w35">
+                    <label><input name="info[integral][action]" value="inc" checked="checked" type="radio">增加</label>
+                    <label><input name="info[integral][action]" value="dec" type="radio">减少</label>
+                </div>
+
+                <div class="td w65">
+                    <input class="input amound" name="info[integral][num]" value="" placeholder="请输入修改积分，如：10" datatype="n" ignore="ignore" type="text">
+                    <span class="validform_checktip"></span></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="padding text-right ui-dialog-footer" style="background: #f1f1f1;">
+        <input name="dosubmit" value="确定" class="button bg-main" type="submit">
+        <input name="button" value="取消" class="button margin-left bg-gray" data-back="false" type="button">
+    </div>
+    <input id="moid" name="formhash" value="{$id}" type="hidden">
+</div>
+{/block}
+{block name='script'}
+
+<script type="text/javascript">
+    $(function () {
+        $(function(){
+            $("input[name=button]").click(function(){
+              parent.window.location.reload();
+            });
+            //确定
+            $('.bg-main').click(function () {
+                var cyan=[];
+                var pink=[];
+                var id=$('#moid').val();
+                var reg=/^\d+(\.\d+)?$/;;
+                var t=[];
+                for (var i = 0 ; i < $(':checked').length ; i++){
+                    $('.amound').eq(i).css('border','solid 1px #ccc');
+                    $(':checked').eq(i).css('border','solid 1px #ccc');
+                    if (reg.test($('.amound').eq(i).val()) || $('.amound').eq(i).val()=="") {
+                        cyan[i]=$(':checked').eq(i).val();
+                        pink[i]=$('.amound').eq(i).val();
+                        t[i]=true;
+                    }else {
+                        t=false;
+                    }
+                }
+                if (t[0] == true && t[1] == true) {
+                    $.post('/?s=admin/member/moupdata',{id:id,cyan:cyan,pink:pink},function (data) {
+                        if (data['type'] == '1'){
+                            parent.window.location.href='/?s=admin/succeed/index&c=member&a=lists'
+                        } else {
+                            parent.window.location.href = '/?s=admin/succeed/index&c=member&a=lists&type=1'
+                        }
+                    })
+                }else{
+                    alert("请输入自然数！")
+                }
+            })
+        })
+    })
+</script>
+{/block}
+

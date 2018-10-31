@@ -1,0 +1,661 @@
+{extend name="Template/template"/}
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">发货单管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li><a class="current" href="/index.php?m=order&amp;c=admin_order&amp;a=parcel&amp;formhash=m68mKM">全部</a></li>
+        <li><a href="/index.php?m=order&amp;c=admin_order&amp;a=parcel&amp;status=0&amp;formhash=m68mKM">待配货</a></li>
+        <li><a href="/index.php?m=order&amp;c=admin_order&amp;a=parcel&amp;status=1&amp;formhash=m68mKM">配送中</a></li>
+        <li><a href="/index.php?m=order&amp;c=admin_order&amp;a=parcel&amp;status=-1&amp;formhash=m68mKM">配送失败</a></li>
+        <li><a href="/index.php?m=order&amp;c=admin_order&amp;a=parcel&amp;status=2&amp;formhash=m68mKM">配送完成</a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="tips margin-tb">
+        <div class="tips-info border">
+            <h6>温馨提示</h6>
+            <a id="show-tip" data-open="true" href="javascript:;">关闭操作提示</a>
+        </div>
+        <div class="tips-txt padding-small-top layout">
+            <p>- 添加商品时可选择商品分类，用户可根据分类查询商品列表</p>
+            <p>- 点击分类名前“+”符号，显示当前分类的下级分类</p>
+            <p>- 对分类作任何更改后，都需要到 设置 -&gt; 清理缓存 清理商品分类，新的设置才会生效</p>
+        </div>
+    </div>
+    <div class="hr-gray"></div>
+    <div class="clearfix">
+        <form>
+            <input name="m" value="order" type="hidden">
+            <input name="c" value="admin_order" type="hidden">
+            <input name="a" value="parcel" type="hidden">
+            <div class="form-group form-layout-rank border-none" style="width: 300px;">
+                <span class="label" style="width: auto;">搜索</span>
+                <div class="box  margin-none">
+                    <div class="field margin-none">
+                        <input class="input" name="keyword" value="" placeholder="输入订单号/会员账号/手机号" tabindex="0" type="text">
+                    </div>
+                </div>
+            </div>
+            <input class="button bg-sub margin-top fl" style="height: 26px; line-height: 14px;" value="查询" type="submit">
+            <input name="formhash" value="m68mKM" type="hidden"></form>
+    </div>
+    <div class="table-wrap">
+        <div class="table resize-table paging-table border clearfix" style="width: 1106px;">
+            <div class="tr resize-th" style="visibility: visible;">
+										<span class="th" data-width="15" style="width: 166px;">
+						<span class="td-con">订单号</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span class="spacer"></span></span>
+                <span class="th" data-width="10" style="width: 110px;">
+						<span class="td-con">会员账号</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span class="spacer"></span></span>
+                <span class="th" data-width="10" style="width: 110px;">
+						<span class="td-con">收货人姓名</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span class="spacer"></span></span>
+                <span class="th" data-width="30" style="width: 332px;">
+						<span class="td-con">联系地址</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span class="spacer"></span></span>
+                <span class="th" data-width="10" style="width: 110px;">
+						<span class="td-con">联系电话</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span class="spacer"></span></span>
+                <span class="th" data-width="10" style="width: 110px;">
+						<span class="td-con">配送状态</span>
+					<span class="spacer"></span><div class="handleMove"></div><span class="spacer"></span><span class="spacer"></span><span class="spacer"></span><span class="spacer"></span></span>
+                <span class="th" data-width="15" style="width: 166px;">
+						<span class="td-con">操作</span>
+					</span>
+            </div>
+
+
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180326171430545097</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">kira</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">18qwe</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 北京 北京 昌平  qweqweqwe</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">18722222222</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=887&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=887');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=887&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180326170659519710</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">梦想未来</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">18700000000</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 北京 北京 昌平  xdddfff</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">18700000000</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=886&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=886');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=886&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180319175649495798</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">kira</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">陈健英</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 四川 成都 金牛  五块石，云景豪庭</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">18729095173</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=885&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=885');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=885&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180319175323515010</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">kira</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">陈健英</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 四川 成都 金牛  五块石，云景豪庭</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">18729095173</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=884&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=884');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=884&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180319174831102514</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">kira</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">陈健英</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 四川 成都 金牛  五块石，云景豪庭</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">18729095173</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=883&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=883');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=883&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180319173410504999</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">kira</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">陈健英</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 四川 成都 金牛  五块石，云景豪庭</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">18729095173</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=882&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=882');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=882&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180319172608485099</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">kira</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">陈健英</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 四川 成都 金牛  五块石，云景豪庭</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">18729095173</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=881&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=881');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=881&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180319172130975197</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">kira</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">陈健英</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 四川 成都 金牛  五块石，云景豪庭</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">18729095173</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=880&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=880');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=880&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180319171622549750</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">kira</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">陈健英</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 四川 成都 金牛  五块石，云景豪庭</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">18729095173</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=879&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=879');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=879&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180319171244995756</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">kira</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">陈健英</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 四川 成都 金牛  五块石，云景豪庭</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">18729095173</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=878&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=878');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=878&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180319165839102971</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">kira</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">陈健英</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 四川 成都 金牛  五块石，云景豪庭</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">18729095173</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=877&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=877');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=877&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180319164422549810</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">kira</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">18qwe</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 北京 北京 昌平  qweqweqwe</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">18722222222</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=876&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=876');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=876&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180319162230549810</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">kira</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">18qwe</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 北京 北京 昌平  qweqweqwe</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">18722222222</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=875&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=875');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=875&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180319154758101100</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">kira</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">18qwe</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 北京 北京 昌平  qweqweqwe</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">18722222222</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=874&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=874');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=874&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180309144130975148</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">YTREASUREM</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">13508226068</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 北京 北京 昌平  牛股火</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">13508226068</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=873&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=873');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=873&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180309143438101565</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">YTREASUREM</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">13508226068</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 北京 北京 昌平  牛股火</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">13508226068</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=872&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=872');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=872&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180309143148525550</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">YTREASUREM</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">13508226068</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 北京 北京 昌平  牛股火</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">13508226068</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=871&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=871');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=871&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180308174418505110</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">YTREASUREM</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">张育毓</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 四川 成都 金牛  五福桥东路6号</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">13508226067</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=870&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=870');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=870&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180308174001495156</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con"></span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">马津</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 四川 成都 金牛 五块石街道  五福桥东路229号</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">13678107698</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=869&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=869');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=869&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+            <div class="tr" style="visibility: visible;">
+																														<span class="td r0" style="width: 166px;">
+						<span class="td-con">20180308135748995352</span>
+					</span>
+                <span class="td r1" style="width: 110px;">
+						<span class="td-con">YTREASUREM</span>
+					</span>
+                <span class="td r2" style="width: 110px;">
+						<span class="td-con">张育毓</span>
+					</span>
+                <span class="td r3" style="width: 332px;">
+						<span class="td-con text-left">中国大陆 四川 成都 金牛  五福桥东路6号</span>
+					</span>
+                <span class="td r4" style="width: 110px;">
+						<span class="td-con">13508226067</span>
+					</span>
+                <span class="td r5" style="width: 110px;">
+						<span class="td-con">
+						待配送
+						</span>
+					</span>
+                <span class="td r6" style="width: 166px;">
+						<span class="td-con">
+							<a href="/index.php?m=order&amp;c=admin_order&amp;a=prints&amp;id=868&amp;formhash=m68mKM">打印</a> 
+															<a href="javascript:;" onclick="order_action.complete_parcel('/index.php?m=order&amp;c=admin_order&amp;a=complete_parcel&amp;id=868');">确认配送</a> 
+														<a href="/index.php?m=order&amp;c=admin_order&amp;a=delete_parcel&amp;id=868&amp;formhash=m68mKM" data-confirm="是否确认删除？">删除</a>
+						</span>
+					</span>
+            </div>
+
+
+            <!-- 分页 -->
+            <div class="paging padding-tb body-bg clearfix" style="top: 39px;">
+                <ul class="fr"><ul class="fr"><li>共887条数据</li><li class="spacer-gray margin-lr"></li><li>每页显示<input class="input radius-none" name="limit" value="10" type="text">条</li><li class="spacer-gray margin-left"></li><li class="default-start"></li><li class="default-prev"></li><li class="current"><a href="/index.php?m=order&amp;c=admin_order&amp;a=parcel&amp;formhash=m68mKM&amp;page=1">1</a></li><li><a href="/index.php?m=order&amp;c=admin_order&amp;a=parcel&amp;formhash=m68mKM&amp;page=2">2</a></li><li><a href="/index.php?m=order&amp;c=admin_order&amp;a=parcel&amp;formhash=m68mKM&amp;page=3">3</a></li><li><a href="/index.php?m=order&amp;c=admin_order&amp;a=parcel&amp;formhash=m68mKM&amp;page=4">4</a></li><li><a href="/index.php?m=order&amp;c=admin_order&amp;a=parcel&amp;formhash=m68mKM&amp;page=5">5</a></li><li class="next"><a href="/index.php?m=order&amp;c=admin_order&amp;a=parcel&amp;formhash=m68mKM&amp;page=2"></a></li><li class="end"><a href="/index.php?m=order&amp;c=admin_order&amp;a=parcel&amp;formhash=m68mKM&amp;page=89"></a></li></ul></ul>
+                <div class="clear"></div>
+            </div>
+        </div><div class="layout" id="table-get-width"></div>
+    </div>
+</div>
+{/block}

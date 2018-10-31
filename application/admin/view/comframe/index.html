@@ -1,0 +1,41 @@
+
+{extend name="Template:template" /}
+{block name='title'}{/block}
+{block name="css"}
+{load href="__STATIC__/admin/css/ui-dialog.css" /}
+{load href="__STATIC__/admin/css/validate.css" /}
+{load href="__STATIC__/admin/css/orderexpresssingle.css" /}
+{/block}
+
+{block name="js"}
+<script src="__STATIC__/admin/js/jquery-1.8.2.min.js"></script>
+<script src="__STATIC__/layer/layer.js"></script>
+{/block}
+
+{block name='body'}
+<div>
+
+    <div class="goods-add-class-wrap layout bg-white" style="top: 0;">
+        <div class="goods-add-class clearfix">
+            <div class="root border focus"> <a href="javascript:void(0)" onclick="nb_category(2,this)" id="cat2" data-id="2"> 食品 </a> <a href="javascript:void(0)" onclick="nb_category(3,this)" id="cat3" data-id="3"> 酒水饮料 </a> <a href="javascript:void(0)" onclick="nb_category(5,this)" id="cat5" data-id="5"> 家庭养生 </a> <a href="javascript:void(0)" onclick="nb_category(6,this)" id="cat6" data-id="6"> 保健养生 </a></div>
+            <div class="child border focus">
+            </div>
+            <div class="child border focus">
+            </div>
+            <div class="child border focus">
+            </div>
+            <p class="layout fl margin-top goods-class-choose">您当前所选择的分类：<span data-id=""></span><em class="margin-left text-mix"></em></p>
+        </div>
+        <div class="padding text-right ui-dialog-footer">
+            <input class="button bg-main" id="okbtn" value="确定" type="button">
+            <input class="button margin-left bg-gray" id="closebtn" value="返回" type="button">
+        </div>
+    </div>
+
+</div>
+
+{/block}
+
+{block name='script'}
+
+{/block}

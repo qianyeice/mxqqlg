@@ -1,0 +1,737 @@
+{extend name="Template/template" /}
+{block name="css"}
+
+{/block}
+{block name="js"}
+{load href='__STATIC__/layui/layui.js'}
+{/block}
+
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">优惠券管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li><a class="current" href="javascript:;"></a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+{if ($id == true)}
+<!--编辑-->
+<div class="content padding-big have-fixed-nav">
+    <div action="" name="promotion_order_add" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="19">
+        <div class="form-box clearfix">
+            <div class="form-group ">
+                <span class="label">优惠券名称：</span>
+                <div class="box">
+                    <input class="input hd-input discount cash red" id="coupon_name" type="text" name="name"
+                           value="{$data.couponname}"
+                           tabindex="0" datatype="*" nullmsg="请输入优惠券名称"/>
+                </div>
+                <p class="desc">请输入优惠券名称</p>
+            </div>
+            <div class="form-group">
+                <span class="label">优惠券获取途径：</span>
+                <div class="box">
+                    <select name="city" lay-verify="" class="form-select-edit "
+                            style="height: 26px; color: #4d4d4d;padding-left: 5px;">
+                        {if ($data.couponfor == 1)}
+                        <option value="1" selected>普通优惠券</option>
+                        <option value="2">活动优惠券</option>
+                        <option value="3">新手专区优惠券</option>
+                        <option value="4">用户分享优惠券</option>
+                        {elseif ($data.couponfor == 2) /}
+                        <option value="1">普通优惠券</option>
+                        <option value="2" selected>活动优惠券</option>
+                        <option value="3">新手专区优惠券</option>
+                        <option value="4">用户分享优惠券</option>
+                        {elseif ($data.couponfor == 3) /}
+                        <option value="1">普通优惠券</option>
+                        <option value="2">活动优惠券</option>
+                        <option value="3" selected>新手专区优惠券</option>
+                        <option value="4">用户分享优惠券</option>
+                        {else /}
+                        <option value="1">普通优惠券</option>
+                        <option value="2">活动优惠券</option>
+                        <option value="3">新手专区优惠券</option>
+                        <option value="4" selected>用户分享优惠券</option>
+                        {/if}
+                    </select>
+                </div>
+                <p class="desc">请选择优惠券获取途径</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">优惠券图标：</span>
+                <div class="box">
+                    <div class="input file-box clearfix">
+                        <input type="text" class="file-txt" value="{$data.couponicon}" tabindex="0"/>
+                        <input type="button" class="file-btn" value="浏览"/>
+                        <input id="file" type="file" class="file file-view" name="pic" value=""/>
+                    </div>
+                </div>
+                <p class="desc">请上传优惠券图标</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">优惠券类型：</span>
+                <div class="box">
+                    <select name="city" lay-verify="" class="form-select-edit "
+                            style="height: 26px; color: #4d4d4d;padding-left: 5px;">
+                        {if ($data.coupontype == 1)}
+                        <option value="1" selected>折扣券</option>
+                        <option value="2">现金券</option>
+                        <option value="3">红包券</option>
+                        {elseif ($data.coupontype == 2) /}
+                        <option value="1">折扣券</option>
+                        <option value="2" selected>现金券</option>
+                        <option value="3">红包券</option>
+                        {else /}
+                        <option value="1">折扣券</option>
+                        <option value="2">现金券</option>
+                        <option value="3" selected>红包券</option>
+                        {/if}
+                    </select>
+                </div>
+                <p class="desc">请选择优惠券类型</p>
+            </div>
+            <!--折扣券-->
+            <div class="prom-list " data-type="1">
+                <!--折扣券使用最低金额-->
+                <div class="form-group ">
+                    <span class="label">折扣券使用最低金额：</span>
+                    <div class="box">
+                        <input class="input hd-input discount" type="text" name="price0" value="{$data.minprice}"
+                               tabindex="0"
+                               datatype="price"/>
+                    </div>
+                    <p class="desc">请填写折扣券使用最低金额</p>
+                </div>
+                <!--折扣券使用最高金额-->
+                <div class="form-group ">
+                    <span class="label">折扣券使用最高金额：</span>
+                    <div class="box">
+                        <input class="input hd-input discount" type="text" name="max_price" value="{$data.maxprice}"
+                               tabindex="0"
+                               datatype="price"/>
+                    </div>
+                    <p class="desc">请填写订折扣券使用最高金额</p>
+                </div>
+                <!--折扣数值-->
+                <div class="form-group">
+                    <span class="label">折扣数值：</span>
+                    <div class="box">
+                        <input class="input hd-input discount" type="text" name="discount0" value="{$data.couponvalue}"
+                               tabindex="0"
+                               datatype="price" nullmsg="请输入折扣数值" errormsg="请输入正确的折扣数值"/>
+                    </div>
+                    <p class="desc">请填写折扣数值</p>
+                </div>
+            </div>
+
+            <!--<div class="prom-list hidden" data-type="4">-->
+            <!--<div class="form-group ">-->
+            <!--<span class="label">满减券使用最低金额：</span>-->
+            <!--<div class="box">-->
+            <!--<input class="input hd-input " type="text" name="price1" value="" tabindex="0"-->
+            <!--datatype="price"/>-->
+            <!--</div>-->
+            <!--<p class="desc">请填写满减券使用最低金额</p>-->
+            <!--</div>-->
+            <!--<div class="form-group "><span class="label">满减券立减金额：</span>-->
+            <!--<div class="box">-->
+            <!--<input class="input hd-input " type="text" name="discount1" value="" tabindex="0"-->
+            <!--datatype="price"/>-->
+            <!--</div>-->
+            <!--<p class="desc">请填写满减券立减金额</p>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--现金券优惠金额-->
+            <div class="form-group prom-list hidden" data-type="2">
+                <span class="label">现金券优惠金额：</span>
+                <div class="box">
+                    <input class="input hd-input cash" type="text" name="discount2" value="{$data.couponcash}"
+                           tabindex="0"
+                           datatype="price"/>
+                </div>
+                <p class="desc">请填写现金券优惠金额</p>
+            </div>
+            <!--红包券金额-->
+            <div class="form-group prom-list hidden" data-type="3">
+                <span class="label">红包券金额：</span>
+                <div class="box">
+                    <input class="input hd-input red" type="text" name="discount3" value="{$data.couponred}"
+                           tabindex="0"
+                           datatype="price"/>
+                </div>
+                <p class="desc">请填写红包券金额(红包券领取后直接累积至用户余额，可提现)</p>
+            </div>
+            <!--//-->
+            <div class="form-group time_list_ ">
+                <span class="label">有效期类型：</span>
+                <div class="box">
+                    <select id="attr" name="city" lay-verify="" class="form-select-edit "
+                            style="height: 26px; color: #4d4d4d;padding-left: 5px;">
+                        {if ($data.effectivetype == 1)}
+                        <option id="sele" value="1" selected>固定时间段</option>
+                        <option value="2">领取后固定时长</option>
+                        {else /}
+                        <option id="sele" value="1">固定时间段</option>
+                        <option value="2" selected>领取后固定时长</option>
+                        {/if}
+                    </select>
+                </div>
+                <p class="desc">请选择优惠券有效期类型</p>
+            </div>
+            <div class="time_list_ time-list" data-type="1">
+                <div class="form-group ">
+                    <span class="label">开始时间：</span>
+                    <div class="box">
+                        <input id="startdate" class="input laydate-icon hd-input fixed" data-type="1" type="text"
+                               name="start_time" value="{$data.starttime}"
+                               placeholder="YYYY-MM-DD hh:mm" tabindex="0" format="YYYY-MM-DD hh:mm">
+                    </div>
+                    <p class="desc">优惠券开始时间</p>
+                </div>
+
+                <div class="form-group ">
+                    <span class="label">结束时间：</span>
+                    <div class="box">
+                        <input id="enddate" class="input laydate-icon hd-input fixed" data-type="2" type="text"
+                               name="end_time" value="{$data.endtime}"
+                               placeholder="YYYY-MM-DD hh:mm" tabindex="0" format="YYYY-MM-DD hh:mm">
+                    </div>
+                    <p class="desc">优惠券结束时间</p>
+                </div>
+            </div>
+            <div id="effective" class="time-list hidden" data-type="2">
+                <div class="form-group time_list_ ">
+                    <span class="label">领取后有效时长：</span>
+                    <div class="box">
+                        <input class="input hd-input after" type="text" name="day" value="{$data.effectivelen}"
+                               tabindex="0" datatype="n"/>
+                    </div>
+                    <p class="desc">请填写领取后有效时长(注:以天为单位)</p>
+                </div>
+            </div>
+            <div class="form-group ">
+                <span class="label">说明：</span>
+                <div class="box">
+                    <textarea class="textarea hd-input discount cash red" name="content" placeholder="">{$data.instructions}</textarea>
+                </div>
+                <p class="desc">请填写优惠券使用说明</p>
+            </div>
+        </div>
+        <div class="padding">
+            <input type="submit" name="dosubmit" class="button bg-main" value="保存" id="save"/>
+            <input type="button" class="button margin-left bg-gray" value="返回" onclick="javascript:history.back(-1);">
+        </div>
+        <input id="hiddenid" type="hidden" value="{$id}">
+    </div>
+</div>
+{else /}
+<!--添加-->
+<div class="content padding-big have-fixed-nav">
+    <div action="" name="promotion_order_add" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="19">
+        <div class="form-box clearfix">
+            <div class="form-group ">
+                <span class="label">优惠券名称：</span>
+                <div class="box">
+                    <input class="input hd-input discount cash red" id="coupon_name" type="text" name="name" value=""
+                           tabindex="0" datatype="*" nullmsg="请输入优惠券名称"/>
+                </div>
+                <p class="desc">请输入优惠券名称</p>
+            </div>
+            <div class="form-group">
+                <span class="label">优惠券获取途径：</span>
+                <div class="box">
+                    <select name="city" lay-verify="" class="form-select-edit "
+                            style="height: 26px; color: #4d4d4d;padding-left: 5px;">
+                        <option value="1" selected>普通优惠券</option>
+                        <option value="2">活动优惠券</option>
+                        <option value="3">新手专区优惠券</option>
+                        <option value="4">用户分享优惠券</option>
+                    </select>
+                </div>
+                <p class="desc">请选择优惠券获取途径</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">优惠券图标：</span>
+                <div class="box">
+                    <div class="input file-box clearfix">
+                        <input type="text" class="file-txt" value="" tabindex="0"/>
+                        <input type="button" class="file-btn" value="浏览"/>
+                        <input id="file" type="file" class="file file-view" name="site_logo" value="浏览"/>
+                    </div>
+                </div>
+                <p class="desc">请上传优惠券图标</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">优惠券类型：</span>
+                <div class="box">
+                    <select name="city" lay-verify="" class="form-select-edit "
+                            style="height: 26px; color: #4d4d4d;padding-left: 5px;">
+                        <option value="1" selected>折扣券</option>
+                        <option value="2">现金券</option>
+                        <option value="3">红包券</option>
+                    </select>
+                </div>
+                <p class="desc">请选择优惠券类型</p>
+            </div>
+            <!--折扣券-->
+            <div class="prom-list " data-type="1">
+                <!--折扣券使用最低金额-->
+                <div class="form-group ">
+                    <span class="label">折扣券使用最低金额：</span>
+                    <div class="box">
+                        <input class="input hd-input discount" type="text" name="price0" value="" tabindex="0"
+                               datatype="price"/>
+                    </div>
+                    <p class="desc">请填写折扣券使用最低金额</p>
+                </div>
+                <!--折扣券使用最高金额-->
+                <div class="form-group ">
+                    <span class="label">折扣券使用最高金额：</span>
+                    <div class="box">
+                        <input class="input hd-input discount" type="text" name="max_price" value="" tabindex="0"
+                               datatype="price"/>
+                    </div>
+                    <p class="desc">请填写订折扣券使用最高金额</p>
+                </div>
+                <!--折扣数值-->
+                <div class="form-group">
+                    <span class="label">折扣数值：</span>
+                    <div class="box">
+                        <input class="input hd-input discount" type="text" name="discount0" value="" tabindex="0"
+                               datatype="price" nullmsg="请输入折扣数值" errormsg="请输入正确的折扣数值"/>
+                    </div>
+                    <p class="desc">请填写折扣数值</p>
+                </div>
+            </div>
+
+            <!--<div class="prom-list hidden" data-type="4">-->
+            <!--<div class="form-group ">-->
+            <!--<span class="label">满减券使用最低金额：</span>-->
+            <!--<div class="box">-->
+            <!--<input class="input hd-input " type="text" name="price1" value="" tabindex="0"-->
+            <!--datatype="price"/>-->
+            <!--</div>-->
+            <!--<p class="desc">请填写满减券使用最低金额</p>-->
+            <!--</div>-->
+            <!--<div class="form-group "><span class="label">满减券立减金额：</span>-->
+            <!--<div class="box">-->
+            <!--<input class="input hd-input " type="text" name="discount1" value="" tabindex="0"-->
+            <!--datatype="price"/>-->
+            <!--</div>-->
+            <!--<p class="desc">请填写满减券立减金额</p>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--现金券优惠金额-->
+            <div class="form-group prom-list hidden" data-type="2">
+                <span class="label">现金券优惠金额：</span>
+                <div class="box">
+                    <input class="input hd-input cash" type="text" name="discount2" value="" tabindex="0"
+                           datatype="price"/>
+                </div>
+                <p class="desc">请填写现金券优惠金额</p>
+            </div>
+            <!--红包券金额-->
+            <div class="form-group prom-list hidden" data-type="3">
+                <span class="label">红包券金额：</span>
+                <div class="box">
+                    <input class="input hd-input red" type="text" name="discount3" value="" tabindex="0"
+                           datatype="price"/>
+                </div>
+                <p class="desc">请填写红包券金额(红包券领取后直接累积至用户余额，可提现)</p>
+            </div>
+            <!--//-->
+            <div class="form-group time_list_ ">
+                <span class="label">有效期类型：</span>
+                <div class="box">
+                    <select id="attr" name="city" lay-verify="" class="form-select-edit "
+                            style="height: 26px; color: #4d4d4d;padding-left: 5px;">
+                        <option id="sele" value="1" selected>固定时间段</option>
+                        <option value="2">领取后固定时长</option>
+                    </select>
+                </div>
+                <p class="desc">请选择优惠券有效期类型</p>
+            </div>
+            <div class="time_list_ time-list" data-type="1">
+                <div class="form-group ">
+                    <span class="label">开始时间：</span>
+                    <div class="box">
+                        <input id="startdate" class="input laydate-icon hd-input fixed" data-type="1" type="text"
+                               name="start_time" value=""
+                               placeholder="YYYY-MM-DD hh:mm" tabindex="0" format="YYYY-MM-DD hh:mm">
+                    </div>
+                    <p class="desc">优惠券开始时间</p>
+                </div>
+
+                <div class="form-group ">
+                    <span class="label">结束时间：</span>
+                    <div class="box">
+                        <input id="enddate" class="input laydate-icon hd-input fixed" data-type="2" type="text"
+                               name="end_time" value=""
+                               placeholder="YYYY-MM-DD hh:mm" tabindex="0" format="YYYY-MM-DD hh:mm">
+                    </div>
+                    <p class="desc">优惠券结束时间</p>
+                </div>
+            </div>
+            <div id="effective" class="time-list hidden" data-type="2">
+                <div class="form-group time_list_ ">
+                    <span class="label">领取后有效时长：</span>
+                    <div class="box">
+                        <input class="input hd-input after" type="text" name="day" value="" tabindex="0" datatype="n"/>
+                    </div>
+                    <p class="desc">请填写领取后有效时长(注:以天为单位)</p>
+                </div>
+            </div>
+            <div class="form-group ">
+                <span class="label">说明：</span>
+                <div class="box">
+                    <textarea class="textarea hd-input discount cash red" name="content" placeholder=""></textarea>
+                </div>
+                <p class="desc">请填写优惠券使用说明</p>
+            </div>
+        </div>
+        <div class="padding">
+            <input type="submit" name="dosubmit" class="button bg-main" value="保存" id="save"/>
+            <input type="button" class="button margin-left bg-gray" value="返回" onclick="javascript:history.back(-1);">
+        </div>
+    </div>
+</div>
+{/if}
+{/block}
+
+{block name='script'}
+<script type="text/javascript">
+    var url=new Array();
+    $(".filee").change(function () {
+        var objUrl=getObjectURL(this.files['0']);
+        if(objUrl){
+            var tud=$(this);
+            tud.show();
+            tud.append('<img src"'+objUrl+'">')
+        }
+
+console.log(url);
+    })
+
+
+    $(function () {
+        //编辑 渲染页面调用
+        var hiddenid = $('#hiddenid').val();
+        if (hiddenid) {
+            //判断优惠劵类型
+            for (var i = 0; i < $('select').length; i++) {
+                switch (i) {
+                    case 1:
+                        // $('select').eq(i).change(function () {
+                        var type = $(':checked').eq(1).val();
+                        switch (type) {
+                            case '1':
+                                coupontype(type);
+                                // selected();
+                                $('.time_list_').removeClass('hidden');
+                                $('#effective').addClass('hidden');
+                                break;
+                            case '2':
+                                coupontype(type);
+                                // selected();
+                                $('.time_list_').removeClass('hidden');
+                                $('#effective').addClass('hidden');
+                                break;
+                            case '3':
+                                coupontype(type);
+                                $('.time_list_').addClass('hidden');
+                                break;
+                            default:
+                                break;
+                        }
+                        // });
+                        break;
+                    case 2:
+                        // $('select').eq(i).change(function () {
+                        var typess = $(':checked').eq(2).val();
+                        switch (typess) {
+                            case '1':
+                                effective(typess);
+                                break;
+                            case '2':
+                                effective(typess);
+                                break;
+                            default:
+                                break;
+                        }
+                        // });
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        //日期
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+            //执行一个laydate实例
+            for (var i = 0; i < $('.laydate-icon').length; i++) {
+                var cyan = $('.laydate-icon').eq(i).attr('data-type');
+                if (cyan == '1') {
+                    laydate.render({
+                        elem: '#startdate' //指定元素
+                    });
+                } else {
+                    laydate.render({
+                        elem: '#enddate' //指定元素
+                    });
+                }
+            }
+        });
+
+        //判断优惠劵类型
+        for (var i = 0; i < $('select').length; i++) {
+            switch (i) {
+                case 1:
+                    $('select').eq(i).change(function () {
+                        var type = $(':checked').eq(1).val();
+                        switch (type) {
+                            case '1':
+                                coupontype(type);
+                                selected();
+                                $('.time_list_').removeClass('hidden');
+                                $('#effective').addClass('hidden');
+                                break;
+                            case '2':
+                                coupontype(type);
+                                selected();
+                                $('.time_list_').removeClass('hidden');
+                                $('#effective').addClass('hidden');
+                                break;
+                            case '3':
+                                coupontype(type);
+                                $('.time_list_').addClass('hidden');
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+                    break;
+                case 2:
+                    $('select').eq(i).change(function () {
+                        var typess = $(':checked').eq(2).val();
+                        switch (typess) {
+                            case '1':
+                                effective(typess);
+                                break;
+                            case '2':
+                                effective(typess);
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
+        //文件text name
+        $('#file').change(function () {
+            $('.file-txt').attr('value', $(this).val())
+        });
+        //提交数据
+        $('div .bg-main').on('click', function () {
+            var pink = [];
+            var white = [];
+            var black = [];
+            for (var i = 0; i < $(':checked').length; i++) {
+                switch (i) {
+                    case 0:
+                        pink[i] = $(':checked').eq(i).val();
+                        break;
+                    case 1:
+                        pink[i] = $(':checked').eq(i).val();
+                        switch (pink[i]) {
+                            case '1':
+                                var obj = $('.discount');
+                                cycle(white, obj);
+                                break;
+                            case '2':
+                                var obj = $('.cash');
+                                cycle(white, obj);
+                                break;
+                            case '3':
+                                var obj = $('.red');
+                                cycle(white, obj);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 2:
+                        pink[i] = $(':checked').eq(i).val();
+                        switch (pink[i]) {
+                            case '1':
+                                var obj = $('.fixed');
+                                cycle(black, obj);
+                                break;
+                            case '2':
+                                var obj = $('.after');
+                                cycle(black, obj);
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            //截取数组空值
+            // var purple = clear_arr_trim(white);
+            // function clear_arr_trim(array) {
+            //     for (var i = 0; i < array.length; i++) {
+            //         if (array[i] == "" || typeof(array[i]) == "undefined") {
+            //             array.splice(i, 1);
+            //             i = i - 1;
+            //         }
+            //     }
+            //     return array;
+            // }
+
+            // 判断是否是红包劵
+            if (pink.length == 3) {
+                for (var x = 0; x < pink.length; x++) {
+                    switch (x) {
+                        case 1:
+                            switch (pink[x]) {
+                                case '3':
+                                    pink.pop();
+                                    black = [];
+                                    break;
+                                default:
+                                    break;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            // 分別拿值
+            function cycle(array, obj) {
+                for (var z = 0; z < obj.length; z++) {
+                    array[z] = obj.eq(z).val();
+                }
+            }
+
+            //文件上传
+            var xhr = new XMLHttpRequest();
+            var file = document.getElementById("file").files[0];
+            var formData = new FormData;
+            formData.append("file", file[0]);
+            formData.append("pink", pink);
+            formData.append("white", white);
+            formData.append("black", black);
+            formData.append("hiddenid", hiddenid);
+            xhr.open('POST', 'http://127.0.0.1/api/public/?s=admin/couponpage/coupadd');
+            xhr.send(formData);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var imgicon = xhr.responseText;
+                    // var type = imgicon.slice('2', '6');
+                    var typestr = imgicon.slice('9', '10');
+                    // var explain = imgicon.slice('13', '20');
+                    var explainstr = imgicon.slice('23', '27');
+                    var time = [];
+                    time.push(typestr, explainstr);
+                    if (time[0] == '1' && time[1] == '添加成功') {
+                        console.log(imgicon);
+                        location.href = 'http://127.0.0.1/api/public/?s=admin/succeed/index&c=couponpage&a=index'
+                    } else if (time[0] == '0' && time[1] == '添加失败') {
+                        location.href = 'http://127.0.0.1/api/public/?s=admin/succeed/index&c=couponpage&a=index&type=1'
+                    }
+                } else {
+                    // 未上传或失败icon
+                    //location.href = 'http://127.0.0.1/api/public/?s=admin/succeed/index&c=couponpage&a=index&type=0'
+                }
+            };
+        });
+
+        // function editpost(pink,white,black) {
+        //     $.post('/?s=admin/couponpage/coupadd',{pink:pink,white:white,black:black},function (data) {
+        //         if (data['type']=='1' && data['explain'] == '添加成功') {
+        //             location.href = '/?s=admin/succeed/index&c=couponpage&a=index'
+        //         }else if (data['type'] == '0' && data['explain'] == '添加失败'){
+        //             location.href = '/?s=admin/succeed/index&c=couponpage&a=index&type=1'
+        //         }
+        //     });
+        // }
+
+        function coupontype(type) {
+            for (var i = 0; i < $('.prom-list').length; i++) {
+                if ($('.prom-list').eq(i).attr('data-type') == type) {
+                    $('.prom-list').eq(i).removeClass('hidden');
+                } else {
+                    $('.prom-list').eq(i).addClass('hidden');
+                }
+            }
+        }
+
+        function effective(type) {
+            for (var i = 0; i < $('.time-list').length; i++) {
+                if ($('.time-list').eq(i).attr('data-type') == type) {
+                    $('.time-list').eq(i).removeClass('hidden');
+                } else {
+                    $('.time-list').eq(i).addClass('hidden');
+                }
+            }
+        }
+
+        function selected() {
+            switch ($('#attr').val()) {
+                case '2':
+                    $('#sele').attr('selected', '');
+                    break;
+                default:
+                    //default是 默认，缺省 的意思，也就是默认的，在switch是作为匹配不到你提供的值时使用的
+                    break;
+                    //跳出循环
+            }
+        }
+
+        // $("#ico_buttonedit").click(function () {
+        //     $("#Select_the_coupon_type").css("display","block")
+        // // })
+        // $(".listbox-item").click(function () {
+        //     $(".listbox-item").attr("class","listbox-item")
+        //     $(this).attr("class","listbox-item listbox-item-selected")
+        //     var data=$(this).text();
+        //     $("#coupon_type").val(data);
+        //     $("#Select_the_coupon_type").css("display","none")
+        //     $("#coupon_type_select").val($(this).attr("data-val"))
+        //     var dataType=$(this).attr("data-val");
+        //     $(".prom-list").attr("class","prom-list hidden")
+        //     for (i=0;i<$(".prom-list").length;i++){
+        //         if($(".prom-list").eq(i).attr("data-type")==dataType){
+        // $(".prom-list").eq(i).attr("class","prom-list")
+        // }
+        // }
+        // })
+        // $("#save").click(function () {
+        //     var array=new Array();
+        //     array["name"]=$("#coupon_name").val()
+        //     array["access"]=$("select option:selected").val()
+        //     array["type"]=$("#coupon_type_select").val()
+        //     array[""]
+        // })
+    })
+
+
+
+
+
+</script>
+
+{/block}

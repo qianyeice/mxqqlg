@@ -1,0 +1,418 @@
+{extend name="Template/template" /}
+{block name='body'}
+{load href="__STATIC__/admin/css/initiator.css" /}
+<script type="text/javascript">
+    var formhash = "T1gx77";
+    var SYS_MODULE_NAME = "member";
+    var SYS_CONTROL_NAME = "layered";
+    var SYS_METHOD_NAME = "index2";
+    var menuaddurl = "/index.php?m=admin&c=public&a=ajax_menu_add&formhash=T1gx77";
+    var menurefreshurl = "/index.php?m=admin&c=public&a=ajax_menu_refresh&formhash=T1gx77";
+    var menudelurl = '/index.php?m=admin&c=public&a=ajax_diymenu_del&formhash=T1gx77';
+    var site = {
+        root:'/',
+        app:'/index.php',
+        domain:'/index.php?m=member&c=layered&a=index2'
+    };
+
+    $(function(){
+
+        $('form').each(function(i, n) {
+            $(this).append('<input type="hidden" name="formhash" value="'+ formhash +'"/>');
+        })
+
+        $("a").each(function() {
+            var _this = $(this);
+            var href = _this.attr('href');
+            if(href && href.indexOf('javascript:') == -1 && href.indexOf('formhash') == -1 && $(this).attr('rel') != 'nofollow') {
+                if(href.indexOf('?') != -1) {
+                    href += '&formhash='+formhash;
+                } else {
+                    href += '?formhash='+formhash;
+                }
+                $(this).attr('href', href);
+            }
+        })
+
+        $("[data-iframe]").live('click', function() {
+            var href = $(this).data('iframe');
+            if(href == true) {
+                href = $(this).attr('href');
+            }
+            var width = $(this).data('iframe-width') || 500;
+            _iframe(href, width);
+            return false;
+        })
+
+
+        $("[data-confirm]").live('click', function() {
+            var message = $(this).data('confirm') || '您确定执行本操作？';
+            return confirm(message);
+        })
+    });
+
+    function _iframe(url, width) {
+        top.dialog({
+            url: url,
+            title: 'loading...',
+            width: width,
+            onclose:function() {
+                //console.log(this.returnValue);
+            }
+        })
+            .showModal();
+    }
+
+    $("form .bg-gray:not([data-back])").live('click',function(){
+        history.go(-1);
+    })
+
+    window.onload = function(){
+        document.onkeydown = function (e) {
+            var ev = window.event || e;
+            var code = ev.keyCode || ev.which;
+            if (code == 116) {
+                if(ev.preventDefault) {
+                    if(document.getElementById("main_frame")){
+                        document.getElementById("main_frame").contentWindow.location.reload(true)
+                    }else{
+                        window.location.reload();
+                    }
+                    ev.preventDefault();
+                } else {
+                    if(document.getElementById("main_frame")){
+                        document.getElementById("main_frame").contentWindow.location.reload(true)
+                    }else{
+                        window.location.reload();
+                    }
+                    ev.keyCode = 0;
+                    ev.returnValue = false;
+                }
+            }
+        }
+    }
+
+</script>
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">会员管理<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+
+<div class="content padding-big have-fixed-nav">
+
+    <div class="member-list-search clearfix">
+        <form action="" method="get">
+            <div class="form-box form-layout-rank clearfix border-bottom-none" style="width:200px ">
+                <div class="form-group "><span class="label">搜索</span><div class="box"><input class="input hd-input " type="text" name="keyword" value="" tabindex="0" placeholder="输入会员名/手机/邮箱均可搜索" /></div></div>            </div>
+            <input type="hidden" name="m" value="member">
+            <input type="hidden" name="c" value="layered">
+            <input type="hidden" name="a" value="index2">
+            <input class="button bg-sub fl" type="submit" value="查询">
+        </form>
+    </div>
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a href="javascript:;" class="yin" bi="1"><i class="ico_add"></i>添加</a>
+            <div class="spacer-gray"></div>
+            <a  href="/?m=admin&c=layered&a=add" ><i class="ico_add"></i>授权</a>
+            <!--<a href=""><i class="ico_out"></i>导出</a>
+            <div class="spacer-gray"></div>-->
+        </div>
+    </div>
+
+    <div class="table-wrap member-info-table">
+        <div class="table resize-table paging-table check-table high-table border clearfix">
+            <div class="tr">
+                <span class="th check-option" data-resize="false"><span><input id="check-all"
+                                                                               type="checkbox"/></span></span>
+                <span class="th" data-width="15" style="width: 258px;">
+						<span class="td-con">会员</span>
+					</span>
+                <span class="th" data-width="10" style="width: 258px;">
+						<span class="td-con">等级</span>
+					</span>
+                <span class="th" data-width="15" style="width: 161px;">
+						<span class="td-con">分成金额</span>
+					</span>
+                <span class="th" data-width="25" style="width: 161px;">
+						<span class="td-con">区域</span>
+					</span>
+                <span class="th" data-width="20" style="width: 193px;">
+						<span class="td-con">注册时间</span>
+					</span>
+                <span class="th" data-width="12" style="width: 183px;"><span class="td-con">操作</span></span>
+            </div>
+            <div class="paging padding-tb body-bg clearfix">
+
+                <ul class="fr"><li>共0条数据</li><li class="spacer-gray margin-lr"></li><li>每页显示<input class="input radius-none" type="text" name="limit" value="20"/>条</li><li class="spacer-gray margin-left"></li><li class="default-start"></li><li class="default-prev"></li><li class="default-next"></li><li class="default-end"></li></ul>                    <div class="clear"></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div style="position: absolute; outline: 0px none currentcolor; left: 728px; top: 137px; z-index: 1028;" tabindex="-1"
+     aria-labelledby="title:1516601438359" aria-describedby="content:1516601438359"
+     class="ui-popup ui-popup-modal ui-popup-show ui-popup-focus" role="alertdialog">
+    <div i="dialog" class="ui-dialog">
+        <div class="ui-dialog-arrow-a"></div>
+        <div class="ui-dialog-arrow-b"></div>
+        <table class="ui-dialog-grid">
+            <tbody>
+            <tr>
+                <td i="header" class="ui-dialog-header">
+                    <button i="close" class="ui-dialog-close">×</button>
+                    <div i="title" class="ui-dialog-title titi" style="font-size: 15px">修改用户信息</div>
+                </td>
+            </tr>
+            <tr>
+                <td i="body" class="ui-dialog-body">
+                    <div i="content" class="ui-dialog-content" style="width: 260px; height: 135px;">
+                        <div class="xianshi">
+                            <div class="biao"><b> &nbsp&nbsp&nbsp&nbsp&nbsp请选择会员: <input class="cxtj" type="text"
+                                                                                         style="border: solid skyblue 1px;height: 20px"
+                                                                                         placeholder="请输入姓名/手机号">&nbsp&nbsp&nbsp<input
+                                    class="chaxun" value="查询" type="button"></b></div>
+                        </div>
+                        <div class="xs">
+                            <div style="width: 100%;height: 2px"></div>
+                            <div style="width:100%;height: 50px;background: #fff;">
+                                <div><img class="img" style="float: left;margin-left: 15px" src=""
+                                          width="50px" height="50px;">
+                                    <div class="cname" style="margin-top: 10px; float: left;"></div>
+                                </div>
+                                <input class="bjid" type="hidden" value="">
+                            </div>
+                        </div>
+
+
+                        <div style="width: 100%;height: 2px"></div>
+                        <div class="biao"><b> &nbsp&nbsp&nbsp&nbsp&nbsp请选择等级:</b><select
+                                class="dengji">
+                            <option value="2">
+                                发起人
+                            </option>
+                            <option value="3">
+                                合伙人
+                            </option>
+                            <option value="4">
+                                员工
+                            </option>
+                        </select></div>
+
+                        <div class="padding text-right ui-dialog-footer">
+                            <input name="dosubmit" value="确定" class="button bg-main" type="submit" id="xgqd">
+                            <input name="button" value="取消" class="button margin-left bg-gray" data-back="false"
+                                   type="button">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div style="position: absolute; outline: 0px none currentcolor; left: 728px; top: 137px; z-index: 1028;" tabindex="-1"
+     aria-labelledby="title:1516601438359" aria-describedby="content:1516601438359"
+     class="ui-popup ui-popup-modal ui-popup-show ui-popup-focus" role="alertdialog">
+    <div i="dialog" class="ui-dialog">
+        <div class="ui-dialog-arrow-a"></div>
+        <div class="ui-dialog-arrow-b"></div>
+        <table class="ui-dialog-grid">
+            <tbody>
+            <tr>
+                <td i="header" class="ui-dialog-header">
+                    <button i="close" class="ui-dialog-close">×</button>
+                    <div i="title" class="ui-dialog-title titi" style="font-size: 15px">修改用户信息</div>
+                </td>
+            </tr>
+            <tr>
+                <td i="body" class="ui-dialog-body">
+                    <div i="content" class="ui-dialog-content" style="width: 260px; height: 135px;">
+                        <div class="xianshi">
+                            <div class="biao"><b> &nbsp&nbsp&nbsp&nbsp&nbsp请选择会员: <input class="sousuo" type="text"
+                                                                                         style="border: solid skyblue 1px;height: 20px"
+                                                                                         placeholder="请输入姓名/手机号">&nbsp&nbsp&nbsp<input
+                                    class="chaxun" value="查询" type="button"></b></div>
+                        </div>
+                        <div class="xs">
+                            <div style="width: 100%;height: 2px"></div>
+                            <div style="width:100%;height: 50px;background: #fff;">
+                                <div><img class="img" style="float: left;margin-left: 15px" src=""
+                                          width="50px" height="50px;">
+                                    <div class="cname" style="margin-top: 10px; float: left;"></div>
+                                </div>
+                                <input class="bjid" type="hidden" value="">
+                            </div>
+                        </div>
+
+
+                        <div style="width: 100%;height: 2px"></div>
+                        <div class="biao"><b> &nbsp&nbsp&nbsp&nbsp&nbsp请选择等级:</b><select
+                                class="padd">
+                            <option value="2">
+                                发起人
+                            </option>
+                            <option value="3">
+                                合伙人
+                            </option>
+                            <option value="4">
+                                员工
+                            </option>
+                        </select></div>
+
+                        <div class="padding text-right ui-dialog-footer">
+                            <input name="dosubmit" value="确定" class="button bg-main" type="submit" id="qrqr">
+                            <input name="button" value="取消" class="button margin-left bg-gray" data-back="false"
+                                   type="button">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<style>
+
+    .xs, .xianshi, .ui-dialog-grid {
+        display: none;
+    }
+
+    .biao {
+        font-size: 11px;
+        width: 100%;
+        height: 30px;
+        background: #fff;
+        line-height: 30px;
+    }
+
+    .dengji {
+        width: 50%;
+    }
+
+    .chaxun {
+        background: #00aaee;
+        height: 28px;
+        width: 40px;
+        border: solid #00aaee 1px;
+        color: #fff;
+        text-align: center;
+        line-height: 28px;
+        cursor: pointer;
+    }
+</style>
+
+<script type="text/javascript">
+    $(function () {
+        //删除
+
+        $('.shanchu').click(function () {
+            if (confirm('是否删除')==true) {
+                var i = $(this).attr('idd')
+                $.get('index.php?m=member&c=layered&a=delect', {i: i}, function () {
+                    window.location.href = 'index.php?m=member&c=layered&a=index2'
+                })
+            }
+        })
+
+    })
+
+    $(window).load(function () {
+        $(".table").resizableColumns();
+        $(".paging-table").fixedPaging();
+        $(".member-info-tip").hover(function () {
+            $(this).children("span").show();
+        }, function () {
+            $(this).children("span").hide();
+        });
+        $(".member-list-search .form-group").each(function (i) {
+            $(this).addClass("form-group-id" + (i + 1));
+        });
+
+        $('.ui-dialog-close').click(function () {
+            $('.ui-dialog-grid').show();
+        })
+        $('.ui-dialog-close').click(function () {
+            $('.ui-dialog-grid').hide();
+        })
+        $(".bg-gray").click(function () {
+            $('.ui-dialog-grid').hide();
+        })
+        return false;
+    })
+    $(function () {
+        var $val = $("input[type=text]").eq(1).val();
+        $("input[type=text]").eq(1).focus().val($val);
+    })
+
+    $(function () {
+        $('.yin').click(function () {
+            $('.ui-dialog-grid').show();
+            var bi = $(this).attr('bi')
+
+            $('.titi').html('添加用户信息')
+            $('.xianshi').show()
+            $('.ui-dialog-content').css({'width': '400px', 'height': '250px'})
+            $('.chaxun').click(function () {
+                var nei = $('.sousuo').val()
+
+                if(nei!=null){
+                    $.post('index.php?m=member&c=layered&a=select', {nei: nei}, function (data) {
+                        if (data!=null) {
+                            $('.xs').show()
+                            $.each(data, function (qwe, asd) {
+                                $('.cname').html('&nbsp&nbsp&nbsp' + asd.username)
+                                $('.img').attr('src', asd.avatar)
+                                $('.bjid').attr('value', asd.id)
+                            })
+                        } else {
+                            alert('未查询到')
+                        }
+                    }, 'json')
+                }else {
+                    alert('不能为空')
+                }})
+
+            $('#qrqr').click(function () {
+                var dd = $('.padd').val()
+                var id = $('.bjid').val()
+                $.post('index.php?m=member&c=layered&a=update', { dd: dd, id: id}, function (data) {
+                    if(data==1){
+                        alert('已存在')
+                    }else {
+                        window.location.href = 'index.php?m=member&c=layered&a=index2'
+                    }
+
+                })
+            });
+
+        })
+
+        //修改
+        $('.xiugai').click(function () {
+            $('.titi').html('修改用户信息')
+            $('.xianshi').hide()
+            $('.ui-dialog-content').css({'width': '260px', 'height': '153px'})
+            $('.ui-dialog-grid').show();
+            var i = $(this).attr('idd')
+            $('#qrqr').click(function () {
+                var d = $('.padd').val()
+
+                $.post('index.php?m=member&c=layered&a=update', {d: d, i: i}, function (data) {
+                    window.location.href = 'index.php?m=member&c=layered&a=index2'
+                })
+            });
+        })
+
+    })
+
+
+
+</script>
+{/block}

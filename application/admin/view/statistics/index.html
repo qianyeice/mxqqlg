@@ -1,0 +1,164 @@
+
+{extend name="Template/template"/}
+{block name="css"}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<!--标题-->
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">会员统计<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li><a class="current" href="javascript:;"></a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<!--图表-->
+<div class="content padding-big have-fixed-nav">
+    <table cellpadding="0" cellspacing="0" class="border bg-white layout margin-top">
+        <tbody>
+        <tr class="bg-gray-white line-height-40 border-bottom">
+            <th class="text-left padding-big-left">会员统计</th>
+        </tr>
+        <tr class="border">
+            <td class="padding-big-left padding-big-right">
+                <table cellpadding="0" cellspacing="0" class="layout">
+                    <tbody>
+                    <tr class="line-height-40">
+                        <td class="text-left">今日新增会员：0</td>
+                        <td class="text-left">本月新增会员：5</td>
+                        <td class="text-left">会员总数：3008</td>
+                        <td class="text-left">会员余额总额：58061.67</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <table cellpadding="0" cellspacing="0" class="border bg-white layout margin-top">
+        <tbody>
+        <tr class="bg-gray-white line-height-40 border-bottom">
+            <th class="text-left padding-big-left">
+                会员统计图表
+                <div class="count-date fr">
+                    <a href="javascript:;" class="current" onclick="showchart(6,0,0)">
+                        最近7天
+                    </a>
+                    <a href="javascript:;" onclick="showchart(29,0,0)">
+                        最近30天
+                    </a>
+                    <input type="text" onclick="laydate({istime: true, format: 'YYYY-MM-DD', max: laydate.now()}),laydate.skin('danlan')" tabindex="0" placeholder="YYYY-MM-DD " value="" name="stime" class="input laydate-icon hd-input">
+                    &emsp; ~&emsp;
+                    <input type="text" onclick="laydate({istime: true, format: 'YYYY-MM-DD', max: laydate.now()}),laydate.skin('danlan')" tabindex="0" placeholder="YYYY-MM-DD " value="" name="etime" class="input laydate-icon hd-input">
+                    <input id="submit" class="button bg-main text-normal" type="button" value="确定" />
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <td class="padding">
+                <div id="main" style="height:350px; width: 100%;border-top: 10px solid #efeff5;"></div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{/block}
+{block name='script'}
+<script src="https://cdn.bootcss.com/echarts/3.5.3/echarts.min.js"></script>
+<script>
+    $(document).ready(function() {
+        //初始化切换
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'),'macarons');
+        // 指定图表的配置项和数据
+        var date = ['2016/11/1','2016/11/2','2016/11/3','2016/11/4','2016/11/5','2016/11/6','2016/11/7','2016/11/8','2016/11/9','2016/11/10',
+            '2016/11/11','2016/11/12','2016/11/13','2016/11/14','2016/11/15','2016/11/16','2016/11/17','2016/11/18'
+            ,'2016/11/19','2016/11/20','2016/11/21','2016/11/22','2016/11/23','2016/11/24','2016/11/25','2016/11/26','2016/11/27'
+            ,'2016/11/28','2016/11/29','2016/11/30'];
+        function my_data(){
+            var data = [];
+            for( var i =0; i<30; i++){
+                data.push(Math.round(Math.random() * (500 - 100) + 100));
+            };
+            return data;
+        }
+        var option = {
+            tooltip: {
+                trigger: 'axis',
+            },
+            title: {
+                text: '新老顾客数量',
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    mark : {show: true},
+                    dataView : {show: true, readOnly: false},
+                    magicType : {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            legend: {
+                data:['新会员','老会员','潜客']
+            },
+            calculable : true,
+            xAxis: {
+                type : 'category',
+                boundaryGap : false,
+                data : date
+            },
+            yAxis: {
+                type: 'value',
+                boundaryGap: [0, '100%']
+            },
+            dataZoom: [{
+                type: 'inside',
+                start: 84,
+                end: 100
+            }, {
+                start: 84,
+                end: 100,
+                handleSize: '80%',
+                handleStyle: {
+                    color: '#fff',
+                    shadowBlur: 3,
+                    shadowColor: 'rgba(0, 0, 0, 0.6)',
+                    shadowOffsetX: 2,
+                    shadowOffsetY: 2
+                }
+            }],
+            series: [
+                {
+                    name:'新会员',
+                    type:'line',
+                    smooth:false,
+                    stack: '总量',
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:my_data()
+                },
+                {
+                    name:'老会员',
+                    type:'line',
+                    stack: '总量',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:my_data()
+                },
+                {
+                    name:'潜客',
+                    type:'line',
+                    stack: '总量',
+                    smooth:true,
+                    itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                    data:my_data()
+                }
+            ]
+        };
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    });
+</script>
+{/block}

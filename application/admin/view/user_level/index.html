@@ -1,0 +1,162 @@
+{extend name="Template/template" /}
+{block name='title'}首页管理{/block}
+{block name="body"}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">会员等级<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="tips margin-tb">
+        <div class="tips-info border">
+            <h6>温馨提示</h6>
+        </div>
+        <div class="tips-txt padding-small-top layout">
+            <p>- 通过会员等级管理，可以制定不同的积分达到不同的会员等级，并且享受不同的分红和耗损</p>
+        </div>
+    </div>
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a href="?s=admin/User_Level_Editing/index"><i class="ico_add"></i>添加</a>
+            <div class="spacer-gray"></div>
+            <a data-message="是否确定删除所选？" id="dele" data-ajax='id'><i class="ico_delete"></i>删除</a>
+            <div class="spacer-gray"></div>
+        </div>
+    </div>
+    <div class="table-wrap member-info-table">
+        <div class="table resize-table check-table paging-table border clearfix">
+            <div class="tr">
+					<span class="th check-option" data-resize="false">
+						<span style="margin-top: 10px">
+                            <input id="check-all" type="checkbox" />
+                        </span>
+					</span>
+                <span class="th" data-width="10" style="width: 16.6%">
+						<span class="td-con">等级名称</span>
+					</span>
+                <span class="th" data-width="20" style="width: 16.6%">
+						<span class="td-con">最小积分</span>
+					</span>
+                <span class="th" data-width="20" style="width: 16.6%">
+						<span class="td-con">最大积分</span>
+					</span>
+                <span class="th" data-width="15" style="width: 16.6%">
+						<span class="td-con">分红比例</span>
+					</span>
+                <span class="th" data-width="15" style="width: 16.6%">
+						<span class="td-con">耗损比例</span>
+					</span>
+                <span class="th" data-width="20" style="width: 16.6%">
+							<span class="td-con">操作</span>
+						</span>
+            </div>
+            {volist name="data" id="vo"}
+            <div class="tr">
+                <span class="td check-option">
+                    <input type="checkbox" name="id" value="{$vo.id}" style="margin-top: 15px"/>
+                </span>
+                <span class="td" style="width: 16.6%">
+							<span class="td-con">
+                                {$vo.name}
+                            </span>
+						</span>
+                <span class="td" style="width: 16.6%">
+							<span class="td-con">{$vo.min_integral}</span>
+						</span>
+                <span class="td" style="width: 16.6%">
+							<span class="td-con">{$vo.max_integral}</span>
+						</span>
+                <span class="td" style="width: 16.6%">
+							<span class="td-con">{$vo.share_ratio}%</span>
+						</span>
+                <span class="td" style="width: 16.6%">
+							<span class="td-con">{$vo.wear_ratio}%</span>
+						</span>
+                <span class="td" style="width: 16.6%">
+							<span class="td-con">
+								<a href="?s=admin/User_membership_grade/index&id={$vo.id}">签到配置</a>&nbsp;&nbsp;&nbsp;
+								<a href="?s=admin/User_Level_Editing/index&id={$vo.id}">编辑</a>&nbsp;&nbsp;&nbsp;
+								<a idid="{$vo.id}" class="delect" href="javascript:void(0)  " data-confirm="是否确定删除？">删除</a>
+							</span>
+                </span>
+            </div>
+            {/volist}
+            {include file="/Template/listPage"}
+        </div>
+    </div>
+</div>
+<script>
+$(function () {
+    $(".delect").live('click',function(){
+        $id=$(this).attr('idid');
+        if(confirm("是否确认删除？")){
+
+            $.post('?s=admin/user_level/delect',{id:$id},function (data) {
+                if (data==1){
+                    layui.use('layer', function(){
+                        var layer = layui.layer;
+                        layer.msg('删除成功');
+//                        window.history.go(-1)
+                         location.reload();
+//                         window.location.href='?s=admin/Wechat/index';
+                    });
+                }
+            })
+        }
+        return false;
+    });
+
+//    全选
+
+    $("#check-all").click(function(){
+
+        if($(this).attr("checked")){
+
+            $("input:checkbox").attr("checked","checked");
+
+        }else{
+
+            $("input:checkbox").removeAttr("checked");
+        }
+    });
+
+    //选中的用户进行删除操作
+    $("#dele").click(function(){
+        arr=[];
+        var i=-1;
+        $("input:checkbox[name='id']:checked").each(function() { // 遍历name=id的多选框
+            i++;
+            arr[i]= $(this).val();  // 每一个被选中项的值
+        });
+        con=arr.join(",");
+        layer.confirm('是否确认删除选中的用户等级？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            if(con==""){
+                layer.msg('请选择需要删除的用户等级')
+            }else {
+                $.ajax({
+                    type: "post",
+                    dataType: "json",
+                    url: "?s=admin/user_level/delect",
+                    data: {
+                        id: con
+                    },
+                    success: function () {
+                        layer.msg('删除成功');
+                      window.location.reload();
+                    }
+                })
+            }
+        }, function(){
+            layer.closeAll();
+        });
+    });
+
+})
+
+
+</script>
+{/block}

@@ -1,0 +1,40 @@
+{extend name="Template/template"/}
+
+{block name="css"}
+
+{/block}
+{block name="js"}
+
+{/block}
+{block name='body'}
+<div class="padding-big layout">
+    <div class="success-info layout border radius bg-white">
+        <div class="title border-bottom text-white">
+            <h6>温馨提示</h6>
+        </div>
+        <div class="text border-bottom">
+            <span>{if $array.type==0}
+                操作成功！
+                {else}
+                 操作失败！
+                {/if}</span>
+            <p><a href="?s=admin/{$array.c}/{$array.a}">如果您的浏览器没有自动跳转，请点击这里</a></p>
+        </div>
+    </div>
+    <input class="hd-input" name="c" value="{$array.c}" type="hidden">
+    <input class="hd-input" name="a" value="{$array.a}" type="hidden">
+</div>
+{/block}
+{block name='script'}
+<script type="text/javascript">
+    $(function () {
+        setTimeout(function () {
+            var array = [];
+            for (var i = 0; i < $('div .hd-input').length; i++) {
+                array[i] = $('div .hd-input').eq(i).val();
+            }
+            location.href = '?s=admin/' + array[0] + '/' + array[1];
+        }, 3000)
+    })
+</script>
+{/block}

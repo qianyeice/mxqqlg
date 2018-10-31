@@ -1,0 +1,228 @@
+{extend name="Template/template"/}
+
+
+{block name="css"}
+    {load href="__STATIC__/editor/css/wangEditor-1.1.0-min.css" / }
+    {load href="__STATIC__/editor/fontawesome-4.2.0/css/font-awesome.min.css" / }
+
+<style>
+    .layui-layedit{
+        height: 220px;
+        border:1px solid #cccccc;
+    }
+    .display-switch{
+        display: inline-block;
+        background: #a6e1ec;
+        padding: 6px;
+        border: 1px solid #e4b9c0;
+        border-radius: 5px;
+    }
+</style>
+{/block}
+
+{block name="js"}
+    {load href="__STATIC__\layui\layui.js" / }
+    {load href="__STATIC__/editor/js/wangEditor-1.1.0-min.js" /}
+
+{/block}
+
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">抽奖活动管理</li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+
+<div class="content padding-big have-fixed-nav">
+    <form action="" method="POST" enctype="multipart/form-data">
+        <div class="form-box clearfix">
+            <input type="hidden" name="id" value="1" />
+            <div class="form-group ">
+                <span class="label">抽奖活动名称：</span>
+
+                <div style="">
+                    <div class="box">
+                        <input class="input hd-input name" lay-verify="required" type="text" name="name" value="{if(!empty($lists.data.name))}{$lists.data.name}{/if}"/>
+                    </div>
+                    <div style="">{if(empty($data.lang))}{$data.lang}{/if}</div>
+                </div>
+                <p class="desc">抽奖活动名称</p>
+            </div>
+
+            <div class="form-group ">
+                <span class="label">背景图片：</span>
+                <div class="box">
+                    <div class="input hd-input file-box clearfix" onchange="$('.file-txt').attr('value', $('.file-view').val())">
+                        <input class="file-txt" name="img" value="{if(!empty($lists.data.img))}{$lists.data.img}{/if}" tabindex="0" type="text">
+                        <input class="file-btn" value="浏览" type="button">
+                        <input class="file file-view img" name="site_logo" value="" type="file">
+                    </div>
+                </div>
+                <p class="desc">请上传背景图片，建议尺寸750*1230px</p>
+
+            </div>
+            <div class="form-group ">
+                <span class="label">开始时间：</span>
+                <div class="box">
+                    <input class=" input laydate-icon hd-input start_time" type="text" name="start_time" value="{if(!empty($lists.data.start_time))}{$lists.data.start_time}{/if}" id="test5" placeholder="yyyy-MM-dd HH:mm:ss">
+                </div>
+                <p class="desc">抽奖开始时间</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">结束时间：</span>
+                <div class="box">
+                    <input class=" input laydate-icon hd-input end_time" type="text" name="end_time" value="{if(!empty($lists.data.end_time))}{$lists.data.end_time}{/if}" id="test6" placeholder="yyyy-MM-dd HH:mm:ss">
+                </div>
+                <p class="desc">抽奖结束时间</p>
+            </div>
+
+            <div class="form-group ">
+                <span class="label">用户每日抽奖次数：</span>
+                <div class="box">
+                    <input class="input hd-input frequeny" type="text" name="frequeny" value="{if(!empty($lists.data.frequeny))}{$lists.data.frequeny}{/if}" tabindex="0" />
+                </div>
+                <p class="desc">单个用户每日抽奖次数限制（注意：0为不限制）</p>
+            </div>
+            <div class="form-group ">
+                <span class="label">是否在前台显示：</span>
+                <div class="box">
+                    <label class="select-wrap">
+                        <input class="select-btn is_display" type="radio" name="is_display" value="0" {if(empty($lists.data.is_display))}checked{elseif($lists.data.is_display =='0')}checked{/if}/>不显示
+                    </label>
+                    <label class="select-wrap">
+                        <input class="select-btn is_display" type="radio" name="is_display" value="1" {if(empty($lists.data.is_display))}{elseif($lists.data.is_display =='1')}checked{/if}/>显示
+                    </label><br/>
+                </div>
+                <p class="desc">在添加阶段避免被前台看到</p>
+            </div>
+
+            <div>
+
+                <div id="switch" style="padding: 12px 12px 16px 0;font-size: 18px;">
+                    <a href="javascript:;" class="display-switch">【显示/隐藏】文本框</a>
+                </div>
+
+               <div class="hidden-display">
+                   <div class="layui-form-item layui-form-text">
+                       <span ciass="label">奖品使用说明:</span>
+                       <div class="" style="height: 220px;">
+                        <textarea class="layui-textarea layui-hide"  placeholder="请输入内容" name="content" id="LAY_demo_editor">
+                            {if(empty($lists.data.content))}
+                            {else/}
+                            {$lists.data.content}
+                            {/if}
+                        </textarea>
+                       </div>
+                   </div>
+                   <div class="form-group">
+                       <span ciass="label">活动说明:</span>
+
+                       <div id='txtDiv' style='border:1px solid #cccccc; height:240px;'>
+                        <textarea placeholder="请输入内容" class="layui-textarea"  name="explain" style="width: 100%;height: 100%;background: #f1f1f1;">{if(empty($lists.data.content))}{else/}{$lists.data.explain}{/if}
+                        </textarea>
+                       </div>
+
+                   </div>
+               </div>
+            </div>
+
+        </div>
+
+        <div class="padding-top fl">
+            <input type="submit" id="button" class="button bg-main" value="保存" />
+           <!-- <a class="button margin-left bg-gray" id="datagrid" href="./index.php?s=admin/luckdrow/index"/>返回</a>-->
+            <a class="button margin-left bg-gray" id="datagrid" href="javascript:;"  onclick="javascript:history.back(-1);"/>返回</a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+
+
+        //日期时间选择器 #test5
+        laydate.render({
+            elem: '#test5'
+            ,type: 'datetime'
+        });
+        //日期时间选择器 #test6
+        laydate.render({
+            elem: '#test6'
+            ,type: 'datetime'
+        });
+
+        //创建一个编辑器
+        var editIndex = layedit.build('LAY_demo_editor');
+
+        //创建一个富文本框！o(∩_∩)o
+        $(function() {
+            $('#spanTime').text((new Date()).toString());
+            var $editor = $('#txtDiv').wangEditor();
+        });
+
+        $(document).ready(function(){
+
+            //点击切换显示与隐藏
+            $("#switch").click(function(){
+                $(".hidden-display").toggle();
+            });
+
+            //失去焦点获取input值
+            $('.name').blur(function() {
+                var name       = $('input[name=name]').val();
+                if (!name) {
+                    layer.msg('请输入名称', {icon: 5, time: 1500});
+                }
+            });
+            $('.frequeny').blur(function() {
+                var frequeny   = $('input[name=frequeny]').val();
+                if(!frequeny){
+                    layer.msg('请输入抽奖次数', {icon: 1, time: 1500});
+                }
+                if(isNaN(frequeny)){
+                    layer.msg('抽奖次数不是数字', {icon: 1, time: 1500});
+                }
+            });
+
+                //点击获取input值
+            $("#button").click(function(){
+                var name       = $('input[name=name]').val();
+               // var img       = $('input[name=img]').val();
+                var start_time = $('input[name=start_time]').val();
+                var end_time   = $('input[name=end_time]').val();
+                var frequeny   = $('input[name=frequeny]').val();
+                var is_display   = $('input[name=is_display]:checked').val();
+
+                if(!name){
+                    layer.msg('请输入名称', {icon: 5,time:1500}); return false;
+                }
+               /* if(empty(img)){
+                    layer.msg('请选择上传图片',{icon: 5,time:1500}); return false;
+                }*/
+                if(!start_time){
+                    layer.msg('请选择开始时间',{icon: 5,time:1500}); return false;
+                }
+                if(!end_time){
+                    layer.msg('请选择结束时间',{icon: 5,time:1500}); return false;
+                }
+                if(!frequeny){
+                    layer.msg('请输入抽奖次数',{icon: 5,time:1500}); return false;
+                }
+                if(isNaN(frequeny)){
+                    layer.msg('抽奖次数不是数字',{icon: 5,time:1500}); return false;
+                }
+                if(!is_display){
+                    layer.msg('请选择显示状态',{icon: 5,time:1500}); return false;
+                }
+            });
+        });
+
+    });
+</script>
+
+{/block}

@@ -1,0 +1,174 @@
+{extend name="Template/template"/}
+{block name="css"}
+{/block}
+{block name="js"}
+{/block}
+{block name='body'}
+<!--标题-->
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">站点设置<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/site/index">站点信息</a></li>
+        <li class="fixed-nav-tab"><a class="current" href="http://api.mxqqlg.com/?s=admin/basicsetup/index">基本设置</a>
+        </li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/shopsetup/index">购物设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/dreammoneysetup/index">梦想币设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/integralsetup/index">积分设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/bonussetup/index">分红设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/returngoodssetup/index">退货设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/expresssetup/index">快递设置</a></li>
+        <li class="fixed-nav-tab"><a href="http://api.mxqqlg.com/?s=admin/logisticscostsetup/index">物流费用设置</a></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<!--主体-->
+<div action="" method="POST" enctype="multipart/form-data">
+    <div class="content padding-big have-fixed-nav">
+        <div class="content-tabs">
+            <div class="form-box clearfix">
+                <div class="form-group "><span class="label">商城LOGO：</span>
+                    <div class="box">
+                        <div class="input hd-input file-box clearfix">
+                            <input type="text" class="file-txt" value="{$bas.malllogo}" tabindex="0">
+                            <input type="button" class="file-btn" value="浏览">
+                            <input type="file" class="file file-view" name="site_logo" value="">
+                        </div>
+                    </div>
+                    <p class="desc">商城LOGO图片，此图不与会员中心LOGO共用</p>
+                </div>
+                <div class="form-group " style="z-index: 6;">
+                    <span class="label">系统默认时区：</span>
+                    <div class="box">
+                        <!--<div class="form-select-edit ">-->
+                        <!--<div class="form-buttonedit-popup">-->
+                        <!--<input class="input" type="text" value="(GMT +08:00) 北京, 香港, 帕斯, 新.."-->
+                        <!--readonly="readonly">-->
+                        <!--<span class="ico_buttonedit"></span>-->
+                        <!--</div>-->
+                        <!--<div class="listbox-items" style="display: none"></div>-->
+                        <!--<input class="form-select-name" type="hidden" name="timeoffset" value="8">-->
+                        <!--</div>-->
+                        <select name="city" lay-verify="" class="form-select-edit "
+                                style="height: 26px;color: #4d4d4d;padding-left: 5px;">
+                            <option value="0">(GMT -12:00) 埃尼威托克岛, 夸贾林..</option>
+                            <option value="1">(GMT -10:00) 夏威夷</option>
+                            <option value="2">(GMT -09:00) 阿拉斯加</option>
+                            <option value="3">(GMT -08:00) 太平洋时间(美国和加拿..</option>
+                            <option value="4">(GMT -07:00) 山区时间(美国和加拿大..</option>
+                            <option value="5">(GMT -06:00) 中部时间(美国和加拿大..</option>
+                            <option value="6">(GMT -05:00) 东部时间(美国和加拿大..</option>
+                            <option value="7">(GMT -04:00) 大西洋时间(加拿大),</option>
+                            <option value="8">(GMT -03:30) 纽芬兰</option>
+                            <option value="9">(GMT -03:00) 巴西利亚, 布宜诺斯艾..</option>
+                            <option value="10">(GMT -02:00) 中大西洋, 阿森松群岛,..</option>
+                            <option value="11">(GMT -01:00) 亚速群岛, 佛得角群岛 ..</option>
+                            <option value="12">(GMT) 卡萨布兰卡, 都柏林, 爱丁堡, ..</option>
+                            <option value="13">(GMT +01:00) 柏林, 布鲁塞尔, 哥本..</option>
+                            <option value="14">(GMT +02:00) 赫尔辛基, 加里宁格勒,..</option>
+                            <option value="15">(GMT +03:00) 巴格达, 利雅得, 莫斯..</option>
+                            <option value="16">(GMT +03:30) 德黑兰</option>
+                            <option value="17">(GMT +04:00) 阿布扎比, 巴库, 马斯..</option>
+                            <option value="18">(GMT +04:30) 坎布尔</option>
+                            <option value="19">(GMT +05:00) 叶卡特琳堡, 伊斯兰堡,..</option>
+                            <option value="20">(GMT +05:30) 孟买, 加尔各答, 马德..</option>
+                            <option value="21">(GMT +05:45) 加德满都</option>
+                            <option value="22">(GMT +06:00) 阿拉木图, 科伦坡, 达..</option>
+                            <option value="23">(GMT +06:30) 仰光</option>
+                            <option value="24">(GMT +07:00) 曼谷, 河内, 雅加达..</option>
+                            <option value="25">(GMT +08:00) 北京, 香港, 帕斯, 新.</option>
+                            <option value="26">(GMT +09:00) 大阪, 札幌, 首尔, 东..</option>
+                            <option value="27">(GMT +09:30) 阿德莱德, 达尔文..</option>
+                            <option value="28">(GMT +10:00) 堪培拉, 关岛, 墨尔本,..</option>
+                            <option value="29">(GMT +11:00) 马加丹, 新喀里多尼亚,..</option>
+                            <option value="30">(GMT +12:00) 奥克兰, 惠灵顿, 斐济,..</option>
+                        </select>
+
+                    </div>
+                    <p class="desc">当地时间与 GMT 的时差</p>
+                </div>
+                <div class="form-group ">
+                    <span class="label">选取地区分级：</span>
+                    <div class="box">
+                        {if ($bas.areaclassification == 1)}
+                        <label class="select-wrap">
+                            <input class="select-btn" type="radio" name="regional_classification" value="1" checked="">三级地区
+                        </label>
+                        <label class="select-wrap">
+                            <input class="select-btn" type="radio" name="regional_classification" value="0">四级地区
+                        </label><br>
+                        {else /}
+                        <label class="select-wrap">
+                            <input class="select-btn" type="radio" name="regional_classification" value="1">三级地区
+                        </label>
+                        <label class="select-wrap">
+                            <input class="select-btn" type="radio" name="regional_classification" value="0" checked="">四级地区
+                        </label><br>
+                        {/if}
+                    </div>
+                    <p class="desc">设置前台收货地址的地区分级选取，此设置不会影响后台地区数据</p>
+                </div>
+                <!--<div class="form-group "><span class="label">热搜关键字：</span><div class="box"><textarea class="textarea hd-input" name="hot_seach" placeholder="" ></textarea></div><p class="desc">请输入搜索热词，用于前台显示，每行一个</p></div>-->
+            </div>
+        </div>
+        <div class="padding">
+            <input type="submit" class="button bg-main" value="保存">
+        </div>
+    </div>
+    <input id="basid" type="hidden" name="formid" value="{$bas.id}">
+    <input id="number" type="hidden" name="formtime" value="{$bas.defaulttime}">
+</div>
+
+{/block}
+{block name='script'}
+<script type="text/javascript">
+    $(function () {
+        //页面加载 时区
+        for (var i = 0; i < $('option').length; i++) {
+            if ($('#number').val() == $('option').eq(i).attr('value')) {
+                $('option').eq(i).attr('selected', '')
+            }
+        }
+        //文件 显示 input
+        $('.file-view').change(function () {
+            $('.file-txt').attr('value', $('.file-view').val())
+        });
+        //保存
+        $('.bg-main').click(function () {
+            var defaul = [];
+            for (var i = 0; i < $(':checked').length; i++) {
+                defaul[i] = $(':checked').eq(i).val();
+                if (i == 0) {
+                    $('#number').attr('value', $(':checked').eq(i).val())
+                }
+            }
+            var xhr = new XMLHttpRequest();
+            var file = $('.file-view')[0].files;
+            var formdata = new FormData;
+            formdata.append('file', file[0]);
+            formdata.append('defaul', defaul);
+            formdata.append('basid', $('#basid').val());
+            xhr.open('POST', '/?s=admin/basicsetup/siteupdata');
+            xhr.send(formdata);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var string = xhr.responseText;
+                    var typestr = string.slice('9', '10');
+                    var explainstr = string.slice('23', '27');
+                    var time = [];
+                    time.push(typestr, explainstr);
+                    if (time[0] == '1' && time[1] == '更新成功') {
+                        location.href = '/?s=admin/succeed/index&c=basicsetup&a=index'
+                    } else if (time[0] == '0' && time[1] == '更新失败') {
+                        location.href = '/?s=admin/succeed/index&c=basicsetup&a=index&type=1'
+                    }
+                } else {
+                    // console.log('400')
+                }
+            }
+
+
+        })
+    })
+</script>
+{/block}

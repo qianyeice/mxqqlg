@@ -1,0 +1,82 @@
+{extend name="Template/template" /}
+{block name='title'}首页管理{/block}
+{block name="body"}
+<form action="?s=admin/User_Level_Editing/{$url.url}" onsubmit="return fun()" method="POST" name="form-validate">
+    <input type="hidden" name="id" value="{$url.id}">
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">添加会员等级<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav">
+    <div class="form-box clearfix">
+        <div class="form-group ">
+            <span class="label">等级名称：</span>
+            <div class="box">
+                <input class="input hd-input  input-error" name="name" value="{$data.name}" tabindex="0" datatype="*"
+                       nullmsg="请填写信息！" type="text">
+                <span class="validform_checktip validation-tips"><i></i>请填写信息！</span>
+            </div>
+            <p class="desc">设置会员等级名称</p></div>
+        <div class="form-group "><span class="label">最小经验值：</span>
+            <div class="box"><input class="input hd-input" name="min_integral" value="{$data.min_integral}" tabindex="0" datatype="n"
+                                    type="text">
+                <span class="validform_checktip"></span>
+            </div>
+            <p class="desc">设置会员等级所需要的最低经验值下限</p></div>
+        <div class="form-group "><span class="label">最大经验值：</span>
+            <div class="box"><input class="input hd-input" name="max_integral" value="{$data.max_integral}" tabindex="0" datatype="n"
+                                    type="text">
+                <span class="validform_checktip"></span>
+            </div>
+            <p class="desc">设置会员等级所需要的最高经验值上限</p></div>
+        <div class="form-group "><span class="label">分红比例：</span>
+            <div class="box"><input class="input hd-input " name="share_ratio" value="{$data.share_ratio}" tabindex="0" datatype="n"
+                                    type="text"><span class="validform_checktip"></span></div>
+            <p class="desc">分红比例单位为%，如输入10，表示该会员等级的会员分红比例为10%</p></div>
+        <div class="form-group "><span class="label">耗损比例：</span>
+            <div class="box"><input class="input hd-input " name="wear_ratio" value="{$data.wear_ratio}" tabindex="0" datatype="n"
+                                    type="text"><span class="validform_checktip"></span></div>
+            <p class="desc">耗损比例单位为%，如输入0.4，表示该会员等级的会员积分耗损比例为0.4%</p></div>
+        <div class="form-group "><span class="label">等级描述：</span>
+            <div class="box"><textarea class="textarea hd-input" name="description" placeholder="{$data.description}"></textarea></div>
+            <p class="desc">会员等级描述信息</p></div>
+    </div>
+    <div class="padding">
+        <input name="dosubmit" class="button bg-main" value="确定" type="submit">
+        <input name="back" class="button margin-left bg-gray" value="返回" type="reset"
+               onclick="javascript :history.back(-1)">
+    </div>
+</div>
+<!--<input name="formhash" value="kv8z82" type="hidden">-->
+</form>
+<script>
+   function fun(){
+       min = $("input[name=min_integral]").val();
+       max = $("input[name=max_integral]").val();
+       share = $("input[name=share_ratio]").val();
+       wear = $("input[name=wear_ratio]").val();
+
+       num = /^\d+(\.\d+)?$/;
+       nm=/^((\d|[1-9]\d)(\.\d+)?|100)$/;
+   if (!num.test(min)){
+           layer.tips('经验值为必须大于0的数字！', $("input[name=min_integral]"));
+           return false;
+       }else if(!num.test(max) || max-min<0){
+           layer.tips('最大经验值是必须大于最小经验值的数字！', $("input[name=max_integral]"));
+           return false;
+       } else if(!nm.test(share)){
+           layer.tips('分红比例必须在0-100间！', $("input[name=share_ratio]"));
+           return false;
+       }else if(!nm.test(wear)){
+           layer.tips('耗损比例必须在0-100间！', $("input[name=wear_ratio]"));
+           return false;
+       }else{
+           return true;
+       }
+    }
+
+</script>
+{/block}

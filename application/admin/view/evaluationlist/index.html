@@ -1,0 +1,276 @@
+{extend name="Template/template"/}
+{block name='title'}评价列表{/block}
+{block name="css"}
+<link type="text/css" rel="stylesheet" href="__STATIC__/admin/css/Returnbill.css"/>
+<link type="text/css" rel="stylesheet" href="__STATIC__/admin/css/evaluationlist.css"/>
+<style>
+    .layui-layer{
+        border:2px solid #417eb7;
+        border-radius:15px;
+    }
+    .layui-layer-title{
+        background:#417eb7 ;
+        border-radius:10px 10px 0 0;
+    }
+    #layui-layer-iframe1{
+        border-radius: 0 0 10px 10px;
+    }
+</style>
+{/block}
+{block name="js"}
+{/block}
+
+{block name='body'}
+<div class="fixed-nav layout">
+    <ul>
+        <li class="first">评价列表<a id="addHome" title="添加到首页快捷菜单">[+]</a></li>
+        <li class="spacer-gray"></li>
+    </ul>
+    <div class="hr-gray"></div>
+</div>
+<div class="content padding-big have-fixed-nav" id="top_alls">
+    <form action="?s=admin/Evaluationlist/search" method='post'>
+        <div class="member-comment-search clearfix">
+            <div class="form-box form-layout-rank clearfix border-bottom-none">
+                <div class="form-group  group1">
+                    <span class="label">评论时间</span>
+                    <div class="box margin-none">
+                        <input class="input laydate-icon hd-input" name="starttime" value="" id="starttime" placeholder="YYYY-MM-DD" tabindex="0" format="YYYY-MM-DD" onclick="laydate({istime: true, format: 'YYYY-MM-DD' })" type="text">
+                        <!--<script type="text/javascript" src="/statics/js/laydate/laydate.js"></script>-->
+                        <!--<script type="text/javascript">laydate.skin('danlan');</script>-->
+                    </div>
+                </div>
+                <div class="form-group  group2">
+                    <span class="label">~</span>
+                    <div class="box margin-none">
+                        <input class="input laydate-icon hd-input" name="endtime" value="" id="endtime" placeholder="YYYY-MM-DD" tabindex="0" format="YYYY-MM-DD" onclick="laydate({istime: true, format: 'YYYY-MM-DD' })" type="text">
+                    </div>
+                </div>
+                <div class="form-group group3" style="z-index: 2;">
+                    <span class="label">评论状态</span>
+                    <div class="box margin-none">
+                        <select name="spinner">
+                            <option value ="">所有</option>
+                            <option value ="1">审核</option>
+                            <option value="0">未审核</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group  group4">
+                    <span class="label">搜索</span>
+                    <div class="box margin-none">
+                        <input class="input hd-input" name="keyword" value="" tabindex="0" placeholder="请输入会员名搜索用户评论" type="text">
+                    </div>
+                </div>
+            </div>
+            <input class="button bg-sub fl" name="dosubmit" value="查询" type="submit">
+        </div>
+    </form>
+
+    <div class="table-work border margin-tb">
+        <div class="border border-white tw-wrap">
+            <a data-message="是否确定删除所选？" href="javascript:" class="mnumber" data-ajax='id'><i class="ico_delete"></i>删除</a>
+            <div class="spacer-gray"></div>
+            <!--<a href=""><i class="ico_out"></i>导出</a>
+            <div class="spacer-gray"></div>-->
+        </div>
+    </div>
+    <div class="table-wrap resize-table">
+        <div class="table resize-table table-hover paging-table check-table high-table border clearfix">
+            <div class="tr">
+						<span class="th check-option" data-resize="false" style="">
+							<span><input id="check-all" type="checkbox" /></span>
+						</span>
+                <span class="th" data-width="45" style="width: 45%;">
+							<span class="td-con">评价商品</span>
+						</span>
+                <span class="th" data-width="10" style="width: 10%;">
+							<span class="td-con">评分</span>
+						</span>
+                <span class="th" data-width="15" style="width: 15%;">
+							<span class="td-con">会员账号</span>
+						</span>
+                <span class="th" data-width="15" style="width: 15%;">
+							<span class="td-con">评价时间</span>
+						</span>
+                <span class="th" data-width="5" style="width: 5%;">
+							<span class="td-con">审核</span>
+						</span>
+                <span class="th" data-width="10" style="width: 10%;">
+							<span class="td-con">操作</span>
+						</span>
+            </div>
+
+            {volist name="pears" id="vo"}
+
+            <div class="tr">
+                <span class="td check-option" style="height: 72px;line-height: 72px;">
+                    <input type="checkbox"  name="id" value="{$vo.id}" />
+                </span>
+                <span class="td" style="width: 45%;">
+                    <div class="td-con td-pic text-left">
+                        <span class="pic"><a target="_blank" href=""><img src="{$vo.thumb}" /></a></span>
+                        <span class="title text-ellipsis txt"><a target="_blank" href="">商品名称：{$vo.skuname}</em></a></span>
+                        <span class="icon">
+                            <em class="text-main">商品规格：</em>{$vo.specvalue}&nbsp;
+                        </span>
+                    </div>
+                </span>
+                <span class="td" style="width: 10%;">
+							<span class="td-con">
+                                {if($vo.score==1)}
+                                好评
+                                {elseif($vo.score==0)}
+                                差评
+                                {/if}
+                            </span>
+						</span>
+                <span class="td" style="width: 15%;">
+							<span class="td-con">{$vo.username}</span>
+						</span>
+                <span class="td" style="width: 15%;">
+							<span class="td-con">{$vo.datetime}</span>
+						</span>
+                <span class="td" style="width: 5%;height: 72px;line-height: 72px;">
+                    {if($vo.is_shield==0)}
+                        <a class="ico_up_rack cancel" href="javascript:;" data-id="20" title="点击取消推荐"></a>
+                    {elseif($vo.is_shield==1)}
+                        <a class="ico_up_rack " href="javascript:;" data-id="20" title="点击取消推荐"></a>
+                    {/if}
+						</span>
+                <div class="td" style="width: 10%;">
+                    <span class="td-con">
+                        <a href="javascript:;" data-id="20" data-event="reply" class="rep" onclick="reply('{$vo.id}')">回复</a>&nbsp;&nbsp;&nbsp;
+                        <a data-confirm="是否确定删除？" href="javascript:;" onclick="dele('{$vo.id}')">删除</a>
+                    </span>
+                </div>
+                <div class="clear"></div>
+                    <div class="layout comments-list">
+                        <p class="text-main comment-title"><b>评价：</b>
+                            <div class="commentinfo text-ellipsis">
+                        <p>{$vo.content}</p>
+                    </div>
+
+                    <ul class="imgs">
+                    </ul>
+
+                    <p class="text-red reply-title" id="{$vo.id}"><b>回复：</b></p>
+                    <div class="replyinfo text-ellipsis">
+                        <p class="parentIframe{$vo.id}">{$vo.reply}</p>
+                    </div>
+                </div>
+            </div>
+        {/volist}
+
+    <div class="paging padding-tb body-bg clearfix" id="vsc">
+        <ul class="fr"><li>共20条数据</li><li class="spacer-gray margin-lr"></li><li>每页显示<input class="input radius-none" type="text" name="limit" value="20"/>条</li><li class="spacer-gray margin-left"></li><li class="default-start"></li><li class="default-prev"></li><li class="current"><a href="/index.php?m=comment&c=admin&a=index&formhash=LCCaao&page=1">1</a></li><li class="default-next"></li><li class="default-end"></li></ul>						<div class="clear"></div>
+    </div>
+
+</div>
+</div>
+
+<script>
+//    时间
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+
+        //执行一个laydate实例
+        laydate.render({
+            elem: '#starttime' //指定元素
+        });
+
+        laydate.render({
+            elem: '#endtime' //指定元素
+        });
+    });
+</script>
+<script>
+//    全选
+$("#check-all").click(function(){
+
+    if($(this).attr("checked")){
+
+        $("input:checkbox").attr("checked","checked");
+
+    }else{
+
+        $("input:checkbox").removeAttr("checked");
+    }
+});
+    //选中的用户进行删除操作
+    $(".mnumber").click(function(){
+        arr=[];
+        var i=-1;
+        $("input:checkbox[name='id']:checked").each(function() { // 遍历name=id的多选框
+            i++;
+            arr[i]= $(this).val();  // 每一个被选中项的值
+        });
+        con=arr.join(",");
+        if(con==""){
+            layer.msg("请先选择删除对象！")
+        }else {
+            layer.confirm('是否确认删除选中的用户？', {
+                btn: ['确定', '取消'] //按钮
+            }, function () {
+                $.ajax({
+                    type: "post",
+                    dataType: "json",
+                    url: "?s=admin/Evaluationlist/dele",
+                    data: {
+                        id: con
+                    },
+                    success: function () {
+                        window.location.href = "?s=admin/Evaluationlist/index";
+                    }
+                })
+            }, function () {
+                layer.closeAll();
+            });
+        }
+});
+
+
+    function dele(id) {
+
+        layer.open({
+            content: '确定删除？',
+            btn: ['确定', '取消'],
+            area: ['250px', '180px'],
+            yes: function(index,layero){
+                $.ajax({
+                    url:"?s=admin/Evaluationlist/dele",
+                    type:"post",
+                    data:{id:id},
+                    success:function (data) {
+                        //alert("删除成功");
+                        window.location.href="?s=admin/Evaluationlist/index";
+                    },
+                    error:function (data) {
+                        alert("删除失败");
+                    }
+                });
+            }
+        });
+    }
+</script>
+<script>
+    function reply(id) {
+        layer.open({
+            type:2,
+            title: '回复',
+            //shadeClose: true,
+            shade: 0.7,
+            area: ['360px', '250px'],
+            fixed: false, //不固定
+            maxmin: true,
+            content: '?s=admin/Evaluationprojectile/index&id='+id,
+            success: function(layero, index){
+            var body = layer.getChildFrame('body', index);
+            var iframeWin = window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+
+                body.find('textarea').val();
+            }
+        });
+    }
+</script>
+{/block}

@@ -1,0 +1,77 @@
+
+
+<link rel="stylesheet" href="static/admin/css/validate.css"/>
+<link rel="stylesheet" href="static/admin/css/ui-dialog.css"/>
+
+<div class="content padding-big have-fixed-nav">
+        <input name="spu[id]" value="0" type="hidden">
+
+
+        <!-- 商品视频开始 -->
+        <div class="content-tabs margin-large-bottom clearfix">
+            <link type="text/css" rel="stylesheet" href="./static/admin/css/webuploader.css">
+            <div class="form-box clearfix" id="form">
+                <div class="form-group" style="z-index: 2;">
+                    <span class="label">请上传视频：</span>
+                    <div class="box">
+                        <div class="button bg-main js-video-upload webuploader-container" data="video" style="overflow: hidden;">
+                               <div class="webuploader-pick" style="" tabindex="0" >上传视频</div>
+                                <input name="video" class="shiping"  style="position: absolute; left: 0px; top: 0px; width: 150px;height: 150px;  opacity: 0; cursor: pointer;"  accept="video/mp4" type="file">
+
+                                <label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255) none repeat scroll 0% 0%;"></label>
+
+                        </div>
+                        <div class="yulan">
+                        {if !empty($vo.video)}
+                        <input type="hidden" class="vide" value="{$vo.video}" />
+                        <a href="{$vo.video}">预览视频</a>
+                        {else /}
+                        <input type="hidden" value="" />
+                        {/if}
+                        </div>
+                    </div>
+                    <p class="desc">视频格式限制mp4格式</p>
+                    <div class="form-group ">
+                        <span class="label">视频图片：</span>
+                        <div class="box">
+                            <div class="input hd-input file-box clearfix" onchange="$('.file-txt').attr('value', $('.file-view').val())">
+                                {if !empty($vo.video_img)}
+                                <input class="file-txt" value="{$vo.video_img}" tabindex="0" type="text">
+                                {else /}
+                                <input class="file-txt" value="" tabindex="0" type="text">
+                                {/if}
+                                <input class="file-btn" value="浏览" type="button">
+                                <input class="file file-view" name="video_img" value="" type="file">
+                            </div>
+                        </div>
+                        <p class="desc">请上传视频截图</p>
+                    </div>
+                    <div class="form-group ">
+                        <span class="label">是否开启视频：</span>
+                        <div class="box">
+                            <label class="select-wrap">
+                                <input class="select-btn" name="video_show" value="1" checked="" type="radio">开启
+                            </label>
+                            <label class="select-wrap">
+                                <input class="select-btn" name="video_show" value="0" type="radio">关闭
+                            </label>
+                        </div>
+                        <p class="desc">设置开启后,运行上传的视频在前台显示</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 商品视频结束 -->
+
+
+</div>
+<script>
+ $(".shiping").change(function(){
+     var objUrl = getObjectURL(this.files[0]);//临时路径
+     if($(".yulan:has(a)").length==0) {
+        console.log(objUrl)
+     }else{
+         alert(63)
+     }
+ })
+</script>
